@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.acterics.healthmonitor.data.models.CardioPlotModel;
+import com.acterics.healthmonitor.plot.CardioPlotView;
 import com.acterics.healthmonitor.services.CardioDeviceDataService;
 import com.acterics.healthmonitor.R;
 
@@ -38,6 +40,7 @@ public class CardioMonitorFragment extends Fragment {
     private static final int REQUEST_ENABLE_BLUETOOTH = 1;
 
     @BindView(R.id.loadingPanel) View loadingPanel;
+    @BindView(R.id.cardio_plot_view) CardioPlotView cardioPlotView;
 
     AlertDialog.Builder builder;
 
@@ -55,6 +58,9 @@ public class CardioMonitorFragment extends Fragment {
                     break;
                 case ACTION_UNAVAILABLE:
                     unavailable();
+                    break;
+                case ACTION_DATA:
+                    cardioPlotView.addValue(new CardioPlotModel(intent.getIntExtra(EXTRA_DEVICE_DATA, 0)));
                     break;
             }
             loadingPanel.setVisibility(View.GONE);

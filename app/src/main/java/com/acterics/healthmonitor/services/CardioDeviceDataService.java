@@ -11,7 +11,6 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.acterics.healthmonitor.R;
-import com.acterics.healthmonitor.drawerfragments.CardioMonitorFragment;
 
 import timber.log.Timber;
 
@@ -82,19 +81,20 @@ public class CardioDeviceDataService extends Service {
 
 
     private void onStartCommunicate() {
-        Timber.i("onStartCommunicate");
-        if (bluetoothAdapter == null) {
-            Timber.i("onStartCommunicate adapter null");
-            sendBroadcast(new Intent(CardioMonitorFragment.ACTION_UNAVAILABLE));
-        } else if (!bluetoothAdapter.isEnabled()) {
-            Timber.i("onStartCommunicate bluetooth disabled");
-            sendBroadcast(new Intent(CardioMonitorFragment.ACTION_ENABLE_BLUETOOTH));
-        } else if (device == null) {
-            Timber.i("onStartCommunicate device null");
-            sendBroadcast(new Intent(CardioMonitorFragment.ACTION_LOST_CONNECTION));
-        } else {
-            Timber.e("onStartCommunicate: device connected");
-        }
+        startService(new Intent(this, MockDataIntentService.class));
+//        Timber.i("onStartCommunicate");
+//        if (bluetoothAdapter == null) {
+//            Timber.i("onStartCommunicate adapter null");
+//            sendBroadcast(new Intent(CardioMonitorFragment.ACTION_UNAVAILABLE));
+//        } else if (!bluetoothAdapter.isEnabled()) {
+//            Timber.i("onStartCommunicate bluetooth disabled");
+//            sendBroadcast(new Intent(CardioMonitorFragment.ACTION_ENABLE_BLUETOOTH));
+//        } else if (device == null) {
+//            Timber.i("onStartCommunicate device null");
+//            sendBroadcast(new Intent(CardioMonitorFragment.ACTION_LOST_CONNECTION));
+//        } else {
+//            Timber.e("onStartCommunicate: device connected");
+//        }
     }
 
     private void registerDeviceDiscoveryBroadcast() {

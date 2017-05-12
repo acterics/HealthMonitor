@@ -33,6 +33,7 @@
                 <action android:name="com.acterics.healthmonitor.ACTION_START_COMMUNICATE"/>
             </intent-filter>
         </service>
+        <service android:name=".services.MockDataIntentService"/>
 
         <receiver android:name=".receivers.ErrorBroadcastReceiver"
             android:enabled="true"
