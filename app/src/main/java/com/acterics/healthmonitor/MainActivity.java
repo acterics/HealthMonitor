@@ -3,6 +3,7 @@ package com.acterics.healthmonitor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -10,6 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.acterics.healthmonitor.drawerfragments.CardioMonitorFragment;
+import com.acterics.healthmonitor.drawerfragments.GeneralFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,8 +36,13 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         navigationView.setNavigationItemSelectedListener(this);
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.holder_content, new GeneralFragment())
+                    .commit();
+        }
     }
 
     @Override
@@ -72,13 +81,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         if (id == R.id.drawer_general) {
-            // Handle the camera action
+            transaction.replace(R.id.holder_content, new GeneralFragment());
         } else if (id == R.id.drawer_cardio_monitor) {
-
-        } else if (id == R.id.nav_slideshow) {
-
+            transaction.replace(R.id.holder_content, new CardioMonitorFragment());
         } else if (id == R.id.drawer_settings) {
 
         } else if (id == R.id.nav_share) {
@@ -86,7 +93,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
-
+        transaction.commit();
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
