@@ -1,4 +1,4 @@
-package com.acterics.healthmonitor;
+package com.acterics.healthmonitor.services;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.acterics.healthmonitor.R;
 import com.acterics.healthmonitor.drawerfragments.CardioMonitorFragment;
 
 import timber.log.Timber;
@@ -20,12 +21,9 @@ import timber.log.Timber;
 
 public class CardioDeviceDataService extends Service {
     public static final String ACTION_START_CONNECTION = "com.acterics.healthmonitor.ACTION_START_CONNECTION";
-    public static final String ACTION_DEVICE_CONNECTED = "com.acterics.healthmonitor.ACTION_DEVICE_CONNECTED";
     public static final String ACTION_START_COMMUNICATE = "com.acterics.healthmonitor.ACTION_START_COMMUNICATE";
     public static final String ACTION_DEVICE_CONNECTION_FAIL = "com.acterics.healthmonitor.ACTION_DEVICE_CONNECTION_FAIL";
 
-    public static final String KEY_MESSAGE = "com.acterics.healthmonitor.KEY_MESSAGE";
-    public static final String KEY_DEVICE = "com.acterics.healthmonitor.KEY_DEVICE";
 
 
     private BluetoothDevice device = null;
@@ -35,8 +33,8 @@ public class CardioDeviceDataService extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(BluetoothDevice.ACTION_FOUND)) {
-                Timber.e("ConnectDeviceIntentService onReceive: ACTION_FOUND");
                 BluetoothDevice found = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                Timber.e("ConnectDeviceIntentService onReceive: ACTION_FOUND %s", found.getAddress());
                 if (device != null && device.getName().equals(getString(R.string.bluetooth_device_name))) {
                     device = found;
                     bluetoothAdapter.cancelDiscovery();
@@ -71,10 +69,6 @@ public class CardioDeviceDataService extends Service {
             Timber.e("onStartCommand: start connection");
             registerDeviceDiscoveryBroadcast();
         }
-        if (intent.getAction().equals(ACTION_DEVICE_CONNECTED)) {
-            device = intent.getParcelableExtra(KEY_DEVICE);
-            Timber.e("onStartCommand: connection success");
-        }
         if (intent.getAction().equals(ACTION_DEVICE_CONNECTION_FAIL)) {
             Timber.e("onStartCommand: connection fail");
         }
@@ -88,11 +82,15 @@ public class CardioDeviceDataService extends Service {
 
 
     private void onStartCommunicate() {
+        Timber.i("onStartCommunicate");
         if (bluetoothAdapter == null) {
+            Timber.i("onStartCommunicate adapter null");
             sendBroadcast(new Intent(CardioMonitorFragment.ACTION_UNAVAILABLE));
         } else if (!bluetoothAdapter.isEnabled()) {
+            Timber.i("onStartCommunicate bluetooth disabled");
             sendBroadcast(new Intent(CardioMonitorFragment.ACTION_ENABLE_BLUETOOTH));
         } else if (device == null) {
+            Timber.i("onStartCommunicate device null");
             sendBroadcast(new Intent(CardioMonitorFragment.ACTION_LOST_CONNECTION));
         } else {
             Timber.e("onStartCommunicate: device connected");

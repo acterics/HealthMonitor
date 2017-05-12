@@ -16,6 +16,7 @@ import android.view.MenuItem;
 
 import com.acterics.healthmonitor.drawerfragments.CardioMonitorFragment;
 import com.acterics.healthmonitor.drawerfragments.GeneralFragment;
+import com.acterics.healthmonitor.drawerfragments.SettingsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
+
+    //TODO add sync with drawer items and current fragments
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.nav_view) NavigationView navigationView;
 
@@ -96,7 +99,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.drawer_cardio_monitor) {
             transaction.replace(R.id.holder_content, new CardioMonitorFragment());
         } else if (id == R.id.drawer_settings) {
-
+            transaction.replace(R.id.holder_content, new SettingsFragment());
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

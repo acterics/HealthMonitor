@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.acterics.healthmonitor.CardioDeviceDataService;
+import com.acterics.healthmonitor.services.CardioDeviceDataService;
 import com.acterics.healthmonitor.R;
 
 import butterknife.BindView;
@@ -33,7 +33,7 @@ public class CardioMonitorFragment extends Fragment {
     public static final String ACTION_LOST_CONNECTION = "com.acterics.healthmonitor.drawerfragments.ACTION_LOST_CONNECTION";
     public static final String ACTION_ENABLE_BLUETOOTH = "com.acterics.healthmonitor.drawerfragments.ACTION_ENABLE_BLUETOOTH";
     public static final String ACTION_UNAVAILABLE = "com.acterics.healthmonitor.drawerfragments.ACTION_UNAVAILABLE";
-    public static final String KEY_DATA = "com.acterics.healthmonitor.drawerfragments.KEY_DATA";
+    public static final String EXTRA_DEVICE_DATA = "com.acterics.healthmonitor.drawerfragments.EXTRA_DEVICE_DATA";
 
     private static final int REQUEST_ENABLE_BLUETOOTH = 1;
 
@@ -44,6 +44,7 @@ public class CardioMonitorFragment extends Fragment {
     private BroadcastReceiver cardioDataReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Timber.i("onReceive");
             loadingPanel.setVisibility(View.GONE);
             switch (intent.getAction()) {
                 case ACTION_ENABLE_BLUETOOTH:
@@ -53,7 +54,7 @@ public class CardioMonitorFragment extends Fragment {
                     connectDevice();
                     break;
                 case ACTION_UNAVAILABLE:
-                    unavailabe();
+                    unavailable();
                     break;
             }
             loadingPanel.setVisibility(View.GONE);
@@ -66,6 +67,7 @@ public class CardioMonitorFragment extends Fragment {
     };
 
     private Dialog.OnClickListener connectDevice = (dialog, which) -> {
+        Timber.e("connectDevice");
         loadingPanel.setVisibility(View.VISIBLE);
         Intent startConnection = new Intent(getContext(), CardioDeviceDataService.class);
         startConnection.setAction(CardioDeviceDataService.ACTION_START_CONNECTION);
@@ -75,36 +77,38 @@ public class CardioMonitorFragment extends Fragment {
 
 
     private void turnOnBluetooth() {
-        builder.setTitle("Warning")
-                .setMessage("Please, enable bluetooth")
-                .setPositiveButton("Enable", onEnableBluetooth)
-                .setNegativeButton("Cancel", (dialog, which) -> getFragmentManager().beginTransaction()
-                        .replace(R.id.holder_content, new GeneralFragment())
-                        .commit())
+        builder.setTitle(R.string.warning)
+                .setMessage(R.string.message_enable_bluetooth)
+                .setPositiveButton(R.string.enable, onEnableBluetooth)
+                .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.cancel())
+                .setOnCancelListener(dialog -> onCancelDialog())
                 .create()
                 .show();
 
     }
 
     private void connectDevice() {
-
-        builder.setTitle("Warning")
-                .setMessage("Please, connect device")
-                .setPositiveButton("Connect", connectDevice)
-                .setNegativeButton("Cancel", (dialog, which) -> getFragmentManager().beginTransaction()
-                        .replace(R.id.holder_content, new GeneralFragment())
-                        .commit())
+        builder.setTitle(R.string.warning)
+                .setMessage(R.string.message_connect_device)
+                .setPositiveButton(R.string.connect, connectDevice)
+                .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.cancel())
+                .setOnCancelListener(dialog -> onCancelDialog())
                 .create()
                 .show();
 
     }
 
-    private void unavailabe() {
-        builder.setTitle("Error")
-                .setMessage("Cardio monitoring is unavailable")
-                .setPositiveButton("OK", (dialog, which) -> getFragmentManager().beginTransaction()
-                        .replace(R.id.holder_content, new GeneralFragment())
-                        .commit())
+    private void onCancelDialog() {
+        getFragmentManager().beginTransaction()
+                .replace(R.id.holder_content, new GeneralFragment())
+                .commit();
+    }
+
+    private void unavailable() {
+        builder.setTitle(R.string.error)
+                .setMessage(R.string.error_cardio_monitoring_unavailable)
+                .setPositiveButton(R.string.ok, (dialog, which) -> dialog.dismiss())
+                .setOnDismissListener(dialog -> onCancelDialog())
                 .create()
                 .show();
     }

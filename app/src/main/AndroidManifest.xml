@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".CardioDeviceDataService"
+        <service android:name=".services.CardioDeviceDataService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.acterics.healthmonitor.ACTION_START_CONNECTION"/>
@@ -36,7 +36,11 @@
 
         <receiver android:name=".receivers.ErrorBroadcastReceiver"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.divine9.broadcasts.ACTION_ERROR"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
