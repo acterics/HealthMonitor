@@ -1,5 +1,7 @@
 package com.acterics.healthmonitor.drawerfragments;
 
+import android.app.Dialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -7,14 +9,19 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.acterics.healthmonitor.CardioDeviceDataService;
 import com.acterics.healthmonitor.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by oleg on 12.05.17.
@@ -24,25 +31,97 @@ public class CardioMonitorFragment extends Fragment {
 
     public static final String ACTION_DATA = "com.acterics.healthmonitor.drawerfragments.ACTION_DATA";
     public static final String ACTION_LOST_CONNECTION = "com.acterics.healthmonitor.drawerfragments.ACTION_LOST_CONNECTION";
+    public static final String ACTION_ENABLE_BLUETOOTH = "com.acterics.healthmonitor.drawerfragments.ACTION_ENABLE_BLUETOOTH";
+    public static final String ACTION_UNAVAILABLE = "com.acterics.healthmonitor.drawerfragments.ACTION_UNAVAILABLE";
     public static final String KEY_DATA = "com.acterics.healthmonitor.drawerfragments.KEY_DATA";
 
+    private static final int REQUEST_ENABLE_BLUETOOTH = 1;
+
     @BindView(R.id.loadingPanel) View loadingPanel;
+
+    AlertDialog.Builder builder;
 
     private BroadcastReceiver cardioDataReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
+            loadingPanel.setVisibility(View.GONE);
+            switch (intent.getAction()) {
+                case ACTION_ENABLE_BLUETOOTH:
+                    turnOnBluetooth();
+                    break;
+                case ACTION_LOST_CONNECTION:
+                    connectDevice();
+                    break;
+                case ACTION_UNAVAILABLE:
+                    unavailabe();
+                    break;
+            }
+            loadingPanel.setVisibility(View.GONE);
         }
     };
+
+    private Dialog.OnClickListener onEnableBluetooth = (dialog, which) -> {
+        Intent enableBluetoothIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        startActivityForResult(enableBluetoothIntent, REQUEST_ENABLE_BLUETOOTH);
+    };
+
+    private Dialog.OnClickListener connectDevice = (dialog, which) -> {
+        loadingPanel.setVisibility(View.VISIBLE);
+        Intent startConnection = new Intent(getContext(), CardioDeviceDataService.class);
+        startConnection.setAction(CardioDeviceDataService.ACTION_START_CONNECTION);
+        getActivity().startService(startConnection);
+    };
+
+
+
+    private void turnOnBluetooth() {
+        builder.setTitle("Warning")
+                .setMessage("Please, enable bluetooth")
+                .setPositiveButton("Enable", onEnableBluetooth)
+                .setNegativeButton("Cancel", (dialog, which) -> getFragmentManager().beginTransaction()
+                        .replace(R.id.holder_content, new GeneralFragment())
+                        .commit())
+                .create()
+                .show();
+
+    }
+
+    private void connectDevice() {
+
+        builder.setTitle("Warning")
+                .setMessage("Please, connect device")
+                .setPositiveButton("Connect", connectDevice)
+                .setNegativeButton("Cancel", (dialog, which) -> getFragmentManager().beginTransaction()
+                        .replace(R.id.holder_content, new GeneralFragment())
+                        .commit())
+                .create()
+                .show();
+
+    }
+
+    private void unavailabe() {
+        builder.setTitle("Error")
+                .setMessage("Cardio monitoring is unavailable")
+                .setPositiveButton("OK", (dialog, which) -> getFragmentManager().beginTransaction()
+                        .replace(R.id.holder_content, new GeneralFragment())
+                        .commit())
+                .create()
+                .show();
+    }
+
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cardio_monitor, container, false);
         ButterKnife.bind(this, view);
-
+        builder = new AlertDialog.Builder(getContext());
+        loadingPanel.setVisibility(View.VISIBLE);
+        Intent startCommunicationIntent = new Intent(getContext(), CardioDeviceDataService.class);
+        startCommunicationIntent.setAction(CardioDeviceDataService.ACTION_START_COMMUNICATE);
+        getActivity().startService(startCommunicationIntent);
         return view;
-
     }
 
     @Override
@@ -51,6 +130,8 @@ public class CardioMonitorFragment extends Fragment {
         IntentFilter cardioDataIntentFilter = new IntentFilter();
         cardioDataIntentFilter.addAction(ACTION_DATA);
         cardioDataIntentFilter.addAction(ACTION_LOST_CONNECTION);
+        cardioDataIntentFilter.addAction(ACTION_ENABLE_BLUETOOTH);
+        cardioDataIntentFilter.addAction(ACTION_UNAVAILABLE);
         getActivity().registerReceiver(cardioDataReceiver, cardioDataIntentFilter);
     }
 
@@ -58,5 +139,18 @@ public class CardioMonitorFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         getActivity().unregisterReceiver(cardioDataReceiver);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        loadingPanel.setVisibility(View.GONE);
+        if (requestCode == REQUEST_ENABLE_BLUETOOTH && resultCode == RESULT_OK) {
+            Intent startCommunicationIntent = new Intent(getContext(), CardioDeviceDataService.class);
+            startCommunicationIntent.setAction(CardioDeviceDataService.ACTION_START_COMMUNICATE);
+            getActivity().startService(startCommunicationIntent);
+        } else {
+            Timber.e("onActivityResult: something wrong");
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
