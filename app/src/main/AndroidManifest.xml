@@ -17,8 +17,9 @@
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name">
-
         </activity>
+
+        <activity android:name=".ui.auth.AuthorizationActivity"/>
 
         <activity android:name=".ui.RoutingActivity">
             <intent-filter>
