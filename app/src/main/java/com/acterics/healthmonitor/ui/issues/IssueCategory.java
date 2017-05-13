@@ -15,6 +15,7 @@ public enum IssueCategory {
     HEAD,
     ETC;
 
+    //TODO add icons
     @DrawableRes
     public static int getDrawable(IssueCategory category) {
         switch (category) {

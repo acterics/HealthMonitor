@@ -40,7 +40,7 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.divine9.broadcasts.ACTION_ERROR"/>
+                <action android:name="com.acterics.healthmonitor.receivers.ACTION_ERROR"/>
             </intent-filter>
         </receiver>
     </application>

@@ -16,9 +16,9 @@ import timber.log.Timber;
 
 public class ErrorBroadcastReceiver extends BroadcastReceiver {
 
-    public static final String ACTION_ERROR = "com.divine9.broadcasts.ACTION_ERROR";
-    public static final String EXTRA_ERROR_MESSAGE = "com.divine9.broadcasts.EXTRA_ERROR_MESSAGE";
-    public static final String EXTRA_ERROR_CODE = "com.divine9.broadcasts.EXTRA_ERROR_CODE";
+    public static final String ACTION_ERROR = "com.acterics.healthmonitor.receivers.ACTION_ERROR";
+    public static final String EXTRA_ERROR_MESSAGE = "com.acterics.healthmonitor.receivers.EXTRA_ERROR_MESSAGE";
+    public static final String EXTRA_ERROR_CODE = "com.acterics.healthmonitor.receivers.EXTRA_ERROR_CODE";
 
 
     @Override
