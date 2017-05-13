@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.Protocol;
@@ -34,10 +35,33 @@ public class MockInterceptor implements Interceptor {
     }
     @Override
     public Response intercept(Chain chain) throws IOException {
-        BaseResponse<AuthResponse> responseBody = new BaseResponse<>();
-        responseBody.setStatus(0);
+
         Request request = chain.request();
         RequestBody requestBody = request.body();
+        HttpUrl url = chain.request().url();
+        BaseResponse<?> responseBody;
+        switch (url.encodedPathSegments().get(0)) {
+            case "signin":
+                responseBody = processSignIn(requestBody);
+                break;
+            default:
+                responseBody = null;
+        }
+
+
+
+        return new Response.Builder()
+                .code(200)
+                .request(chain.request())
+                .body(ResponseBody.create(MediaType.parse("application/json"), new Gson().toJson(responseBody)))
+                .protocol(Protocol.HTTP_1_0)
+                .build();
+    }
+
+
+    private BaseResponse<AuthResponse> processSignIn(RequestBody requestBody) throws IOException {
+        BaseResponse<AuthResponse> responseBody = new BaseResponse<>();
+        responseBody.setStatus(0);
 
         Buffer buffer = new Buffer();
         requestBody.writeTo(buffer);
@@ -64,13 +88,7 @@ public class MockInterceptor implements Interceptor {
             responseBody.setResponse(MOCK_AUTH_RESPONSE);
         }
 
-
-        return new Response.Builder()
-                .code(200)
-                .request(chain.request())
-                .body(ResponseBody.create(MediaType.parse("application/json"), new Gson().toJson(responseBody)))
-                .protocol(Protocol.HTTP_1_0)
-                .build();
+        return responseBody;
     }
 
 }
