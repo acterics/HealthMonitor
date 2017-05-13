@@ -16,10 +16,10 @@ public class RoutingActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (!PreferenceUtils.isAuthorizad(getApplicationContext())) {
-            NavigationUtils.toAuthorization(getApplicationContext());
+            NavigationUtils.toAuthorization(this);
 
         } else {
-            NavigationUtils.toMain(getApplicationContext());
+            NavigationUtils.toMain(this);
 
         }
         finish();
