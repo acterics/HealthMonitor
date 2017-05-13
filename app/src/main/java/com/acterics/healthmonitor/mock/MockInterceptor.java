@@ -1,0 +1,76 @@
+package com.acterics.healthmonitor.mock;
+
+import com.acterics.healthmonitor.data.models.rest.requests.SignInRequest;
+import com.acterics.healthmonitor.data.models.rest.responses.AuthResponse;
+import com.acterics.healthmonitor.data.models.rest.responses.BaseResponse;
+import com.google.gson.Gson;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
+
+import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.Protocol;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+import okio.Buffer;
+
+/**
+ * Created by oleg on 13.05.17.
+ */
+
+public class MockInterceptor implements Interceptor {
+    private static final Charset UTF8 = Charset.forName("UTF-8");
+
+    private static final String MOCK_EMAIL = "lolego1601@gmail.com";
+    private static final String MOCK_KEY = "123456";
+    private static final AuthResponse MOCK_AUTH_RESPONSE = new AuthResponse();
+    static {
+        MOCK_AUTH_RESPONSE.setId(1);
+        MOCK_AUTH_RESPONSE.setName("Oleg");
+        MOCK_AUTH_RESPONSE.setToken("qwertyuiop");
+    }
+    @Override
+    public Response intercept(Chain chain) throws IOException {
+        BaseResponse<AuthResponse> responseBody = new BaseResponse<>();
+        responseBody.setStatus(0);
+        Request request = chain.request();
+        RequestBody requestBody = request.body();
+
+        Buffer buffer = new Buffer();
+        requestBody.writeTo(buffer);
+
+        Charset charset = UTF8;
+        MediaType contentType = requestBody.contentType();
+        if (contentType != null) {
+            charset = contentType.charset(UTF8);
+        }
+
+        SignInRequest requestModel = new Gson().fromJson(buffer.readString(charset), SignInRequest.class);
+        if (!requestModel.getEmail().equalsIgnoreCase(MOCK_EMAIL)) {
+            responseBody.setMessage("Wrong email");
+            responseBody.setStatus(1);
+        } else if (!requestModel.getPassword().equals(MOCK_KEY)) {
+            responseBody.setMessage("Wrong password");
+            responseBody.setStatus(1);
+        }
+
+
+
+
+        if (responseBody.getStatus() != 1) {
+            responseBody.setResponse(MOCK_AUTH_RESPONSE);
+        }
+
+
+        return new Response.Builder()
+                .code(200)
+                .request(chain.request())
+                .body(ResponseBody.create(MediaType.parse("application/json"), new Gson().toJson(responseBody)))
+                .protocol(Protocol.HTTP_1_0)
+                .build();
+    }
+
+}

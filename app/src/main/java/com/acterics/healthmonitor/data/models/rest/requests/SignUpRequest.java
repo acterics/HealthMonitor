@@ -5,4 +5,5 @@ package com.acterics.healthmonitor.data.models.rest.requests;
  */
 
 public class SignUpRequest {
+
 }

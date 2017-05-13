@@ -1,5 +1,7 @@
 package com.acterics.healthmonitor.data;
 
+import com.acterics.healthmonitor.mock.MockInterceptor;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -10,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RestClient {
-    public static final String ROOT = "";
+    public static final String ROOT = "https://mockserver.com";
     private static APIService apiService;
     static {
         setupRestClient();
@@ -26,7 +28,10 @@ public class RestClient {
     private static void setupRestClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .addInterceptor(new MockInterceptor())
+                .build();
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl(ROOT)
                 .client(client)

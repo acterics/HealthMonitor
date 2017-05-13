@@ -12,6 +12,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.acterics.healthmonitor.R;
+import com.acterics.healthmonitor.data.RestClient;
+import com.acterics.healthmonitor.data.models.rest.requests.SignInRequest;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,7 +77,15 @@ public class SignInFragment extends Fragment {
         String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
         if (validateInputs(email, password)) {
-
+            SignInRequest request = new SignInRequest();
+            request.setEmail(email);
+            request.setPassword(password);
+            try {
+                RestClient.getApiService().signIn(request)
+                        .execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -93,7 +105,6 @@ public class SignInFragment extends Fragment {
             etPassword.requestFocus();
             return false;
         }
-
         return true;
     }
 }
