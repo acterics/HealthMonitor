@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.acterics.healthmonitor.plot.CardioPlotView
+    <com.acterics.healthmonitor.ui.plot.CardioPlotView
         android:id="@+id/cardio_plot_view"
         android:layout_width="match_parent"
         android:layout_height="300dp"

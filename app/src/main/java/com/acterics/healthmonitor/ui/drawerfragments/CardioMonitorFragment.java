@@ -1,4 +1,4 @@
-package com.acterics.healthmonitor.drawerfragments;
+package com.acterics.healthmonitor.ui.drawerfragments;
 
 import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.acterics.healthmonitor.data.models.CardioPlotModel;
-import com.acterics.healthmonitor.plot.CardioPlotView;
+import com.acterics.healthmonitor.ui.plot.CardioPlotView;
 import com.acterics.healthmonitor.services.CardioDeviceDataService;
 import com.acterics.healthmonitor.R;
 
@@ -31,11 +31,11 @@ import static android.app.Activity.RESULT_OK;
 
 public class CardioMonitorFragment extends Fragment {
 
-    public static final String ACTION_DATA = "com.acterics.healthmonitor.drawerfragments.ACTION_DATA";
-    public static final String ACTION_LOST_CONNECTION = "com.acterics.healthmonitor.drawerfragments.ACTION_LOST_CONNECTION";
-    public static final String ACTION_ENABLE_BLUETOOTH = "com.acterics.healthmonitor.drawerfragments.ACTION_ENABLE_BLUETOOTH";
-    public static final String ACTION_UNAVAILABLE = "com.acterics.healthmonitor.drawerfragments.ACTION_UNAVAILABLE";
-    public static final String EXTRA_DEVICE_DATA = "com.acterics.healthmonitor.drawerfragments.EXTRA_DEVICE_DATA";
+    public static final String ACTION_DATA = "com.acterics.healthmonitor.ui.drawerfragments.ACTION_DATA";
+    public static final String ACTION_LOST_CONNECTION = "com.acterics.healthmonitor.ui.drawerfragments.ACTION_LOST_CONNECTION";
+    public static final String ACTION_ENABLE_BLUETOOTH = "com.acterics.healthmonitor.ui.drawerfragments.ACTION_ENABLE_BLUETOOTH";
+    public static final String ACTION_UNAVAILABLE = "com.acterics.healthmonitor.ui.drawerfragments.ACTION_UNAVAILABLE";
+    public static final String EXTRA_DEVICE_DATA = "com.acterics.healthmonitor.ui.drawerfragments.EXTRA_DEVICE_DATA";
 
     private static final int REQUEST_ENABLE_BLUETOOTH = 1;
 

@@ -1,4 +1,4 @@
-package com.acterics.healthmonitor;
+package com.acterics.healthmonitor.ui;
 
 import android.Manifest;
 import android.os.Build;
@@ -14,9 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.acterics.healthmonitor.drawerfragments.CardioMonitorFragment;
-import com.acterics.healthmonitor.drawerfragments.GeneralFragment;
-import com.acterics.healthmonitor.drawerfragments.SettingsFragment;
+import com.acterics.healthmonitor.R;
+import com.acterics.healthmonitor.ui.drawerfragments.CardioMonitorFragment;
+import com.acterics.healthmonitor.ui.drawerfragments.GeneralFragment;
+import com.acterics.healthmonitor.ui.drawerfragments.SettingsFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

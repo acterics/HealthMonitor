@@ -1,4 +1,4 @@
-package com.acterics.healthmonitor.drawerfragments;
+package com.acterics.healthmonitor.ui.drawerfragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

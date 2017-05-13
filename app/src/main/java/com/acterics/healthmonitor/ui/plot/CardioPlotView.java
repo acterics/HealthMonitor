@@ -1,4 +1,4 @@
-package com.acterics.healthmonitor.plot;
+package com.acterics.healthmonitor.ui.plot;
 
 import android.content.Context;
 import android.graphics.Canvas;

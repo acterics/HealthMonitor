@@ -6,10 +6,16 @@
             android:id="@+id/drawer_general"
             android:icon="@drawable/ic_assignment_ind_black_36dp"
             android:title="@string/general_info" />
+
+        <item
+            android:id="@+id/drawer_issues"
+            android:icon="@drawable/ic_bug_report_black_36dp"
+            android:title="@string/issues"/>
         <item
             android:id="@+id/drawer_cardio_monitor"
             android:icon="@drawable/ic_favorite_black_36dp"
             android:title="@string/cardio_monitor" />
+
 
         <item
             android:id="@+id/drawer_settings"

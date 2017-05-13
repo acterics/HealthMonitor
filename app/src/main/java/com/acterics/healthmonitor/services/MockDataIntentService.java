@@ -5,8 +5,8 @@ import android.content.Intent;
 
 import java.util.Random;
 
-import static com.acterics.healthmonitor.drawerfragments.CardioMonitorFragment.ACTION_DATA;
-import static com.acterics.healthmonitor.drawerfragments.CardioMonitorFragment.EXTRA_DEVICE_DATA;
+import static com.acterics.healthmonitor.ui.drawerfragments.CardioMonitorFragment.ACTION_DATA;
+import static com.acterics.healthmonitor.ui.drawerfragments.CardioMonitorFragment.EXTRA_DEVICE_DATA;
 
 /**
  * Created by oleg on 12.05.17.
