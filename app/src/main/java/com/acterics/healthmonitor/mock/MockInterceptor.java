@@ -25,8 +25,8 @@ import okio.Buffer;
 public class MockInterceptor implements Interceptor {
     private static final Charset UTF8 = Charset.forName("UTF-8");
 
-    private static final String MOCK_EMAIL = "lolego1601@gmail.com";
-    private static final String MOCK_KEY = "123456";
+    private static final String MOCK_EMAIL = "admin";
+    private static final String MOCK_KEY = "admin";
     private static final AuthResponse MOCK_AUTH_RESPONSE = new AuthResponse();
     static {
         MOCK_AUTH_RESPONSE.setId(1);

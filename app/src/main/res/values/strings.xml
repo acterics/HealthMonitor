@@ -23,5 +23,8 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="exit">Exit</string>
+    <string name="auth_welcome">Welcome!</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
 
 </resources>

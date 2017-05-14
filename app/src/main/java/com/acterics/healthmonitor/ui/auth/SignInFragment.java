@@ -96,6 +96,15 @@ public class SignInFragment extends Fragment {
 
     }
 
+    @OnClick(R.id.bt_sign_up)
+    void onSignUp() {
+        getFragmentManager()
+                .beginTransaction()
+                .addToBackStack("Stack")
+                .replace(R.id.holder_content, new SignUpFragment())
+                .commit();
+    }
+
 
 
     private boolean validateInputs(String email, String password) {

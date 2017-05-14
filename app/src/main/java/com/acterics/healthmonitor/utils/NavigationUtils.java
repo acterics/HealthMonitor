@@ -22,10 +22,15 @@ public class NavigationUtils {
         context.startActivity(intent);
     }
 
-    public static void toAuthorization(Context context) {
+    public static void toAuthorization(Context context, boolean newTask) {
         Intent intent = new Intent(context, AuthorizationActivity.class);
+        if (newTask) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        }
         context.startActivity(intent);
     }
+
 
     public static void toRouter(Context context) {
         Intent intent = new Intent(context, RoutingActivity.class);

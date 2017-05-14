@@ -22,7 +22,7 @@ public class MockData {
         IssueModel issue;
         for (int i = 0; i < 10; i++) {
             issue = new IssueModel();
-            issue.setCategory(IssueCategory.STOMACH);
+            issue.setCategory(i % 3 == 0 ? IssueCategory.HEART : IssueCategory.STOMACH);
             issue.setIssueTitle("Issue " + i);
             issue.setIssueSummary(MOCK_TEXT);
             issueModels.add(issue);
