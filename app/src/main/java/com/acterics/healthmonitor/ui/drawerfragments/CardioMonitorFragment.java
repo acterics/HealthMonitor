@@ -6,18 +6,24 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.acterics.healthmonitor.data.models.CardioPlotModel;
-import com.acterics.healthmonitor.ui.plot.CardioPlotView;
-import com.acterics.healthmonitor.services.CardioDeviceDataService;
 import com.acterics.healthmonitor.R;
+import com.acterics.healthmonitor.services.CardioDeviceDataService;
+import com.acterics.healthmonitor.services.MockDataIntentService;
+import com.androidplot.xy.BoundaryMode;
+import com.androidplot.xy.CatmullRomInterpolator;
+import com.androidplot.xy.LineAndPointFormatter;
+import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.XYPlot;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,7 +46,10 @@ public class CardioMonitorFragment extends Fragment {
     private static final int REQUEST_ENABLE_BLUETOOTH = 1;
 
     @BindView(R.id.loadingPanel) View loadingPanel;
-    @BindView(R.id.cardio_plot_view) CardioPlotView cardioPlotView;
+    @BindView(R.id.plot) XYPlot plot;
+
+    private SimpleXYSeries series;
+//    @BindView(R.id.cardio_plot_view) CardioPlotView cardioPlotView;
 
     AlertDialog.Builder builder;
 
@@ -60,7 +69,11 @@ public class CardioMonitorFragment extends Fragment {
                     unavailable();
                     break;
                 case ACTION_DATA:
-                    cardioPlotView.addValue(new CardioPlotModel(intent.getIntExtra(EXTRA_DEVICE_DATA, 0)));
+                    series.addFirst(System.currentTimeMillis(), intent.getIntExtra(EXTRA_DEVICE_DATA, 0));
+                    if (series.size() > 20) {
+                        series.removeLast();
+                    }
+                    plot.redraw();
                     break;
             }
             loadingPanel.setVisibility(View.GONE);
@@ -128,9 +141,20 @@ public class CardioMonitorFragment extends Fragment {
         ButterKnife.bind(this, view);
         builder = new AlertDialog.Builder(getContext(), R.style.DefaultDialog);
         loadingPanel.setVisibility(View.VISIBLE);
-        Intent startCommunicationIntent = new Intent(getContext(), CardioDeviceDataService.class);
+//        Intent startCommunicationIntent = new Intent(getContext(), CardioDeviceDataService.class);
+        Intent startCommunicationIntent = new Intent(getContext(), MockDataIntentService.class);
         startCommunicationIntent.setAction(CardioDeviceDataService.ACTION_START_COMMUNICATE);
         getActivity().startService(startCommunicationIntent);
+
+        series = new SimpleXYSeries("Data");
+        LineAndPointFormatter formatter = new LineAndPointFormatter();
+        formatter.getFillPaint().setColor(Color.TRANSPARENT);
+        formatter.getLinePaint().setColor(ResourcesCompat.getColor(getResources(), R.color.colorAccent, null));
+        formatter.setInterpolationParams(
+                new CatmullRomInterpolator.Params(10, CatmullRomInterpolator.Type.Centripetal));
+        formatter.getVertexPaint().setColor(Color.TRANSPARENT);
+        plot.addSeries(series, formatter);
+        plot.setRangeBoundaries(-100, 100, BoundaryMode.FIXED);
         return view;
     }
 
