@@ -13,6 +13,10 @@ import timber.log.Timber;
 
 /**
  * Created by oleg on 27.04.17.
+ * Receiver that get errors all over the application.
+ * Action depends on {@link ErrorBroadcastReceiver#EXTRA_ERROR_CODE}
+ * @see ErrorCode
+ *
  */
 
 public class ErrorBroadcastReceiver extends BroadcastReceiver {
@@ -82,6 +86,7 @@ public class ErrorBroadcastReceiver extends BroadcastReceiver {
 
     private void fatalAction(Context context, String message) {
         //TODO implement action
+
         showAlert(context, message);
     }
 }

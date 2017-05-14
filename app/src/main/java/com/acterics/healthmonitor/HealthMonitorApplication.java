@@ -1,9 +1,7 @@
 package com.acterics.healthmonitor;
 
 import android.app.Application;
-
 import com.facebook.stetho.Stetho;
-
 import timber.log.Timber;
 
 /**

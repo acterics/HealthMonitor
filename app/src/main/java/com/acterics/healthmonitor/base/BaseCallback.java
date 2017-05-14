@@ -13,6 +13,11 @@ import retrofit2.Response;
 
 /**
  * Created by oleg on 14.05.17.
+ *
+ * Base class for all application server request callbacks.
+ * Check possible errors and notify {@link ErrorBroadcastReceiver}
+ * Generic type - is the response class in {@link BaseResponse}
+ * Only one method you need to implement {@link BaseCallback#onSuccess(R)} 
  */
 
 public abstract class BaseCallback<R> implements Callback<BaseResponse<R>> {
