@@ -9,6 +9,8 @@ import com.acterics.healthmonitor.ui.auth.AuthorizationActivity;
 
 /**
  * Created by oleg on 13.05.17.
+ * Utility class for application navigation.
+ * Contains navigation method for every activity.
  */
 
 public class NavigationUtils {
@@ -22,6 +24,12 @@ public class NavigationUtils {
         context.startActivity(intent);
     }
 
+    /**
+     * Navigate to {@link AuthorizationActivity}
+     * @param context for invoking {@link Context#startActivity(Intent)} method
+     * @param newTask set {@link Intent#FLAG_ACTIVITY_NEW_TASK}, {@link Intent#FLAG_ACTIVITY_CLEAR_TASK}
+     *                flags if navigation not from activity.
+     */
     public static void toAuthorization(Context context, boolean newTask) {
         Intent intent = new Intent(context, AuthorizationActivity.class);
         if (newTask) {

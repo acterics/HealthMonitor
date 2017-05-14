@@ -103,22 +103,27 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (id == R.id.drawer_general) {
-            transaction.replace(R.id.holder_content, new GeneralFragment());
-        } else if (id == R.id.drawer_cardio_monitor) {
-            transaction.replace(R.id.holder_content, new CardioMonitorFragment());
-        } else if (id == R.id.drawer_settings) {
-            transaction.replace(R.id.holder_content, new SettingsFragment());
-        } else if (id == R.id.drawer_issues) {
-            transaction.replace(R.id.holder_content, new IssuesFragment());
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        } else if (id == R.id.drawer_exit) {
-            PreferenceUtils.clearPreference(getApplicationContext());
-            NavigationUtils.toAuthorization(this, false);
-            finish();
+        switch (id) {
+            case R.id.drawer_general:
+                transaction.replace(R.id.holder_content, new GeneralFragment());
+                break;
+            case R.id.drawer_cardio_monitor:
+                transaction.replace(R.id.holder_content, new CardioMonitorFragment());
+                break;
+            case R.id.drawer_settings:
+                transaction.replace(R.id.holder_content, new SettingsFragment());
+                break;
+            case R.id.drawer_issues:
+                transaction.replace(R.id.holder_content, new IssuesFragment());
+                break;
+            case R.id.nav_share:
+            case R.id.nav_send:
+                break;
+            case R.id.drawer_exit:
+                PreferenceUtils.clearPreference(getApplicationContext());
+                NavigationUtils.toAuthorization(this, false);
+                finish();
+                break;
         }
         transaction.commit();
         drawer.closeDrawer(GravityCompat.START);

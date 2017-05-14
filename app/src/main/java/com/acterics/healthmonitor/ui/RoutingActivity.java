@@ -9,6 +9,8 @@ import com.acterics.healthmonitor.utils.PreferenceUtils;
 
 /**
  * Created by oleg on 13.05.17.
+ * Launch activity. Has no UI.
+ * Define application state and navigate to actual activity.
  */
 
 public class RoutingActivity extends AppCompatActivity {

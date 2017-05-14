@@ -10,6 +10,7 @@ import com.acterics.healthmonitor.data.models.rest.responses.AuthResponse;
 
 /**
  * Created by oleg on 13.05.17.
+ * Utility class for working with {@link SharedPreferences}
  */
 
 public class PreferenceUtils {
@@ -35,6 +36,11 @@ public class PreferenceUtils {
         return preferences;
     }
 
+    /**
+     * Fill {@link PreferenceUtils#preferences} with authorization data.
+     * @param context for {@link PreferenceUtils#preferences} initialization if need
+     * @param body contains authorization data.
+     */
     public static void authorize(Context context, AuthResponse body) {
         getPreferences(context)
                 .edit()
@@ -63,6 +69,11 @@ public class PreferenceUtils {
         return getPreferences(context).getLong(KEY_USER_ID, -1);
     }
 
+    /**
+     * Clear all data from {@link PreferenceUtils#preferences}.
+     * Use for logout action.
+     * @param context for {@link PreferenceUtils#preferences} initialization if need
+     */
     public static void clearPreference(Context context) {
         getPreferences(context)
                 .edit()
@@ -70,10 +81,22 @@ public class PreferenceUtils {
                 .apply();
     }
 
+    /**
+     * Check current authorization state.
+     * @param context for {@link PreferenceUtils#preferences} initialization if need
+     * @return current authorization state.
+     */
     public static boolean isAuthorized(Context context) {
         return getUserToken(context) != null;
     }
 
+
+    /**
+     * Method that fill {@link BaseUserInfoRequest} object.
+     * Set {@link PreferenceUtils#KEY_USER_ID} and {@link PreferenceUtils#KEY_USER_TOKEN}
+     * @param context for {@link PreferenceUtils#preferences} initialization if need
+     * @param request fill object with data from {@link SharedPreferences}
+     */
     public static void fillRequest(Context context, @NonNull BaseUserInfoRequest request) {
         request.setId(getUserId(context));
         request.setToken(getUserToken(context));
