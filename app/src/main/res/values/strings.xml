@@ -22,5 +22,6 @@
     <string name="issues">Issues</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="exit">Exit</string>
 
 </resources>

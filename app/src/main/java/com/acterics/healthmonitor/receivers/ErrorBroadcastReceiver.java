@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.acterics.healthmonitor.R;
@@ -64,12 +65,14 @@ public class ErrorBroadcastReceiver extends BroadcastReceiver {
     }
 
     private void showAlert(Context context, String message) {
-        new AlertDialog.Builder(context)
+        AlertDialog alert = new AlertDialog.Builder(context, R.style.DefaultDialog)
                 .setTitle(R.string.error)
                 .setMessage(message)
                 .setPositiveButton(context.getString(R.string.ok), (dialog, which) -> dialog.dismiss())
-                .create()
-                .show();
+                .create();
+        alert.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        alert.show();
+
     }
 
     private void unauthorizedAction(Context context, String message) {

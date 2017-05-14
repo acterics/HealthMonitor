@@ -13,11 +13,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.acterics.healthmonitor.R;
 import com.acterics.healthmonitor.ui.drawerfragments.CardioMonitorFragment;
 import com.acterics.healthmonitor.ui.drawerfragments.GeneralFragment;
 import com.acterics.healthmonitor.ui.drawerfragments.SettingsFragment;
+import com.acterics.healthmonitor.utils.NavigationUtils;
+import com.acterics.healthmonitor.utils.PreferenceUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
+    private TextView tvName;
 
     //TODO add sync with drawer items and current fragments
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
@@ -38,6 +42,7 @@ public class MainActivity extends AppCompatActivity
         Timber.i("onCreate");
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        tvName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv_name);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
@@ -50,12 +55,14 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.holder_content, new GeneralFragment())
                     .commit();
         }
+        tvName.setText(PreferenceUtils.getUserName(getApplicationContext()));
     }
 
     @Override
@@ -105,6 +112,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
+        } else if (id == R.id.drawer_exit) {
+            PreferenceUtils.clearPreference(getApplicationContext());
+            NavigationUtils.toAuthorization(this);
         }
         transaction.commit();
         drawer.closeDrawer(GravityCompat.START);

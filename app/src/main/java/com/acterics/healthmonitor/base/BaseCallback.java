@@ -1,6 +1,7 @@
 package com.acterics.healthmonitor.base;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.acterics.healthmonitor.data.models.rest.responses.BaseResponse;
 import com.acterics.healthmonitor.receivers.ErrorBroadcastReceiver;
@@ -14,7 +15,7 @@ import retrofit2.Response;
  * Created by oleg on 14.05.17.
  */
 
-public abstract class BaseCallback<R extends BaseResponse<R>> implements Callback<BaseResponse<R>> {
+public abstract class BaseCallback<R> implements Callback<BaseResponse<R>> {
 
     private Context context;
     public BaseCallback(Context context) {
@@ -26,7 +27,7 @@ public abstract class BaseCallback<R extends BaseResponse<R>> implements Callbac
         if (response.isSuccessful()) {
             if (response.body() != null) {
                 BaseResponse<R> responseBody = response.body();
-                if (responseBody.getStatus() != 0) {
+                if (responseBody.getStatus() == 0) {
                     onSuccess(responseBody.getResponse());
                     return;
                 } else {
@@ -47,6 +48,12 @@ public abstract class BaseCallback<R extends BaseResponse<R>> implements Callbac
         onError();
     }
 
-    public abstract void onSuccess(R body);
-    public abstract void onError();
+    public abstract void onSuccess(@NonNull R body);
+
+    /**
+     * Optional overriding
+     */
+    public void onError() {
+
+    }
 }

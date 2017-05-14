@@ -126,7 +126,7 @@ public class CardioMonitorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cardio_monitor, container, false);
         ButterKnife.bind(this, view);
-        builder = new AlertDialog.Builder(getContext());
+        builder = new AlertDialog.Builder(getContext(), R.style.DefaultDialog);
         loadingPanel.setVisibility(View.VISIBLE);
         Intent startCommunicationIntent = new Intent(getContext(), CardioDeviceDataService.class);
         startCommunicationIntent.setAction(CardioDeviceDataService.ACTION_START_COMMUNICATE);

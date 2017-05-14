@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 
+import com.acterics.healthmonitor.data.models.rest.responses.AuthResponse;
+
 /**
  * Created by oleg on 13.05.17.
  */
@@ -29,6 +31,15 @@ public class PreferenceUtils {
             preferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         }
         return preferences;
+    }
+
+    public static void authorize(Context context, AuthResponse body) {
+        getPreferences(context)
+                .edit()
+                .putString(KEY_USER_TOKEN, body.getToken())
+                .putString(KEY_USER_NAME, body.getName())
+                .putLong(KEY_USER_ID, body.getId())
+                .apply();
     }
 
     @Nullable
@@ -57,7 +68,7 @@ public class PreferenceUtils {
                 .apply();
     }
 
-    public static boolean isAuthorizad(Context context) {
+    public static boolean isAuthorized(Context context) {
         return getUserToken(context) != null;
     }
 

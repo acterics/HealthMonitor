@@ -31,4 +31,11 @@
     </style>
 
 
+    <style name="DefaultDialog" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+
+
+
 </resources>

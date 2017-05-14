@@ -1,6 +1,7 @@
 package com.acterics.healthmonitor.ui.auth;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -12,10 +13,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.acterics.healthmonitor.R;
+import com.acterics.healthmonitor.base.BaseCallback;
 import com.acterics.healthmonitor.data.RestClient;
 import com.acterics.healthmonitor.data.models.rest.requests.SignInRequest;
-
-import java.io.IOException;
+import com.acterics.healthmonitor.data.models.rest.responses.AuthResponse;
+import com.acterics.healthmonitor.utils.NavigationUtils;
+import com.acterics.healthmonitor.utils.PreferenceUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,15 +83,18 @@ public class SignInFragment extends Fragment {
             SignInRequest request = new SignInRequest();
             request.setEmail(email);
             request.setPassword(password);
-            try {
-                RestClient.getApiService().signIn(request)
-                        .execute();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            RestClient.getApiService().signIn(request)
+                    .enqueue(new BaseCallback<AuthResponse>(getContext()) {
+                        @Override
+                        public void onSuccess(@NonNull AuthResponse body) {
+                            PreferenceUtils.authorize(getContext(), body);
+                            NavigationUtils.toMain(getContext());
+                        }
+                    });
         }
 
     }
+
 
 
     private boolean validateInputs(String email, String password) {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.acterics.healthmonitor.ui.MainActivity;
+import com.acterics.healthmonitor.ui.RoutingActivity;
 import com.acterics.healthmonitor.ui.auth.AuthorizationActivity;
 
 /**
@@ -23,6 +24,11 @@ public class NavigationUtils {
 
     public static void toAuthorization(Context context) {
         Intent intent = new Intent(context, AuthorizationActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void toRouter(Context context) {
+        Intent intent = new Intent(context, RoutingActivity.class);
         context.startActivity(intent);
     }
 
