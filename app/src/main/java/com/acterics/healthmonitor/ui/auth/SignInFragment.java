@@ -89,6 +89,7 @@ public class SignInFragment extends Fragment {
                         public void onSuccess(@NonNull AuthResponse body) {
                             PreferenceUtils.authorize(getContext(), body);
                             NavigationUtils.toMain(getContext());
+                            getActivity().finish();
                         }
                     });
         }

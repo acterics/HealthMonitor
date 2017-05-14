@@ -15,8 +15,8 @@ public class HealthMonitorApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Timber.plant(new Timber.DebugTree());
         if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
             Stetho.newInitializerBuilder(this)
                     .enableDumpapp(
                             Stetho.defaultDumperPluginsProvider(this))

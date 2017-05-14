@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.drawer_exit) {
             PreferenceUtils.clearPreference(getApplicationContext());
             NavigationUtils.toAuthorization(this);
+            finish();
         }
         transaction.commit();
         drawer.closeDrawer(GravityCompat.START);
