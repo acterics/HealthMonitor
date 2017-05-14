@@ -17,15 +17,17 @@ public enum IssueCategory {
 
     //TODO add icons
     @DrawableRes
-    public static int getDrawable(IssueCategory category) {
+    public static int getDrawable(int category) {
         switch (category) {
-            case HEART:
+            case 0:
                 return R.drawable.ic_favorite_black_36dp;
-            case STOMACH:
-            case HEAD:
-            case ETC:
+            case 1:
+            case 2:
+            case 3:
                 return R.drawable.ic_error_outline_black_36dp;
         }
         return -1;
     }
+
+
 }

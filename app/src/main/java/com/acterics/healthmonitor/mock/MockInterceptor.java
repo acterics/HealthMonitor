@@ -1,5 +1,6 @@
 package com.acterics.healthmonitor.mock;
 
+import com.acterics.healthmonitor.data.models.IssueModel;
 import com.acterics.healthmonitor.data.models.rest.requests.SignInRequest;
 import com.acterics.healthmonitor.data.models.rest.responses.AuthResponse;
 import com.acterics.healthmonitor.data.models.rest.responses.BaseResponse;
@@ -7,6 +8,7 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.List;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -43,6 +45,9 @@ public class MockInterceptor implements Interceptor {
         switch (url.encodedPathSegments().get(0)) {
             case "signin":
                 responseBody = processSignIn(requestBody);
+                break;
+            case "issues":
+                responseBody = processGetIssues(requestBody);
                 break;
             default:
                 responseBody = null;
@@ -88,6 +93,13 @@ public class MockInterceptor implements Interceptor {
             responseBody.setResponse(MOCK_AUTH_RESPONSE);
         }
 
+        return responseBody;
+    }
+
+    private BaseResponse<List<IssueModel>> processGetIssues(RequestBody requestBody) {
+        BaseResponse<List<IssueModel>> responseBody = new BaseResponse<>();
+        responseBody.setStatus(0);
+        responseBody.setResponse(MockData.getIssues());
         return responseBody;
     }
 

@@ -2,8 +2,10 @@ package com.acterics.healthmonitor.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.acterics.healthmonitor.data.models.rest.requests.BaseUserInfoRequest;
 import com.acterics.healthmonitor.data.models.rest.responses.AuthResponse;
 
 /**
@@ -70,6 +72,11 @@ public class PreferenceUtils {
 
     public static boolean isAuthorized(Context context) {
         return getUserToken(context) != null;
+    }
+
+    public static void fillRequest(Context context, @NonNull BaseUserInfoRequest request) {
+        request.setId(getUserId(context));
+        request.setToken(getUserToken(context));
     }
 
 

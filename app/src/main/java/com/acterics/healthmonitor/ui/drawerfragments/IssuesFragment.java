@@ -1,6 +1,7 @@
 package com.acterics.healthmonitor.ui.drawerfragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -11,8 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.acterics.healthmonitor.R;
-import com.acterics.healthmonitor.mock.MockData;
+import com.acterics.healthmonitor.base.BaseCallback;
+import com.acterics.healthmonitor.data.RestClient;
+import com.acterics.healthmonitor.data.models.IssueModel;
+import com.acterics.healthmonitor.data.models.rest.requests.BaseUserInfoRequest;
 import com.acterics.healthmonitor.ui.issues.IssuesListAdapter;
+import com.acterics.healthmonitor.utils.PreferenceUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,11 +42,24 @@ public class IssuesFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         issuesListAdapter = new IssuesListAdapter();
-        issuesListAdapter.setIssues(MockData.getIssues());
 
         rvIssues.setLayoutManager(new LinearLayoutManager(getContext()));
         rvIssues.setAdapter(issuesListAdapter);
+        requestIssues();
 
         return view;
+    }
+
+    private void requestIssues() {
+        BaseUserInfoRequest request = new BaseUserInfoRequest();
+        PreferenceUtils.fillRequest(getContext(), request);
+        RestClient.getApiService().getIssues(request)
+                .enqueue(new BaseCallback<List<IssueModel>>(getContext()) {
+
+                    @Override
+                    public void onSuccess(@NonNull List<IssueModel> body) {
+                        issuesListAdapter.setIssues(body);
+                    }
+                });
     }
 }

@@ -1,21 +1,26 @@
 package com.acterics.healthmonitor.data.models;
 
-import com.acterics.healthmonitor.ui.issues.IssueCategory;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by oleg on 13.05.17.
  */
 
 public class IssueModel {
-    private IssueCategory category;
+    @SerializedName("category")
+    private int category;
+
+    @SerializedName("title")
     private String issueTitle;
+
+    @SerializedName("content")
     private String issueSummary;
 
-    public IssueCategory getCategory() {
+    public int getCategory() {
         return category;
     }
 
-    public void setCategory(IssueCategory category) {
+    public void setCategory(int category) {
         this.category = category;
     }
 
