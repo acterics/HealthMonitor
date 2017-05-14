@@ -2,6 +2,8 @@ package com.acterics.healthmonitor;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
+
 import timber.log.Timber;
 
 /**
@@ -14,6 +16,14 @@ public class HealthMonitorApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Timber.plant(new Timber.DebugTree());
-        Timber.e("onCreate");
+        if (BuildConfig.DEBUG) {
+            Stetho.newInitializerBuilder(this)
+                    .enableDumpapp(
+                            Stetho.defaultDumperPluginsProvider(this))
+                    .enableWebKitInspector(
+                            Stetho.defaultInspectorModulesProvider(this))
+                    .build();
+            Stetho.initializeWithDefaults(this);
+        }
     }
 }
