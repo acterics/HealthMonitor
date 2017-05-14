@@ -35,10 +35,10 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
-    <style name="DefaultPlot">
-        <item name="android:background">@color/off_white</item>
-        <item name="backgroundColor">@color/off_white</item>
-        <item name="graphBackgroundColor">@color/off_white</item>
+    <style name="DefaultPlot" parent="APDefacto.Light">
+        <item name="android:background">@android:color/background_light</item>
+        <item name="backgroundColor">@android:color/background_light</item>
+        <item name="graphBackgroundColor">@android:color/background_light</item>
         <item name="gridBackgroundColor">@color/ap_white</item>
         <item name="domainLineColor">@color/colorPrimary</item>
         <item name="rangeLineColor">@color/colorPrimary</item>
@@ -47,7 +47,7 @@
         <item name="lineLabelTextColorLeft">@color/colorPrimaryDark</item>
         <item name="lineLabelTextColorRight">@color/colorPrimaryDark</item>
         <item name="domainOriginLineColor">@color/colorPrimaryDark</item>
-        <item name="rangeOriginLineColor">@color/colorPrimaryDark</item>
+        <item name="rangeOriginLineColor">@color/transparent</item>
         <item name="titleTextColor">@color/colorPrimaryDark</item>
         <item name="domainTitleTextColor">@color/colorPrimaryDark</item>
         <item name="rangeTitleTextColor">@color/colorPrimaryDark</item>

@@ -6,16 +6,17 @@
     android:layout_height="match_parent">
 
     <com.androidplot.xy.XYPlot
-        style="@style/APDefacto.Light"
+        style="@style/DefaultPlot"
         android:id="@+id/plot"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="10dp"
+        app:markupEnabled="false"
         app:title="A Simple XY Plot"
-        app:rangeTitle="mV"
         app:domainTitle="ms"
         app:lineLabels="left|bottom"
-        app:lineLabelRotationBottom="-45"/>
+        app:renderMode="use_background_thread"
+        app:marginRight="-20dp"
+        app:marginBottom="-100dp"/>
 
 
 

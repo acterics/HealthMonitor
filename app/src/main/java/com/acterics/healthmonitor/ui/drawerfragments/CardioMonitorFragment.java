@@ -17,8 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.acterics.healthmonitor.R;
+import com.acterics.healthmonitor.mock.MockDataIntentService;
 import com.acterics.healthmonitor.services.CardioDeviceDataService;
-import com.acterics.healthmonitor.services.MockDataIntentService;
 import com.androidplot.xy.BoundaryMode;
 import com.androidplot.xy.CatmullRomInterpolator;
 import com.androidplot.xy.LineAndPointFormatter;
@@ -49,6 +49,7 @@ public class CardioMonitorFragment extends Fragment {
     @BindView(R.id.plot) XYPlot plot;
 
     private SimpleXYSeries series;
+    private long lastTime;
 //    @BindView(R.id.cardio_plot_view) CardioPlotView cardioPlotView;
 
     AlertDialog.Builder builder;
@@ -69,10 +70,10 @@ public class CardioMonitorFragment extends Fragment {
                     unavailable();
                     break;
                 case ACTION_DATA:
-                    series.addFirst(System.currentTimeMillis(), intent.getIntExtra(EXTRA_DEVICE_DATA, 0));
-                    if (series.size() > 20) {
+                    if (series.size() > 50) {
                         series.removeLast();
                     }
+                    series.addFirst(System.currentTimeMillis(), intent.getIntExtra(EXTRA_DEVICE_DATA, 0));
                     plot.redraw();
                     break;
             }
@@ -141,11 +142,18 @@ public class CardioMonitorFragment extends Fragment {
         ButterKnife.bind(this, view);
         builder = new AlertDialog.Builder(getContext(), R.style.DefaultDialog);
         loadingPanel.setVisibility(View.VISIBLE);
+
+        initPlot();
+
 //        Intent startCommunicationIntent = new Intent(getContext(), CardioDeviceDataService.class);
         Intent startCommunicationIntent = new Intent(getContext(), MockDataIntentService.class);
         startCommunicationIntent.setAction(CardioDeviceDataService.ACTION_START_COMMUNICATE);
         getActivity().startService(startCommunicationIntent);
 
+        return view;
+    }
+
+    private void initPlot() {
         series = new SimpleXYSeries("Data");
         LineAndPointFormatter formatter = new LineAndPointFormatter();
         formatter.getFillPaint().setColor(Color.TRANSPARENT);
@@ -153,9 +161,9 @@ public class CardioMonitorFragment extends Fragment {
         formatter.setInterpolationParams(
                 new CatmullRomInterpolator.Params(10, CatmullRomInterpolator.Type.Centripetal));
         formatter.getVertexPaint().setColor(Color.TRANSPARENT);
+
         plot.addSeries(series, formatter);
         plot.setRangeBoundaries(-100, 100, BoundaryMode.FIXED);
-        return view;
     }
 
     @Override
