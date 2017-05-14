@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by oleg on 13.05.17.
+ * RequestBody for {@link com.acterics.healthmonitor.data.APIService#signIn(SignInRequest) request}
  */
 
 public class SignInRequest {

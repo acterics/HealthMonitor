@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by oleg on 13.05.17.
+ * Class that wraps actual response body.
+ * Contains useful fields for error handling.
  */
 
 public class BaseResponse<T> {

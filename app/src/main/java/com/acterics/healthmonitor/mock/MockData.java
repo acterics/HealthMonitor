@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Created by oleg on 14.05.17.
+ * Debug only. Class that generate mock data.
  */
 
 public class MockData {

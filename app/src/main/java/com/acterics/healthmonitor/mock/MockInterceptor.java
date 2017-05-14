@@ -22,6 +22,7 @@ import okio.Buffer;
 
 /**
  * Created by oleg on 13.05.17.
+ * Debug only. Class that intercept all rest requests and return mock responses.
  */
 
 public class MockInterceptor implements Interceptor {

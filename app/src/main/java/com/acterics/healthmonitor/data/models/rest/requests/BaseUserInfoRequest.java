@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by oleg on 14.05.17.
+ * RequestBody for all secure request.
+ * Can be extend with adding new fields.
  */
 
 public class BaseUserInfoRequest {

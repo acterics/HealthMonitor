@@ -56,7 +56,7 @@ public abstract class BaseCallback<R> implements Callback<BaseResponse<R>> {
     public abstract void onSuccess(@NonNull R body);
 
     /**
-     * Optional overriding
+     * Optional overriding.
      */
     public void onError() {
 

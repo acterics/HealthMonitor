@@ -3,6 +3,9 @@ package com.acterics.healthmonitor.mock;
 import android.app.IntentService;
 import android.content.Intent;
 
+import com.acterics.healthmonitor.receivers.ErrorBroadcastReceiver;
+import com.acterics.healthmonitor.receivers.ErrorCode;
+
 import java.util.Random;
 
 import static com.acterics.healthmonitor.ui.drawerfragments.CardioMonitorFragment.ACTION_DATA;
@@ -10,6 +13,12 @@ import static com.acterics.healthmonitor.ui.drawerfragments.CardioMonitorFragmen
 
 /**
  * Created by oleg on 12.05.17.
+ * Debug only.
+ * Intent service that generate mock cardiogram data and send in {@link Intent}
+ * as extra {@link com.acterics.healthmonitor.ui.drawerfragments.CardioMonitorFragment#EXTRA_DEVICE_DATA}
+ * with action {@link com.acterics.healthmonitor.ui.drawerfragments.CardioMonitorFragment#ACTION_DATA}.
+ * Generate one in {@link MockDataIntentService#PERIOD} time 10x impulse.
+ *
  */
 
 public class MockDataIntentService extends IntentService {
@@ -36,7 +45,7 @@ public class MockDataIntentService extends IntentService {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                ErrorBroadcastReceiver.sendError(this, ErrorCode.ALERT, e);
             }
         }
     }

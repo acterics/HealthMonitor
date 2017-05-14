@@ -7,7 +7,6 @@ package com.acterics.healthmonitor.data.models;
 public class CardioPlotModel {
     private int value;
     private long timestamp;
-
     public CardioPlotModel(int value) {
         this.value = value;
         this.timestamp = System.currentTimeMillis();
