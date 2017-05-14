@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.acterics.healthmonitor.R;
 import com.acterics.healthmonitor.ui.drawerfragments.CardioMonitorFragment;
 import com.acterics.healthmonitor.ui.drawerfragments.GeneralFragment;
+import com.acterics.healthmonitor.ui.drawerfragments.IssuesFragment;
 import com.acterics.healthmonitor.ui.drawerfragments.SettingsFragment;
 import com.acterics.healthmonitor.utils.NavigationUtils;
 import com.acterics.healthmonitor.utils.PreferenceUtils;
@@ -108,6 +109,8 @@ public class MainActivity extends AppCompatActivity
             transaction.replace(R.id.holder_content, new CardioMonitorFragment());
         } else if (id == R.id.drawer_settings) {
             transaction.replace(R.id.holder_content, new SettingsFragment());
+        } else if (id == R.id.drawer_issues) {
+            transaction.replace(R.id.holder_content, new IssuesFragment());
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
