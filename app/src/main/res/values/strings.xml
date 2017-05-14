@@ -26,5 +26,9 @@
     <string name="auth_welcome">Welcome!</string>
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
+    <string name="create_new_account">Create new account</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="password_confirm">Password Confirm</string>
 
 </resources>
