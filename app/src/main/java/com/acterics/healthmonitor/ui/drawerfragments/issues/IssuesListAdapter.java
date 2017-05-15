@@ -1,4 +1,4 @@
-package com.acterics.healthmonitor.ui.issues;
+package com.acterics.healthmonitor.ui.drawerfragments.issues;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;

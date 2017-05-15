@@ -6,11 +6,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Color;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,11 +18,14 @@ import android.view.ViewGroup;
 import com.acterics.healthmonitor.R;
 import com.acterics.healthmonitor.mock.MockDataIntentService;
 import com.acterics.healthmonitor.services.CardioDeviceDataService;
+import com.androidplot.util.Redrawer;
+import com.androidplot.xy.AdvancedLineAndPointRenderer;
 import com.androidplot.xy.BoundaryMode;
-import com.androidplot.xy.CatmullRomInterpolator;
-import com.androidplot.xy.LineAndPointFormatter;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
+import com.androidplot.xy.XYSeries;
+
+import java.lang.ref.WeakReference;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,7 +54,9 @@ public class CardioMonitorFragment extends Fragment {
     private long lastTime;
 //    @BindView(R.id.cardio_plot_view) CardioPlotView cardioPlotView;
 
-    AlertDialog.Builder builder;
+    private AlertDialog.Builder builder;
+    private Redrawer redrawer;
+
 
     private BroadcastReceiver cardioDataReceiver = new BroadcastReceiver() {
         @Override
@@ -70,11 +74,14 @@ public class CardioMonitorFragment extends Fragment {
                     unavailable();
                     break;
                 case ACTION_DATA:
-                    if (series.size() > 50) {
-                        series.removeLast();
-                    }
-                    series.addFirst(System.currentTimeMillis(), intent.getIntExtra(EXTRA_DEVICE_DATA, 0));
-                    plot.redraw();
+                    ecgSeries.addVertex(intent.getIntExtra(EXTRA_DEVICE_DATA, 0));
+//                    if (series.size() > 50) {
+//                        series.removeLast();
+//                    }
+//                    for (int i = 0; i < 100; i++) {
+//                        series.addFirst();
+//                    }
+//                    series.addFirst(System.currentTimeMillis(), intent.getIntExtra(EXTRA_DEVICE_DATA, 0));
                     break;
             }
             loadingPanel.setVisibility(View.GONE);
@@ -152,18 +159,39 @@ public class CardioMonitorFragment extends Fragment {
 
         return view;
     }
+    ECGModel ecgSeries;
 
     private void initPlot() {
         series = new SimpleXYSeries("Data");
-        LineAndPointFormatter formatter = new LineAndPointFormatter();
-        formatter.getFillPaint().setColor(Color.TRANSPARENT);
-        formatter.getLinePaint().setColor(ResourcesCompat.getColor(getResources(), R.color.colorAccent, null));
-        formatter.setInterpolationParams(
-                new CatmullRomInterpolator.Params(10, CatmullRomInterpolator.Type.Centripetal));
-        formatter.getVertexPaint().setColor(Color.TRANSPARENT);
+//        MyFadeFormatter formatter = new MyFadeFormatter(50);
+//        formatter.getFillPaint().setColor(Color.TRANSPARENT);
+//        formatter.getLinePaint().setColor(ResourcesCompat.getColor(getResources(), R.color.colorAccent, null));
+//        formatter.setInterpolationParams(
+//                new CatmullRomInterpolator.Params(10, CatmullRomInterpolator.Type.Centripetal));
+//        formatter.getVertexPaint().setColor(Color.TRANSPARENT);
+//
+//        plot.addSeries(series, formatter);
+//        plot.setRangeBoundaries(-100, 100, BoundaryMode.FIXED);
 
-        plot.addSeries(series, formatter);
+
+
+        ecgSeries = new ECGModel(100);
+
+        // add a new series' to the xyplot:
+        MyFadeFormatter formatter =new MyFadeFormatter(90);
+        formatter.setLegendIconEnabled(false);
+        plot.addSeries(ecgSeries, formatter);
         plot.setRangeBoundaries(-100, 100, BoundaryMode.FIXED);
+        plot.setDomainBoundaries(0, 100, BoundaryMode.FIXED);
+
+        // reduce the number of range labels
+        plot.setLinesPerRangeLabel(3);
+
+        // start generating ecg data in the background:
+        ecgSeries.start(new WeakReference<>(plot.getRenderer(AdvancedLineAndPointRenderer.class)));
+
+        redrawer = new Redrawer(plot, 30, true);
+
     }
 
     @Override
@@ -194,5 +222,120 @@ public class CardioMonitorFragment extends Fragment {
             Timber.e("onActivityResult: something wrong");
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    public static class MyFadeFormatter extends AdvancedLineAndPointRenderer.Formatter {
+
+        private int trailSize;
+
+        public MyFadeFormatter(int trailSize) {
+            this.trailSize = trailSize;
+        }
+
+        @Override
+        public Paint getLinePaint(int thisIndex, int latestIndex, int seriesSize) {
+            // offset from the latest index:
+            int offset;
+            if(thisIndex > latestIndex) {
+                offset = latestIndex + (seriesSize - thisIndex);
+            } else {
+                offset =  latestIndex - thisIndex;
+            }
+
+            float scale = 255f / trailSize;
+            int alpha = (int) (255 - (offset * scale));
+            getLinePaint().setAlpha(alpha > 0 ? alpha : 0);
+            return getLinePaint();
+        }
+    }
+
+
+    public static class ECGModel implements XYSeries {
+
+
+        private int latestIndex;
+        private int seriesPoolSize = 4;
+        private int seriesSize;
+        private Number[] data;
+
+        private WeakReference<AdvancedLineAndPointRenderer> rendererRef;
+
+        /**
+         *
+         * @param size Sample size contained within this model
+         */
+        public ECGModel(int size) {
+            seriesSize = size;
+            data = new Number[seriesSize];
+
+
+
+        }
+
+        public void addVertex(Number vertex) {
+
+            if (latestIndex >= seriesSize) {
+                latestIndex = 0;
+            }
+
+            data[latestIndex] = vertex;
+
+            if(latestIndex < seriesSize - 1) {
+                // null out the point immediately following i, to disable
+                // connecting i and i+1 with a line:
+                data[latestIndex +1] = null;
+            }
+
+            if(rendererRef.get() != null) {
+                rendererRef.get().setLatestIndex(latestIndex);
+
+            }
+            latestIndex++;
+        }
+
+        public void start(final WeakReference<AdvancedLineAndPointRenderer> rendererRef) {
+            this.rendererRef = rendererRef;
+        }
+
+        @Override
+        public int size() {
+            return data.length;
+        }
+
+        @Override
+        public Number getX(int index) {
+            return index;
+        }
+
+        @Override
+        public Number getY(int index) {
+            return data[index];
+        }
+
+        public void setY(Number y, int index) {
+            data[index] = y;
+        }
+
+
+        @Override
+        public String getTitle() {
+            return "Signal";
+        }
+
+
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        redrawer.pause();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        redrawer.start();
     }
 }

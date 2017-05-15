@@ -2,6 +2,7 @@ package com.acterics.healthmonitor.ui.auth;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 
 import com.acterics.healthmonitor.R;
@@ -19,6 +20,7 @@ public class AuthorizationActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .add(R.id.holder_content, new SignInFragment())
                     .commit();
         }

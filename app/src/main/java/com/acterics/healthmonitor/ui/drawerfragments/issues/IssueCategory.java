@@ -1,4 +1,4 @@
-package com.acterics.healthmonitor.ui.issues;
+package com.acterics.healthmonitor.ui.drawerfragments.issues;
 
 import android.support.annotation.DrawableRes;
 
@@ -25,8 +25,9 @@ public enum IssueCategory {
             case 2:
             case 3:
                 return R.drawable.ic_error_outline_black_36dp;
+            default:
+                return -1;
         }
-        return -1;
     }
 
 

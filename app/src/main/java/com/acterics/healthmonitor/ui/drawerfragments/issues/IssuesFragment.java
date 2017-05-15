@@ -1,4 +1,4 @@
-package com.acterics.healthmonitor.ui.drawerfragments;
+package com.acterics.healthmonitor.ui.drawerfragments.issues;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,13 +16,13 @@ import com.acterics.healthmonitor.base.BaseCallback;
 import com.acterics.healthmonitor.data.RestClient;
 import com.acterics.healthmonitor.data.models.IssueModel;
 import com.acterics.healthmonitor.data.models.rest.requests.BaseUserInfoRequest;
-import com.acterics.healthmonitor.ui.issues.IssuesListAdapter;
 import com.acterics.healthmonitor.utils.PreferenceUtils;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by oleg on 13.05.17.
@@ -41,7 +41,9 @@ public class IssuesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_issues, container, false);
         ButterKnife.bind(this, view);
 
+        destiny = getResources().getDisplayMetrics().density;
         issuesListAdapter = new IssuesListAdapter();
+
 
         rvIssues.setLayoutManager(new LinearLayoutManager(getContext()));
         rvIssues.setAdapter(issuesListAdapter);
@@ -61,5 +63,24 @@ public class IssuesFragment extends Fragment {
                         issuesListAdapter.setIssues(body);
                     }
                 });
+    }
+
+    boolean toggle = false;
+    float destiny;
+
+    @OnClick(R.id.fab_add_issue) void onFabClick() {
+//        if (toggle) {
+//            fabAddIssue.animate()
+//                    .scaleX(1)
+//                    .translationX(0)
+//                    .start();
+//        } else {
+//            fabAddIssue.animate()
+////                    .scaleX(4)
+//                    .translationX(-300)
+//                    .start();
+//        }
+//        toggle = !toggle;
+
     }
 }
