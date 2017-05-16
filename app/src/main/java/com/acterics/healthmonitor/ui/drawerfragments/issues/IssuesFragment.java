@@ -15,7 +15,6 @@ import com.acterics.healthmonitor.R;
 import com.acterics.healthmonitor.base.BaseCallback;
 import com.acterics.healthmonitor.data.RestClient;
 import com.acterics.healthmonitor.data.models.IssueModel;
-import com.acterics.healthmonitor.data.models.rest.requests.BaseUserInfoRequest;
 import com.acterics.healthmonitor.utils.PreferenceUtils;
 
 import java.util.List;
@@ -34,6 +33,7 @@ public class IssuesFragment extends Fragment {
     @BindView(R.id.fab_add_issue) FloatingActionButton fabAddIssue;
 
     private IssuesListAdapter issuesListAdapter;
+    private float destiny;
 
     @Nullable
     @Override
@@ -53,11 +53,8 @@ public class IssuesFragment extends Fragment {
     }
 
     private void requestIssues() {
-        BaseUserInfoRequest request = new BaseUserInfoRequest();
-        PreferenceUtils.fillRequest(getContext(), request);
-        RestClient.getApiService().getIssues(request)
+        RestClient.getApiService().getIssues(PreferenceUtils.getUserToken(getContext()))
                 .enqueue(new BaseCallback<List<IssueModel>>(getContext()) {
-
                     @Override
                     public void onSuccess(@NonNull List<IssueModel> body) {
                         issuesListAdapter.setIssues(body);
@@ -65,8 +62,8 @@ public class IssuesFragment extends Fragment {
                 });
     }
 
-    boolean toggle = false;
-    float destiny;
+//    boolean toggle = false;
+
 
     @OnClick(R.id.fab_add_issue) void onFabClick() {
 //        if (toggle) {

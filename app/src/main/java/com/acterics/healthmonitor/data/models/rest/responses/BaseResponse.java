@@ -13,7 +13,14 @@ public class BaseResponse<T> {
     /**
      * status code:
      *  0 - success
-     *  1 - error
+     *  1* - info
+     *
+     *  4* - client errors
+     *  403 - unauthorized
+     *
+     *  5* - server errors
+     *
+     *  
      */
     @SerializedName("status")
     private int status;

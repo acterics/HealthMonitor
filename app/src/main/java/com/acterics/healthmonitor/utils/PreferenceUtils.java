@@ -5,8 +5,10 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.acterics.healthmonitor.data.models.UserModel;
 import com.acterics.healthmonitor.data.models.rest.requests.BaseUserInfoRequest;
 import com.acterics.healthmonitor.data.models.rest.responses.AuthResponse;
+import com.google.gson.Gson;
 
 /**
  * Created by oleg on 13.05.17.
@@ -18,9 +20,11 @@ public class PreferenceUtils {
     private static final String KEY_USER_ID = "com.acterics.healthmonitor.utils.KEY_USER_ID";
     private static final String KEY_USER_NAME = "com.acterics.healthmonitor.utils.KEY_USER_NAME";
     private static final String KEY_USER_IMAGE = "com.acterics.healthmonitor.utils.KEY_USER_IMAGE";
+    private static final String KEY_USER_INFO = "com.acterics.healthmonitor.utils.KEY_USER_INFO";
 
     private static final String PREFERENCE_NAME = "HealthMonitorPrefs";
 
+    private static final Gson gson = new Gson();
 
     private static SharedPreferences preferences = null;
 
@@ -45,28 +49,12 @@ public class PreferenceUtils {
         getPreferences(context)
                 .edit()
                 .putString(KEY_USER_TOKEN, body.getToken())
-                .putString(KEY_USER_NAME, body.getName())
-                .putLong(KEY_USER_ID, body.getId())
                 .apply();
     }
 
     @Nullable
     public static String getUserToken(Context context) {
         return getPreferences(context).getString(KEY_USER_TOKEN, null);
-    }
-
-    @Nullable
-    public static String getUserName(Context context) {
-        return getPreferences(context).getString(KEY_USER_NAME, null);
-    }
-
-    @Nullable
-    public static String getUserImage(Context context) {
-        return getPreferences(context).getString(KEY_USER_IMAGE, null);
-    }
-
-    public static Long getUserId(Context context) {
-        return getPreferences(context).getLong(KEY_USER_ID, -1);
     }
 
     /**
@@ -97,9 +85,21 @@ public class PreferenceUtils {
      * @param context for {@link PreferenceUtils#preferences} initialization if need
      * @param request fill object with data from {@link SharedPreferences}
      */
+    @Deprecated
     public static void fillRequest(Context context, @NonNull BaseUserInfoRequest request) {
-        request.setId(getUserId(context));
+//        request.setId(getUserId(context));
         request.setToken(getUserToken(context));
+    }
+
+    public static void saveUserInfo(Context context, @NonNull UserModel userInfo) {
+        getPreferences(context)
+                .edit()
+                .putString(KEY_USER_INFO, gson.toJson(userInfo))
+                .apply();
+    }
+
+    public static UserModel getUserModel(Context context) {
+        return gson.fromJson(getPreferences(context).getString(KEY_USER_INFO, "{}"), UserModel.class);
     }
 
 

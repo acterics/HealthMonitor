@@ -23,13 +23,22 @@ import retrofit2.Response;
 
 public abstract class BaseCallback<R> implements Callback<BaseResponse<R>> {
 
-    private Context context;
+    protected Context context;
+    protected OnRequestErrorListener onRequestErrorListener = null;
+
+
     public BaseCallback(Context context) {
         this.context = context;
+    }
+    public BaseCallback(Context context, OnRequestErrorListener onRequestErrorListener) {
+        this(context);
+        this.onRequestErrorListener = onRequestErrorListener;
     }
 
     @Override
     public void onResponse(Call<BaseResponse<R>> call, Response<BaseResponse<R>> response) {
+        ErrorCode errorCode;
+        String message;
         if (response.isSuccessful()) {
             if (response.body() != null) {
                 BaseResponse<R> responseBody = response.body();
@@ -37,29 +46,54 @@ public abstract class BaseCallback<R> implements Callback<BaseResponse<R>> {
                     onSuccess(responseBody.getResponse());
                     return;
                 } else {
-                    ErrorBroadcastReceiver.sendError(context, ErrorCode.ALERT, responseBody.getMessage());
+                    errorCode = handleStatus(responseBody.getStatus());
+                    message = responseBody.getMessage();
                 }
             } else {
-                ErrorBroadcastReceiver.sendError(context, ErrorCode.ALERT, "Response body = null!");
+                errorCode = ErrorCode.ALERT;
+                message = "Response body = null!";
             }
         } else {
-            ErrorBroadcastReceiver.sendError(context, ErrorCode.ALERT, "Unsuccessful request!");
+            errorCode = ErrorCode.ALERT;
+            message = "Unsuccessful request!";
         }
-        onError();
+        onError(context, message, errorCode);
     }
 
     @Override
     public void onFailure(Call<BaseResponse<R>> call, Throwable t) {
         ErrorBroadcastReceiver.sendError(context, ErrorCode.ALERT, t);
-        onError();
     }
 
     public abstract void onSuccess(@NonNull R body);
 
-    /**
-     * Optional overriding.
-     */
-    public void onError() {
+    public void onError(Context context, String message, ErrorCode errorCode) {
+        if (onRequestErrorListener != null) {
+            onRequestErrorListener.onRequestError(errorCode);
+        }
+        ErrorBroadcastReceiver.sendError(context, errorCode, message);
+        //By default not implemented
+    }
 
+
+    private ErrorCode handleStatus(int status) {
+        if (status / 100 == 1) {
+            return ErrorCode.TOAST;
+        }
+        if (status / 100 == 4) {
+            if (status == 403) {
+                return ErrorCode.UNAUTHORIZED;
+            }
+            return ErrorCode.ALERT;
+        }
+        if (status / 100 == 5) {
+            return ErrorCode.TOAST;
+        }
+        return ErrorCode.IGNORE;
+    }
+
+    @FunctionalInterface
+    public interface OnRequestErrorListener {
+        void onRequestError(ErrorCode errorCode);
     }
 }

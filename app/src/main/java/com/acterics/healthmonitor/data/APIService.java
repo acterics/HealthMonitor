@@ -1,7 +1,7 @@
 package com.acterics.healthmonitor.data;
 
 import com.acterics.healthmonitor.data.models.IssueModel;
-import com.acterics.healthmonitor.data.models.rest.requests.BaseUserInfoRequest;
+import com.acterics.healthmonitor.data.models.UserModel;
 import com.acterics.healthmonitor.data.models.rest.requests.SignInRequest;
 import com.acterics.healthmonitor.data.models.rest.requests.SignUpRequest;
 import com.acterics.healthmonitor.data.models.rest.responses.AuthResponse;
@@ -11,6 +11,8 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 /**
@@ -18,7 +20,7 @@ import retrofit2.http.POST;
  */
 
 public interface APIService {
-
+    String AUTH_HEADER = "Auth";
 
     @POST("signin")
     Call<BaseResponse<AuthResponse>> signIn(@Body SignInRequest request);
@@ -27,7 +29,11 @@ public interface APIService {
     Call<BaseResponse<AuthResponse>> signUp(@Body SignUpRequest request);
 
     @POST("issues")
-    Call<BaseResponse<List<IssueModel>>> getIssues(@Body BaseUserInfoRequest request);
+    Call<BaseResponse<List<IssueModel>>> getIssues(@Header(AUTH_HEADER) String token);
+
+    @GET("user")
+    Call<BaseResponse<UserModel>> getUser(@Header(AUTH_HEADER) String token);
+
 
 
 }

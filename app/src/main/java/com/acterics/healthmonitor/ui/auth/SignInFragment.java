@@ -1,7 +1,6 @@
 package com.acterics.healthmonitor.ui.auth;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -14,12 +13,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.acterics.healthmonitor.R;
-import com.acterics.healthmonitor.base.BaseCallback;
+import com.acterics.healthmonitor.base.BaseAuthCallback;
 import com.acterics.healthmonitor.data.RestClient;
 import com.acterics.healthmonitor.data.models.rest.requests.SignInRequest;
-import com.acterics.healthmonitor.data.models.rest.responses.AuthResponse;
 import com.acterics.healthmonitor.utils.NavigationUtils;
-import com.acterics.healthmonitor.utils.PreferenceUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,38 +38,10 @@ public class SignInFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         ButterKnife.bind(this, view);
-        etEmail.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-            }
+        setEditTextErrorTextWatcher(etEmail, holderEmail);
+        setEditTextErrorTextWatcher(etPassword, holderPassword);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                holderEmail.setErrorEnabled(false);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-        etPassword.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                holderPassword.setErrorEnabled(false);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
         return view;
     }
 
@@ -85,15 +54,14 @@ public class SignInFragment extends Fragment {
             request.setEmail(email);
             request.setPassword(password);
             RestClient.getApiService().signIn(request)
-                    .enqueue(new BaseCallback<AuthResponse>(getContext()) {
-                        @Override
-                        public void onSuccess(@NonNull AuthResponse body) {
-                            PreferenceUtils.authorize(getContext(), body);
-                            NavigationUtils.toMain(getContext());
-                            getActivity().finish();
-                        }
-                    });
+                    .enqueue(new BaseAuthCallback(getContext(),
+                            body -> {
+                                NavigationUtils.toMain(getContext());
+                                getActivity().finish();
+                            }));
         }
+
+
 
     }
 
@@ -124,5 +92,24 @@ public class SignInFragment extends Fragment {
             return false;
         }
         return true;
+    }
+
+    private static void setEditTextErrorTextWatcher(EditText et, TextInputLayout holder) {
+        et.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                holder.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 }

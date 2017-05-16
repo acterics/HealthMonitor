@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.acterics.healthmonitor.R;
 import com.acterics.healthmonitor.utils.NavigationUtils;
+import com.acterics.healthmonitor.utils.PreferenceUtils;
 
 import timber.log.Timber;
 
@@ -81,7 +82,8 @@ public class ErrorBroadcastReceiver extends BroadcastReceiver {
     }
 
     private void unauthorizedAction(Context context, String message) {
-        NavigationUtils.toAuthorization(context, true);
+        PreferenceUtils.clearPreference(context);
+        NavigationUtils.toAuthorization(context);
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 

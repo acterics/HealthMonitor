@@ -13,15 +13,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.acterics.healthmonitor.R;
+import com.acterics.healthmonitor.data.models.UserModel;
 import com.acterics.healthmonitor.ui.drawerfragments.CardioMonitorFragment;
 import com.acterics.healthmonitor.ui.drawerfragments.GeneralFragment;
 import com.acterics.healthmonitor.ui.drawerfragments.issues.IssuesFragment;
 import com.acterics.healthmonitor.ui.drawerfragments.SettingsFragment;
 import com.acterics.healthmonitor.utils.NavigationUtils;
 import com.acterics.healthmonitor.utils.PreferenceUtils;
+import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     private TextView tvName;
+    private ImageView ivAvatar;
 
     //TODO add sync with drawer items and current fragments
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
@@ -44,6 +48,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         tvName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv_name);
+        ivAvatar = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.iv_avatar);
+
+        UserModel userModel = PreferenceUtils.getUserModel(getApplicationContext());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
@@ -63,7 +70,12 @@ public class MainActivity extends AppCompatActivity
                     .replace(R.id.holder_content, new GeneralFragment())
                     .commit();
         }
-        tvName.setText(PreferenceUtils.getUserName(getApplicationContext()));
+
+        tvName.setText(String.format("%s %s", userModel.getFirstName(), userModel.getLastName()));
+        Glide.with(getApplicationContext())
+                .load(userModel.getAvatar())
+                .centerCrop()
+                .into(ivAvatar);
     }
 
     @Override
@@ -121,7 +133,7 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.drawer_exit:
                 PreferenceUtils.clearPreference(getApplicationContext());
-                NavigationUtils.toAuthorization(this, false);
+                NavigationUtils.toAuthorization(this);
                 finish();
                 break;
         }

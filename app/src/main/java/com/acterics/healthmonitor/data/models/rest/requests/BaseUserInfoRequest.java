@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
  * RequestBody for all secure request.
  * Can be extend with adding new fields.
  */
-
+@Deprecated
 public class BaseUserInfoRequest {
     @SerializedName("id")
     private long id;

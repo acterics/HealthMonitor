@@ -27,15 +27,11 @@ public class NavigationUtils {
     /**
      * Navigate to {@link AuthorizationActivity}
      * @param context for invoking {@link Context#startActivity(Intent)} method
-     * @param newTask set {@link Intent#FLAG_ACTIVITY_NEW_TASK}, {@link Intent#FLAG_ACTIVITY_CLEAR_TASK}
-     *                flags if navigation not from activity.
      */
-    public static void toAuthorization(Context context, boolean newTask) {
+    public static void toAuthorization(Context context) {
         Intent intent = new Intent(context, AuthorizationActivity.class);
-        if (newTask) {
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        }
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 

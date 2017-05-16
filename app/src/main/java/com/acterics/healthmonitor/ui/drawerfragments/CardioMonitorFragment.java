@@ -21,7 +21,6 @@ import com.acterics.healthmonitor.services.CardioDeviceDataService;
 import com.androidplot.util.Redrawer;
 import com.androidplot.xy.AdvancedLineAndPointRenderer;
 import com.androidplot.xy.BoundaryMode;
-import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 
@@ -50,12 +49,10 @@ public class CardioMonitorFragment extends Fragment {
     @BindView(R.id.loadingPanel) View loadingPanel;
     @BindView(R.id.plot) XYPlot plot;
 
-    private SimpleXYSeries series;
-    private long lastTime;
-//    @BindView(R.id.cardio_plot_view) CardioPlotView cardioPlotView;
 
     private AlertDialog.Builder builder;
     private Redrawer redrawer;
+    private ECGModel ecgSeries;
 
 
     private BroadcastReceiver cardioDataReceiver = new BroadcastReceiver() {
@@ -75,13 +72,6 @@ public class CardioMonitorFragment extends Fragment {
                     break;
                 case ACTION_DATA:
                     ecgSeries.addVertex(intent.getIntExtra(EXTRA_DEVICE_DATA, 0));
-//                    if (series.size() > 50) {
-//                        series.removeLast();
-//                    }
-//                    for (int i = 0; i < 100; i++) {
-//                        series.addFirst();
-//                    }
-//                    series.addFirst(System.currentTimeMillis(), intent.getIntExtra(EXTRA_DEVICE_DATA, 0));
                     break;
             }
             loadingPanel.setVisibility(View.GONE);
@@ -159,22 +149,9 @@ public class CardioMonitorFragment extends Fragment {
 
         return view;
     }
-    ECGModel ecgSeries;
+
 
     private void initPlot() {
-        series = new SimpleXYSeries("Data");
-//        MyFadeFormatter formatter = new MyFadeFormatter(50);
-//        formatter.getFillPaint().setColor(Color.TRANSPARENT);
-//        formatter.getLinePaint().setColor(ResourcesCompat.getColor(getResources(), R.color.colorAccent, null));
-//        formatter.setInterpolationParams(
-//                new CatmullRomInterpolator.Params(10, CatmullRomInterpolator.Type.Centripetal));
-//        formatter.getVertexPaint().setColor(Color.TRANSPARENT);
-//
-//        plot.addSeries(series, formatter);
-//        plot.setRangeBoundaries(-100, 100, BoundaryMode.FIXED);
-
-
-
         ecgSeries = new ECGModel(100);
 
         // add a new series' to the xyplot:

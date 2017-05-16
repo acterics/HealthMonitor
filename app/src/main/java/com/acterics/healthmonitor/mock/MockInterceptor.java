@@ -1,6 +1,7 @@
 package com.acterics.healthmonitor.mock;
 
 import com.acterics.healthmonitor.data.models.IssueModel;
+import com.acterics.healthmonitor.data.models.UserModel;
 import com.acterics.healthmonitor.data.models.rest.requests.SignInRequest;
 import com.acterics.healthmonitor.data.models.rest.responses.AuthResponse;
 import com.acterics.healthmonitor.data.models.rest.responses.BaseResponse;
@@ -30,11 +31,20 @@ public class MockInterceptor implements Interceptor {
 
     private static final String MOCK_EMAIL = "admin";
     private static final String MOCK_KEY = "admin";
+    private static final String MOCK_TOKEN = "qwertyuiop";
     private static final AuthResponse MOCK_AUTH_RESPONSE = new AuthResponse();
+    private static final UserModel MOCK_USER = new UserModel();
     static {
-        MOCK_AUTH_RESPONSE.setId(1);
-        MOCK_AUTH_RESPONSE.setName("Oleg");
-        MOCK_AUTH_RESPONSE.setToken("qwertyuiop");
+        MOCK_AUTH_RESPONSE.setToken(MOCK_TOKEN);
+
+        MOCK_USER.setFirstName("Oleg");
+        MOCK_USER.setLastName("Lipskiy");
+        MOCK_USER.setCountry("Ukraine");
+        MOCK_USER.setCity("Kyiv");
+        MOCK_USER.setHeight(180);
+        MOCK_USER.setWeight(75);
+        MOCK_USER.setAvatar("https://pp.userapi.com/c624730/v624730615/48c62/HgjBy4McMXA.jpg");
+
     }
     @Override
     public Response intercept(Chain chain) throws IOException {
@@ -49,6 +59,9 @@ public class MockInterceptor implements Interceptor {
                 break;
             case "issues":
                 responseBody = processGetIssues(requestBody);
+                break;
+            case "user":
+                responseBody = processGetUser(chain);
                 break;
             default:
                 responseBody = null;
@@ -69,16 +82,7 @@ public class MockInterceptor implements Interceptor {
         BaseResponse<AuthResponse> responseBody = new BaseResponse<>();
         responseBody.setStatus(0);
 
-        Buffer buffer = new Buffer();
-        requestBody.writeTo(buffer);
-
-        Charset charset = UTF8;
-        MediaType contentType = requestBody.contentType();
-        if (contentType != null) {
-            charset = contentType.charset(UTF8);
-        }
-
-        SignInRequest requestModel = new Gson().fromJson(buffer.readString(charset), SignInRequest.class);
+        SignInRequest requestModel = getRequestModel(requestBody, SignInRequest.class);
         if (!requestModel.getEmail().equalsIgnoreCase(MOCK_EMAIL)) {
             responseBody.setMessage("Wrong email");
             responseBody.setStatus(1);
@@ -102,6 +106,36 @@ public class MockInterceptor implements Interceptor {
         responseBody.setStatus(0);
         responseBody.setResponse(MockData.getIssues());
         return responseBody;
+    }
+
+
+    private BaseResponse<UserModel> processGetUser(Chain chain) {
+        BaseResponse<UserModel> responseBody = new BaseResponse<>();
+        responseBody.setStatus(0);
+        String token = chain.request().header("Auth");
+        if (!token.equals(MOCK_TOKEN)) {
+            responseBody.setStatus(403);
+            responseBody.setMessage("Wrong token");
+        }
+        if (responseBody.getStatus() == 0) {
+            responseBody.setResponse(MOCK_USER);
+        }
+        return responseBody;
+
+
+    }
+
+    private <T> T getRequestModel(RequestBody requestBody, Class<T> classOfModel) throws IOException {
+        Buffer buffer = new Buffer();
+        requestBody.writeTo(buffer);
+
+        Charset charset = UTF8;
+        MediaType contentType = requestBody.contentType();
+        if (contentType != null) {
+            charset = contentType.charset(UTF8);
+        }
+
+        return new Gson().fromJson(buffer.readString(charset), classOfModel);
     }
 
 }
