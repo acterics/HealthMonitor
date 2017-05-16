@@ -19,4 +19,4 @@ deployment:
   beta:
     branch: master
     commands:
-      - cd scripts && sudo bash build.sh
+      - cd scripts && chmod +x build.sh && ./build.sh
