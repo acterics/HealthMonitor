@@ -17,3 +17,4 @@
 #}
 
 -keep class com.androidplot.** { *; }
+-keep class com.acterics.healthmonitor.ui.drawerfragments.issues.FABCustomBehavior { *; }

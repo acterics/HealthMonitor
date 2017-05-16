@@ -1,8 +1,10 @@
 package com.acterics.healthmonitor;
 
 import android.app.Application;
+
 import com.crashlytics.android.Crashlytics;
 import com.facebook.stetho.Stetho;
+
 import io.fabric.sdk.android.Fabric;
 import timber.log.Timber;
 
@@ -16,8 +18,9 @@ public class HealthMonitorApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
+        Timber.plant(new Timber.DebugTree());
         if (BuildConfig.DEBUG) {
-            Timber.plant(new Timber.DebugTree());
+
             Stetho.newInitializerBuilder(this)
                     .enableDumpapp(
                             Stetho.defaultDumperPluginsProvider(this))
