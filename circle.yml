@@ -6,11 +6,9 @@ machine:
   java:
       version: oraclejdk8
 
-
-
 general:
   artifacts:
-    - /home/ubuntu/HealthMonitor/app/build/outputs/apk/
+    - "/outputs/apk"
 
 dependencies:
   cache_directories:
