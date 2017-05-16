@@ -1,6 +1,6 @@
 machine:
   environment:
-    ANDROID_HOME: /home/oleg/Android/Sdk
+    ANDROID_HOME: /home/ubuntu/android
     GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx1536M -XX:MaxPermSize=512M -XX:ReservedCodeCacheSize=512M"'
 
   java:
@@ -8,7 +8,7 @@ machine:
 
 general:
   artifacts:
-    -/home/MyWorks/AndroidProjects/HealthMonitor/app/build/outputs/apk/
+    - /home/ubuntu/HealthMonitor/app/build/outputs/apk/
 deployment:
   beta:
     branch: master
