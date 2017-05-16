@@ -1,6 +1,6 @@
 machine:
   environment:
-    ANDROID_HOME: /home/ubuntu/android
+    ANDROID_HOME: $ANDROID_HOME
     GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx1536M -XX:MaxPermSize=512M -XX:ReservedCodeCacheSize=512M"'
 
   java:
