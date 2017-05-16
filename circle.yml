@@ -6,14 +6,17 @@ machine:
   java:
       version: oraclejdk8
 
+
+
+general:
+  artifacts:
+    - /home/ubuntu/HealthMonitor/app/build/outputs/apk/
+
 dependencies:
   cache_directories:
     - ~/.android
     - ~/android
 
-general:
-  artifacts:
-    - /home/ubuntu/HealthMonitor/app/build/outputs/apk/
 deployment:
   beta:
     branch: master
