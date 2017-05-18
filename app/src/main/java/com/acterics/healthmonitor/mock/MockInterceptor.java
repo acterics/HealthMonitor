@@ -20,6 +20,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
+import timber.log.Timber;
 
 /**
  * Created by oleg on 13.05.17.
@@ -53,14 +54,16 @@ public class MockInterceptor implements Interceptor {
         RequestBody requestBody = request.body();
         HttpUrl url = chain.request().url();
         BaseResponse<?> responseBody;
-        switch (url.encodedPathSegments().get(0)) {
+        Timber.e("intercept: %s",url.encodedPath());
+        Timber.e("intercept: %s", url.encodedPathSegments().get(1));
+        switch (url.encodedPathSegments().get(1)) {
             case "signin":
                 responseBody = processSignIn(requestBody);
                 break;
             case "issues":
                 responseBody = processGetIssues(requestBody);
                 break;
-            case "user":
+            case "users":
                 responseBody = processGetUser(chain);
                 break;
             default:
@@ -112,7 +115,7 @@ public class MockInterceptor implements Interceptor {
     private BaseResponse<UserModel> processGetUser(Chain chain) {
         BaseResponse<UserModel> responseBody = new BaseResponse<>();
         responseBody.setStatus(0);
-        String token = chain.request().header("Auth");
+        String token = chain.request().header("Authorization");
         if (!token.equals(MOCK_TOKEN)) {
             responseBody.setStatus(403);
             responseBody.setMessage("Wrong token");

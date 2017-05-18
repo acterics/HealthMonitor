@@ -17,10 +17,9 @@ public class HealthMonitorApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+
         Timber.plant(new Timber.DebugTree());
         if (BuildConfig.DEBUG) {
-
             Stetho.newInitializerBuilder(this)
                     .enableDumpapp(
                             Stetho.defaultDumperPluginsProvider(this))
@@ -28,6 +27,8 @@ public class HealthMonitorApplication extends Application {
                             Stetho.defaultInspectorModulesProvider(this))
                     .build();
             Stetho.initializeWithDefaults(this);
+        } else {
+            Fabric.with(this, new Crashlytics());
         }
     }
 }

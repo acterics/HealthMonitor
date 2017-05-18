@@ -20,7 +20,7 @@ import retrofit2.http.POST;
  */
 
 public interface APIService {
-    String AUTH_HEADER = "Auth";
+    String AUTH_HEADER = "Authorization";
 
     @POST("signin")
     Call<BaseResponse<AuthResponse>> signIn(@Body SignInRequest request);
@@ -31,7 +31,7 @@ public interface APIService {
     @POST("issues")
     Call<BaseResponse<List<IssueModel>>> getIssues(@Header(AUTH_HEADER) String token);
 
-    @GET("user")
+    @GET("users/current")
     Call<BaseResponse<UserModel>> getUser(@Header(AUTH_HEADER) String token);
 
 

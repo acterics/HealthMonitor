@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RestClient {
-    public static final String ROOT = "https://mockserver.com";
+    public static final String ROOT = "http://192.168.0.107:8080/rest/";
     private static APIService apiService;
     static {
         setupRestClient();

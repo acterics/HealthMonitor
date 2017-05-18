@@ -11,8 +11,20 @@ public class SignInRequest {
 
     @SerializedName("email")
     private String email;
+
     @SerializedName("password")
     private String password;
+
+    @SerializedName("facebookToken")
+    private String facebookToken;
+
+    public String getFacebookToken() {
+        return facebookToken;
+    }
+
+    public void setFacebookToken(String facebookToken) {
+        this.facebookToken = facebookToken;
+    }
 
     public String getEmail() {
         return email;
