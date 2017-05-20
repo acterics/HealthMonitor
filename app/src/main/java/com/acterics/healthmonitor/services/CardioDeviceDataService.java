@@ -11,7 +11,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.acterics.healthmonitor.R;
-import com.acterics.healthmonitor.ui.drawerfragments.CardioMonitorFragment;
+import com.acterics.healthmonitor.ui.drawerfragments.cardio.CardioMonitorFragment;
 
 import timber.log.Timber;
 

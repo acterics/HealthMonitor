@@ -1,7 +1,5 @@
 package com.acterics.healthmonitor.data;
 
-import com.acterics.healthmonitor.mock.MockInterceptor;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -12,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RestClient {
-    public static final String ROOT = "http://192.168.0.107:8080/rest/";
+    public static final String ROOT = "https://moni-health.herokuapp.com/";
     private static APIService apiService;
     static {
         setupRestClient();
@@ -30,7 +28,7 @@ public class RestClient {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
-                .addInterceptor(new MockInterceptor())
+//                .addInterceptor(new MockInterceptor())
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl(ROOT)

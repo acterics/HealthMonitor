@@ -1,4 +1,4 @@
-package com.acterics.healthmonitor.ui.drawerfragments;
+package com.acterics.healthmonitor.ui.drawerfragments.cardio;
 
 import android.app.Dialog;
 import android.bluetooth.BluetoothAdapter;
@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Paint;
+import android.graphics.PointF;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -18,6 +20,7 @@ import android.view.ViewGroup;
 import com.acterics.healthmonitor.R;
 import com.acterics.healthmonitor.mock.MockDataIntentService;
 import com.acterics.healthmonitor.services.CardioDeviceDataService;
+import com.acterics.healthmonitor.ui.drawerfragments.GeneralFragment;
 import com.androidplot.util.Redrawer;
 import com.androidplot.xy.AdvancedLineAndPointRenderer;
 import com.androidplot.xy.BoundaryMode;
@@ -25,6 +28,8 @@ import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -152,14 +157,15 @@ public class CardioMonitorFragment extends Fragment {
 
 
     private void initPlot() {
-        ecgSeries = new ECGModel(100);
+        ecgSeries = new ECGModel(20);
 
         // add a new series' to the xyplot:
-        MyFadeFormatter formatter =new MyFadeFormatter(90);
+        MyFadeFormatter formatter =new MyFadeFormatter(40);
         formatter.setLegendIconEnabled(false);
+        formatter.getLinePaint().setStyle(Paint.Style.FILL_AND_STROKE);
         plot.addSeries(ecgSeries, formatter);
         plot.setRangeBoundaries(-100, 100, BoundaryMode.FIXED);
-        plot.setDomainBoundaries(0, 100, BoundaryMode.FIXED);
+        plot.setDomainBoundaries(0, 20, BoundaryMode.FIXED);
 
         // reduce the number of range labels
         plot.setLinesPerRangeLabel(3);
@@ -232,9 +238,17 @@ public class CardioMonitorFragment extends Fragment {
 
 
         private int latestIndex;
-        private int seriesPoolSize = 4;
+        private float latestPosition;
         private int seriesSize;
-        private Number[] data;
+        private List<PointF> buffer;
+        private int bufferSize;
+        private Handler handler;
+        private float currentPosition;
+        private float step;
+        private int bufferExtra = 5;
+        private List<PointF> data;
+        private boolean filled = false;
+        private int pointsCount;
 
         private WeakReference<AdvancedLineAndPointRenderer> rendererRef;
 
@@ -243,32 +257,69 @@ public class CardioMonitorFragment extends Fragment {
          * @param size Sample size contained within this model
          */
         public ECGModel(int size) {
+
             seriesSize = size;
-            data = new Number[seriesSize];
+            bufferSize = seriesSize / 10;
+            buffer = new ArrayList<>(bufferSize);
+            data = new ArrayList<>(size);
+            handler = new Handler();
+            latestPosition = 0;
+            pointsCount = seriesSize * bufferExtra;
+            step = (float)seriesSize / pointsCount;
+
 
 
 
         }
 
         public void addVertex(Number vertex) {
-
-            if (latestIndex >= seriesSize) {
-                latestIndex = 0;
+            if (buffer.size() >= bufferSize) {
+                draw();
+            } else {
+                buffer.add(new PointF(currentPosition, vertex.floatValue()));
+                currentPosition ++;
             }
 
-            data[latestIndex] = vertex;
+        }
 
-            if(latestIndex < seriesSize - 1) {
-                // null out the point immediately following i, to disable
-                // connecting i and i+1 with a line:
-                data[latestIndex +1] = null;
-            }
 
-            if(rendererRef.get() != null) {
-                rendererRef.get().setLatestIndex(latestIndex);
+        private void draw() {
+            SplineInterpolator interpolator = SplineInterpolator.createMonotoneCubicSpline(buffer);
+            buffer.clear();
 
-            }
-            latestIndex++;
+            int start = latestIndex;
+
+            handler.post(new Runnable() {
+                private int localIteration = 0;
+                int condition = bufferSize * bufferExtra + start;
+                @Override
+                public void run() {
+                    if (latestIndex < condition) {
+                        if (latestIndex >= pointsCount) {
+                            latestIndex = 0;
+                            latestPosition = 0;
+                            condition = bufferExtra - localIteration;
+                            filled = true;
+                            return;
+
+                        }
+
+                        if (filled) {
+                            data.set(latestIndex, new PointF(latestPosition, interpolator.interpolate(latestPosition)));
+                        } else {
+                            data.add(new PointF(latestPosition, interpolator.interpolate(latestPosition)));
+                        }
+
+                        if (rendererRef.get() != null) {
+                            rendererRef.get().setLatestIndex(latestIndex);
+                        }
+                        latestIndex++;
+                        latestPosition += step;
+                        localIteration++;
+                        handler.postDelayed(this, 50);
+                    }
+                }
+            });
         }
 
         public void start(final WeakReference<AdvancedLineAndPointRenderer> rendererRef) {
@@ -277,22 +328,19 @@ public class CardioMonitorFragment extends Fragment {
 
         @Override
         public int size() {
-            return data.length;
+            return pointsCount;
         }
 
         @Override
         public Number getX(int index) {
-            return index;
+            return data.get(index).x;
         }
 
         @Override
         public Number getY(int index) {
-            return data[index];
+            return data.get(index).y;
         }
 
-        public void setY(Number y, int index) {
-            data[index] = y;
-        }
 
 
         @Override

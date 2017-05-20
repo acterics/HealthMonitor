@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class AuthResponse {
-    @SerializedName("token")
+    @SerializedName("accessToken")
     private String token;
 
     public String getToken() {

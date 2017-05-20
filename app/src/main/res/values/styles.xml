@@ -3,13 +3,14 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorSecondary">@color/colorAccentText</item>
-        <item name="android:textColorPrimary">@color/colorAccentText</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondaryInverse">@color/colorPrimaryText</item>
         <item name="android:textColorPrimaryInverse">@color/colorAccentText</item>
+        <item name="android:colorBackground">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -56,6 +57,16 @@
         <item name="domainTitleTextColor">@color/colorPrimaryDark</item>
         <item name="rangeTitleTextColor">@color/colorPrimaryDark</item>
         <item name="legendTextColor">@color/colorPrimaryDark</item>
+    </style>
+
+
+    <style name="fragment_title_style">
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:textSize">@dimen/fragment_title</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
 

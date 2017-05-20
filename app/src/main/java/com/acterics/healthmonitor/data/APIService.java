@@ -31,7 +31,7 @@ public interface APIService {
     @POST("issues")
     Call<BaseResponse<List<IssueModel>>> getIssues(@Header(AUTH_HEADER) String token);
 
-    @GET("users/current")
+    @GET("rest/users/current")
     Call<BaseResponse<UserModel>> getUser(@Header(AUTH_HEADER) String token);
 
 

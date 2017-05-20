@@ -34,7 +34,7 @@ public class BaseAuthCallback extends BaseCallback<AuthResponse> {
     @Override
     public void onSuccess(@NonNull AuthResponse body) {
         PreferenceUtils.authorize(context, body);
-        RestClient.getApiService().getUser(body.getToken())
+        RestClient.getApiService().getUser("Bearer " + body.getToken())
                 .enqueue(new BaseCallback<UserModel>(context) {
                     @Override
                     public void onSuccess(@NonNull UserModel body) {

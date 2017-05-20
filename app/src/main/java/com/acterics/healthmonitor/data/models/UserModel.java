@@ -2,8 +2,6 @@ package com.acterics.healthmonitor.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
-
 /**
  * Created by oleg on 16.05.17.
  */
@@ -29,7 +27,7 @@ public class UserModel {
      * yyyy-MM-dd
      */
     @SerializedName("birthDate")
-    private Date date;
+    private String date;
 
     @SerializedName("city")
     private String city;
@@ -78,11 +76,11 @@ public class UserModel {
         this.weight = weight;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

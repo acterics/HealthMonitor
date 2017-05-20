@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.acterics.healthmonitor.R;
 import com.acterics.healthmonitor.data.models.UserModel;
-import com.acterics.healthmonitor.ui.drawerfragments.CardioMonitorFragment;
+import com.acterics.healthmonitor.ui.drawerfragments.cardio.CardioMonitorFragment;
 import com.acterics.healthmonitor.ui.drawerfragments.GeneralFragment;
 import com.acterics.healthmonitor.ui.drawerfragments.issues.IssuesFragment;
 import com.acterics.healthmonitor.ui.drawerfragments.SettingsFragment;

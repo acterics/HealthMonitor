@@ -99,7 +99,7 @@
                 android:id="@+id/bt_sign_up"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/primary_button_background"
+                android:background="@drawable/background_accent_button"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/white"
                 android:text="@string/sign_up"/>

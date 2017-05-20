@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="@dimen/side_margin"
+    android:layout_marginEnd="@dimen/side_margin">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/fragment_title_style"
+        android:text="Hello!"
+        android:textAllCaps="false" />
+
+    <LinearLayout
+        android:id="@+id/holder_tutorial"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@id/tv_title"
+        android:orientation="vertical"
+        android:background="@color/colorPrimaryLight">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/holder_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/holder_tutorial"
+        android:orientation="vertical"
+        android:layout_marginBottom="@dimen/content_bottom_margin">
+
+        <FrameLayout
+            android:id="@+id/holder_email"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_accent_button"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawableStart="@drawable/ic_email"
+                android:textSize="26sp"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:text="Email"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textStyle="normal|bold" />
+
+        </FrameLayout>
+
+
+
+
+
+        <FrameLayout
+            android:id="@+id/holder_facebook"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_blue_button"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawableStart="@drawable/ic_facebook_letter_logo"
+                android:textSize="26sp"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:text="Facebook"
+                android:textStyle="normal|bold"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"/>
+
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:id="@+id/holder_google"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_white_button"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawableStart="@drawable/ic_google"
+                android:textSize="26sp"
+                android:textColor="@color/ap_black"
+                android:gravity="center"
+                android:text="Google"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:textStyle="normal|bold" />
+        </FrameLayout>
+
+
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>

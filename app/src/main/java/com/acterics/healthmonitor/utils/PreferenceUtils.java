@@ -21,6 +21,7 @@ public class PreferenceUtils {
     private static final String KEY_USER_NAME = "com.acterics.healthmonitor.utils.KEY_USER_NAME";
     private static final String KEY_USER_IMAGE = "com.acterics.healthmonitor.utils.KEY_USER_IMAGE";
     private static final String KEY_USER_INFO = "com.acterics.healthmonitor.utils.KEY_USER_INFO";
+    private static final String KEY_INIT_STATE = "com.acterics.healthmonitor.utils.KEY_INIT_STATE";
 
     private static final String PREFERENCE_NAME = "HealthMonitorPrefs";
 
@@ -38,6 +39,23 @@ public class PreferenceUtils {
             preferences = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         }
         return preferences;
+    }
+
+
+    /**
+     * Shows if application started at first time
+     * @param context for {@link PreferenceUtils#preferences} initialization if need
+     * @return true if application first started, else false
+     */
+    public static boolean isInitState(Context context) {
+        boolean initState = getPreferences(context).getBoolean(KEY_INIT_STATE, false);
+        if (initState) {
+            getPreferences(context)
+                    .edit()
+                    .putBoolean(KEY_INIT_STATE, false)
+                    .apply();
+        }
+        return initState;
     }
 
     /**

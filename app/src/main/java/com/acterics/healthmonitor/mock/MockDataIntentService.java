@@ -5,18 +5,19 @@ import android.content.Intent;
 
 import com.acterics.healthmonitor.receivers.ErrorBroadcastReceiver;
 import com.acterics.healthmonitor.receivers.ErrorCode;
+import com.acterics.healthmonitor.ui.drawerfragments.cardio.CardioMonitorFragment;
 
 import java.util.Random;
 
-import static com.acterics.healthmonitor.ui.drawerfragments.CardioMonitorFragment.ACTION_DATA;
-import static com.acterics.healthmonitor.ui.drawerfragments.CardioMonitorFragment.EXTRA_DEVICE_DATA;
+import static com.acterics.healthmonitor.ui.drawerfragments.cardio.CardioMonitorFragment.ACTION_DATA;
+import static com.acterics.healthmonitor.ui.drawerfragments.cardio.CardioMonitorFragment.EXTRA_DEVICE_DATA;
 
 /**
  * Created by oleg on 12.05.17.
  * Debug only.
  * Intent service that generate mock cardiogram data and send in {@link Intent}
- * as extra {@link com.acterics.healthmonitor.ui.drawerfragments.CardioMonitorFragment#EXTRA_DEVICE_DATA}
- * with action {@link com.acterics.healthmonitor.ui.drawerfragments.CardioMonitorFragment#ACTION_DATA}.
+ * as extra {@link CardioMonitorFragment#EXTRA_DEVICE_DATA}
+ * with action {@link CardioMonitorFragment#ACTION_DATA}.
  * Generate one in {@link MockDataIntentService#PERIOD} time 10x impulse.
  *
  */
@@ -43,7 +44,7 @@ public class MockDataIntentService extends IntentService {
             value = var1 * var2 * var3;
             sendBroadcast(new Intent(ACTION_DATA).putExtra(EXTRA_DEVICE_DATA, value));
             try {
-                Thread.sleep(25);
+                Thread.sleep(50);
             } catch (InterruptedException e) {
                 ErrorBroadcastReceiver.sendError(this, ErrorCode.ALERT, e);
             }

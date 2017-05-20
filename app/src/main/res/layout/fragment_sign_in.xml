@@ -2,75 +2,94 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="@dimen/side_margin"
+    android:layout_marginEnd="@dimen/side_margin">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:textSize="40sp"
+        style="@style/fragment_title_style"
         android:text="@string/auth_welcome"/>
 
     <LinearLayout
         android:id="@+id/holder_input_fields"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerInParent="true">
         <android.support.design.widget.TextInputLayout
             android:id="@+id/holder_email"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:hintAnimationEnabled="true"
+            android:textColorHint="@color/white"
             android:hint="@string/email">
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textColorHint="@color/white"/>
 
 
         </android.support.design.widget.TextInputLayout>
         <android.support.design.widget.TextInputLayout
             android:id="@+id/holder_password"
-            android:layout_width="200dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:hintAnimationEnabled="true"
             android:hint="@string/password"
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/colorPrimary">
+            app:passwordToggleTint="@color/white"
+            android:textColorHint="@color/white">
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"/>
+                android:inputType="textPassword"
+                android:textColorHint="@color/white"/>
 
 
         </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/holder_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/content_bottom_margin"
+        >
 
         <Button
             android:id="@+id/bt_sign_in"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/primary_button_background"
-            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/background_accent_button"
             android:textColor="@color/white"
             android:text="@string/sign_in"/>
 
         <Button
             android:id="@+id/bt_sign_up"
-            android:layout_width="200dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/primary_button_background"
-            android:layout_marginTop="30dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_accent_button"
             android:textColor="@color/white"
             android:text="@string/sign_up"/>
 
 
+
     </LinearLayout>
+
+
+
+
+
 
 
 
