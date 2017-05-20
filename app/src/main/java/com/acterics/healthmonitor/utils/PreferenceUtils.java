@@ -29,6 +29,8 @@ public class PreferenceUtils {
 
     private static final String PREFERENCE_NAME = "HealthMonitorPrefs";
 
+
+    private static final String BEARER = "Bearer ";
     private static final Gson gson = new Gson();
 
     private static SharedPreferences preferences = null;
@@ -81,6 +83,10 @@ public class PreferenceUtils {
     @Nullable
     public static String getUserToken(Context context) {
         return getPreferences(context).getString(KEY_USER_TOKEN, null);
+    }
+
+    public static String getRequestUserToken(Context context) {
+        return BEARER + getUserToken(context);
     }
 
     /**

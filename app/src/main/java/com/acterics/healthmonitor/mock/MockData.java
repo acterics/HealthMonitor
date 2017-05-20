@@ -1,7 +1,7 @@
 package com.acterics.healthmonitor.mock;
 
 import com.acterics.healthmonitor.data.models.IssueModel;
-import com.acterics.healthmonitor.ui.drawerfragments.issues.IssueCategory;
+import com.acterics.healthmonitor.ui.drawerfragments.complaint.ComplaintCategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class MockData {
         IssueModel issue;
         for (int i = 0; i < 10; i++) {
             issue = new IssueModel();
-            issue.setCategory(i % 3 == 0 ? IssueCategory.HEART.ordinal() : IssueCategory.STOMACH.ordinal());
+            issue.setCategory(i % 3 == 0 ? ComplaintCategory.HEART.ordinal() : ComplaintCategory.STOMACH.ordinal());
             issue.setIssueTitle("Issue " + i);
             issue.setIssueSummary(MOCK_TEXT);
             issueModels.add(issue);

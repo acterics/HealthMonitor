@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RestClient {
-    public static final String ROOT = "https://moni-health.herokuapp.com/";
+    public static final String ROOT = "https://healsense-main.herokuapp.com/";
     private static APIService apiService;
     static {
         setupRestClient();

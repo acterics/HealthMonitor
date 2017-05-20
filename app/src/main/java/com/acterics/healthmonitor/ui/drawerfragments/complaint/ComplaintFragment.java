@@ -1,4 +1,4 @@
-package com.acterics.healthmonitor.ui.drawerfragments.issues;
+package com.acterics.healthmonitor.ui.drawerfragments.complaint;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import com.acterics.healthmonitor.R;
 import com.acterics.healthmonitor.base.BaseCallback;
 import com.acterics.healthmonitor.data.RestClient;
-import com.acterics.healthmonitor.data.models.IssueModel;
+import com.acterics.healthmonitor.data.models.Complaint;
 import com.acterics.healthmonitor.utils.PreferenceUtils;
 
 import java.util.List;
@@ -27,37 +27,37 @@ import butterknife.OnClick;
  * Created by oleg on 13.05.17.
  */
 
-public class IssuesFragment extends Fragment {
+public class ComplaintFragment extends Fragment {
 
     @BindView(R.id.rv_issues) RecyclerView rvIssues;
     @BindView(R.id.fab_add_issue) FloatingActionButton fabAddIssue;
 
-    private IssuesListAdapter issuesListAdapter;
+    private ComplaintListAdapter complaintListAdapter;
     private float destiny;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_issues, container, false);
+        View view = inflater.inflate(R.layout.fragment_complaints, container, false);
         ButterKnife.bind(this, view);
 
         destiny = getResources().getDisplayMetrics().density;
-        issuesListAdapter = new IssuesListAdapter();
+        complaintListAdapter = new ComplaintListAdapter();
 
 
         rvIssues.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvIssues.setAdapter(issuesListAdapter);
+        rvIssues.setAdapter(complaintListAdapter);
         requestIssues();
 
         return view;
     }
 
     private void requestIssues() {
-        RestClient.getApiService().getIssues(PreferenceUtils.getUserToken(getContext()))
-                .enqueue(new BaseCallback<List<IssueModel>>(getContext()) {
+        RestClient.getApiService().getComplaints(PreferenceUtils.getRequestUserToken(getContext()))
+                .enqueue(new BaseCallback<List<Complaint>>(getContext()) {
                     @Override
-                    public void onSuccess(@NonNull List<IssueModel> body) {
-                        issuesListAdapter.setIssues(body);
+                    public void onSuccess(@NonNull List<Complaint> body) {
+                        complaintListAdapter.setComplaints(body);
                     }
                 });
     }
@@ -66,6 +66,8 @@ public class IssuesFragment extends Fragment {
 
 
     @OnClick(R.id.fab_add_issue) void onFabClick() {
+
+
 //        if (toggle) {
 //            fabAddIssue.animate()
 //                    .scaleX(1)

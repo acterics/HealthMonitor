@@ -1,4 +1,4 @@
-package com.acterics.healthmonitor.ui.drawerfragments.issues;
+package com.acterics.healthmonitor.ui.drawerfragments.complaint;
 
 import android.support.annotation.DrawableRes;
 
@@ -8,7 +8,7 @@ import com.acterics.healthmonitor.R;
  * Created by oleg on 13.05.17.
  */
 
-public enum IssueCategory {
+public enum ComplaintCategory {
 
     HEART,
     STOMACH,

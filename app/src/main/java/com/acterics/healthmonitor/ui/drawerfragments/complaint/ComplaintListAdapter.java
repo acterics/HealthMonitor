@@ -1,4 +1,4 @@
-package com.acterics.healthmonitor.ui.drawerfragments.issues;
+package com.acterics.healthmonitor.ui.drawerfragments.complaint;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.acterics.healthmonitor.R;
-import com.acterics.healthmonitor.data.models.IssueModel;
+import com.acterics.healthmonitor.data.models.Complaint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,27 +21,27 @@ import butterknife.ButterKnife;
  * Created by oleg on 13.05.17.
  */
 
-public class IssuesListAdapter extends RecyclerView.Adapter<IssuesListAdapter.IssueHolder> {
+public class ComplaintListAdapter extends RecyclerView.Adapter<ComplaintListAdapter.IssueHolder> {
 
-    private List<IssueModel> issues;
+    private List<Complaint> complaints;
 
-    public IssuesListAdapter() {
-        issues = new ArrayList<>();
+    public ComplaintListAdapter() {
+        complaints = new ArrayList<>();
     }
 
-    public void setIssues(@NonNull List<IssueModel> issues) {
-        this.issues.clear();
-        this.issues.addAll(issues);
+    public void setComplaints(@NonNull List<Complaint> complaints) {
+        this.complaints.clear();
+        this.complaints.addAll(complaints);
         notifyDataSetChanged();
     }
 
-    public void addIssues(@NonNull List<IssueModel> issues) {
-        this.issues.addAll(issues);
+    public void addIssues(@NonNull List<Complaint> complaints) {
+        this.complaints.addAll(complaints);
         notifyDataSetChanged();
     }
 
-    public void addIssue(@NonNull IssueModel issue) {
-        this.issues.add(issue);
+    public void addIssue(@NonNull Complaint complaint) {
+        this.complaints.add(complaint);
         notifyDataSetChanged();
     }
 
@@ -53,21 +53,20 @@ public class IssuesListAdapter extends RecyclerView.Adapter<IssuesListAdapter.Is
 
     @Override
     public void onBindViewHolder(IssueHolder holder, int position) {
-        IssueModel issue = issues.get(position);
-        holder.tvIssueTitle.setText(issue.getIssueTitle());
-        holder.tvIssueContent.setText(issue.getIssueSummary());
-        holder.ivCategory.setImageResource(IssueCategory.getDrawable(issue.getCategory()));
+        Complaint complaint = complaints.get(position);
+        holder.tvIssueContent.setText(complaint.getDescription());
+//        holder.ivCategory.setImageResource(ComplaintCategory.getDrawable(issue.getCategory()));
     }
 
 
     @Override
     public int getItemCount() {
-        return issues.size();
+        return complaints.size();
     }
 
     static class IssueHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_issue_title) TextView tvIssueTitle;
-        @BindView(R.id.tv_issue_content) TextView tvIssueContent;
+        @BindView(R.id.tv_complatin_title) TextView tvIssueTitle;
+        @BindView(R.id.tv_complaint_content) TextView tvIssueContent;
         @BindView(R.id.iv_category) ImageView ivCategory;
 
         public IssueHolder(View itemView) {

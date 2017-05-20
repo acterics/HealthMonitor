@@ -1,4 +1,4 @@
-package com.acterics.healthmonitor.ui.drawerfragments.issues;
+package com.acterics.healthmonitor.ui.drawerfragments.complaint;
 
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;

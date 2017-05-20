@@ -17,11 +17,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.acterics.healthmonitor.R;
+import com.acterics.healthmonitor.base.BaseCallback;
+import com.acterics.healthmonitor.data.RestClient;
 import com.acterics.healthmonitor.data.models.UserModel;
-import com.acterics.healthmonitor.ui.drawerfragments.cardio.CardioMonitorFragment;
 import com.acterics.healthmonitor.ui.drawerfragments.GeneralFragment;
-import com.acterics.healthmonitor.ui.drawerfragments.issues.IssuesFragment;
 import com.acterics.healthmonitor.ui.drawerfragments.SettingsFragment;
+import com.acterics.healthmonitor.ui.drawerfragments.cardio.CardioMonitorFragment;
+import com.acterics.healthmonitor.ui.drawerfragments.complaint.ComplaintFragment;
 import com.acterics.healthmonitor.utils.NavigationUtils;
 import com.acterics.healthmonitor.utils.PreferenceUtils;
 import com.bumptech.glide.Glide;
@@ -49,20 +51,16 @@ public class MainActivity extends AppCompatActivity
         ButterKnife.bind(this);
         tvName = (TextView) navigationView.getHeaderView(0).findViewById(R.id.tv_name);
         ivAvatar = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.iv_avatar);
-
-        UserModel userModel = PreferenceUtils.getUserModel(getApplicationContext());
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
-        }
-
         setSupportActionBar(toolbar);
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
+        }
 
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -71,9 +69,24 @@ public class MainActivity extends AppCompatActivity
                     .commit();
         }
 
-        tvName.setText(String.format("%s %s", userModel.getFirstName(), userModel.getLastName()));
-        Glide.with(getApplicationContext())
-                .load(userModel.getAvatar())
+        RestClient.getApiService()
+                .getUser(PreferenceUtils.getRequestUserToken(this))
+                .enqueue(new BaseCallback<UserModel>(this) {
+                    @Override
+                    public void onSuccess(@NonNull UserModel body) {
+                        PreferenceUtils.saveUserInfo(context, body);
+                        onDataLoaded(body);
+                    }
+                });
+
+
+
+    }
+
+    private void onDataLoaded(UserModel body) {
+        tvName.setText(String.format("%s %s", body.getFirstName(), body.getLastName()));
+        Glide.with(this)
+                .load(body.getAvatar())
                 .centerCrop()
                 .into(ivAvatar);
     }
@@ -126,7 +139,7 @@ public class MainActivity extends AppCompatActivity
                 transaction.replace(R.id.holder_content, new SettingsFragment());
                 break;
             case R.id.drawer_issues:
-                transaction.replace(R.id.holder_content, new IssuesFragment());
+                transaction.replace(R.id.holder_content, new ComplaintFragment());
                 break;
             case R.id.nav_share:
             case R.id.nav_send:
