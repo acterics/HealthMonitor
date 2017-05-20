@@ -69,6 +69,16 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="auth_button_style">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:layout_marginStart">20sp</item>
+        <item name="android:layout_marginEnd">20sp</item>
+        <item name="android:textStyle">normal|bold</item>
+        <item name="android:gravity">center</item>
+
+    </style>
+
 
 
 

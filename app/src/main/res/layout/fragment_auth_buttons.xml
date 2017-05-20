@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/holder_buttons"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginBottom="@dimen/content_bottom_margin">
+
+    <FrameLayout
+        android:id="@+id/holder_email"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/background_accent_button"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableStart="@drawable/ic_email"
+            android:textColor="@color/white"
+            android:text="Email"
+            style="@style/auth_button_style"/>
+
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/holder_facebook"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/background_blue_button"
+        android:layout_marginBottom="15dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableStart="@drawable/ic_facebook"
+            android:textColor="@color/white"
+            android:text="Facebook"
+            style="@style/auth_button_style"/>
+
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/holder_google"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/background_white_button"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableStart="@drawable/ic_google"
+            android:textColor="@color/ap_black"
+            android:text="Google"
+            style="@style/auth_button_style"/>
+    </FrameLayout>
+</LinearLayout>

@@ -7,10 +7,20 @@
     android:layout_marginEnd="@dimen/side_margin">
 
     <TextView
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/fragment_title_style"
-        android:text="@string/auth_welcome"/>
+        android:text="Authorization"/>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/im_last_user_avatar"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_below="@id/tv_title"
+
+        android:layout_centerHorizontal="true"/>
 
     <LinearLayout
         android:id="@+id/holder_input_fields"
@@ -54,42 +64,17 @@
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/holder_buttons"
+
+    <Button
+        android:id="@+id/bt_sign_in"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:background="@drawable/background_accent_button"
+        android:textColor="@color/white"
+        android:text="@string/sign_in_or_sign_up"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="@dimen/content_bottom_margin"
-        >
-
-        <Button
-            android:id="@+id/bt_sign_in"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/background_accent_button"
-            android:textColor="@color/white"
-            android:text="@string/sign_in"/>
-
-        <Button
-            android:id="@+id/bt_sign_up"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/background_accent_button"
-            android:textColor="@color/white"
-            android:text="@string/sign_up"/>
-
-
-
-    </LinearLayout>
-
-
-
-
-
+        android:textSize="14sp" />
 
 
 

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -36,7 +35,7 @@ public class SignInFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_welcome_back, container, false);
+        View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
         ButterKnife.bind(this, view);
 
         setEditTextErrorTextWatcher(etEmail, holderEmail);
@@ -65,15 +64,6 @@ public class SignInFragment extends Fragment {
 
     }
 
-    @OnClick(R.id.bt_sign_up)
-    void onSignUp() {
-        getFragmentManager()
-                .beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                .addToBackStack("Stack")
-                .replace(R.id.holder_content, new SignUpFragment())
-                .commit();
-    }
 
 
 

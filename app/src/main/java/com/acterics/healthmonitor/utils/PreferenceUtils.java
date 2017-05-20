@@ -62,6 +62,10 @@ public class PreferenceUtils {
         return initState;
     }
 
+    public static boolean isLastUserExists(Context context) {
+        return !getLastUserEmail(context).isEmpty();
+    }
+
     /**
      * Fill {@link PreferenceUtils#preferences} with authorization data.
      * @param context for {@link PreferenceUtils#preferences} initialization if need
