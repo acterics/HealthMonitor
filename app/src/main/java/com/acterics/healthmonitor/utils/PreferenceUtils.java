@@ -23,6 +23,10 @@ public class PreferenceUtils {
     private static final String KEY_USER_INFO = "com.acterics.healthmonitor.utils.KEY_USER_INFO";
     private static final String KEY_INIT_STATE = "com.acterics.healthmonitor.utils.KEY_INIT_STATE";
 
+    private static final String KEY_LAST_USER_NAME = "com.acterics.healthmonitor.utils.KEY_LAST_USER_NAME";
+    private static final String KEY_LAST_USER_AVATAR = "com.acterics.healthmonitor.utils.KEY_LAST_USER_AVATAR";
+    private static final String KEY_LAST_USER_EMAIL = "com.acterics.healthmonitor.utils.KEY_LAST_USER_EMAIL";
+
     private static final String PREFERENCE_NAME = "HealthMonitorPrefs";
 
     private static final Gson gson = new Gson();
@@ -81,9 +85,16 @@ public class PreferenceUtils {
      * @param context for {@link PreferenceUtils#preferences} initialization if need
      */
     public static void clearPreference(Context context) {
+        UserModel userModel = getUserModel(context);
+        String lastUserName = userModel.getFirstName();
+        String lastUserEmail = userModel.getEmail();
+        String lastUserAvatar = userModel.getAvatar();
         getPreferences(context)
                 .edit()
                 .clear()
+                .putString(KEY_LAST_USER_NAME, lastUserName)
+                .putString(KEY_LAST_USER_EMAIL, lastUserEmail)
+                .putString(KEY_LAST_USER_AVATAR, lastUserAvatar)
                 .apply();
     }
 
@@ -118,6 +129,18 @@ public class PreferenceUtils {
 
     public static UserModel getUserModel(Context context) {
         return gson.fromJson(getPreferences(context).getString(KEY_USER_INFO, "{}"), UserModel.class);
+    }
+
+    public static String getLastUserName(Context context) {
+        return getPreferences(context).getString(KEY_LAST_USER_NAME, "Anon");
+    }
+
+    public static String getLastUserEmail(Context context) {
+        return getPreferences(context).getString(KEY_LAST_USER_EMAIL, "");
+    }
+
+    public static String getLastUserAvatar(Context context) {
+        return getPreferences(context).getString(KEY_LAST_USER_AVATAR, "");
     }
 
 

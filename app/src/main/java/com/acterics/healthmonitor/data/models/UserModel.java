@@ -23,6 +23,9 @@ public class UserModel {
     @SerializedName("weight")
     private int weight;
 
+    @SerializedName("email")
+    private String email;
+
     /**
      * yyyy-MM-dd
      */
@@ -35,6 +38,13 @@ public class UserModel {
     @SerializedName("county")
     private String country;
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getFirstName() {
         return firstName;

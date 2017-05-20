@@ -36,7 +36,7 @@ public class SignInFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_sign_in, container, false);
+        View view = inflater.inflate(R.layout.fragment_welcome_back, container, false);
         ButterKnife.bind(this, view);
 
         setEditTextErrorTextWatcher(etEmail, holderEmail);
