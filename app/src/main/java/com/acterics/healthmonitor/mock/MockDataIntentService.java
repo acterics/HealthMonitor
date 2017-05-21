@@ -3,17 +3,9 @@ package com.acterics.healthmonitor.mock;
 import android.app.IntentService;
 import android.content.Intent;
 
-import com.acterics.healthmonitor.data.models.CardiogramModel;
 import com.acterics.healthmonitor.ui.drawerfragments.cardio.CardioMonitorFragment;
-import com.acterics.healthmonitor.utils.PreferenceUtils;
-import com.google.gson.Gson;
-
-import com.acterics.healthmonitor.stompclient.StompClient;
 
 import timber.log.Timber;
-
-import static com.acterics.healthmonitor.ui.drawerfragments.cardio.CardioMonitorFragment.ACTION_DATA;
-import static com.acterics.healthmonitor.ui.drawerfragments.cardio.CardioMonitorFragment.EXTRA_DEVICE_DATA;
 
 /**
  * Created by oleg on 12.05.17.
@@ -36,18 +28,18 @@ public class MockDataIntentService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         Timber.e("onCreateView: start connecting");
-        StompClient stompClient = StompClient.clientOverWebsocket("ws://healsense-main.herokuapp.com/ws-api");
-
-        stompClient.connect(stompHeaders -> {
-            stompClient.subscribe("/queue/cardiogram/admin", CardiogramModel.class,
-                    (payload, stompHeaders1) -> {
-                        CardiogramModel model = (CardiogramModel) payload;
-                        for (double d: model.getValues()) {
-                            sendBroadcast(new Intent(ACTION_DATA).putExtra(EXTRA_DEVICE_DATA, d));
-                        }
-                    });
-            stompClient.send("/app/chat", new Gson().toJson(new Request(PreferenceUtils.getLastUserName(this))));
-        });
+//        StompClient stompClient = StompClient.clientOverWebsocket("ws://healsense-main.herokuapp.com/ws-api");
+//
+//        stompClient.connect(stompHeaders -> {
+//            stompClient.subscribe("/queue/cardiogram/admin", CardiogramModel.class,
+//                    (payload, stompHeaders1) -> {
+//                        CardiogramModel model = (CardiogramModel) payload;
+//                        for (double d: model.getValues()) {
+//                            sendBroadcast(new Intent(ACTION_DATA).putExtra(EXTRA_DEVICE_DATA, d));
+//                        }
+//                    });
+//            stompClient.send("/app/chat", new Gson().toJson(new Request(PreferenceUtils.getLastUserName(this))));
+//        });
     }
 
     private static class Request {
