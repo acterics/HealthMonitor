@@ -47,7 +47,7 @@ public class ComplaintListAdapter extends RecyclerView.Adapter<ComplaintListAdap
 
     @Override
     public IssueHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_issue, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_complaint, parent, false);
         return new IssueHolder(view);
     }
 

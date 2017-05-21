@@ -38,13 +38,14 @@ public class MockDataIntentService extends IntentService {
         int var2;
         int var3;
         for (long i = 0; i < 1000000000; i++) {
-            var1 = random.nextInt(5);
-            var2 = i % (PERIOD) == (PERIOD / 2) ? 20 : i % (PERIOD) == (PERIOD / 2) + 1 ? -20 : 1;
-            var3 = random.nextInt(2) == 1 ? -1 : 1;
-            value = var1 * var2 * var3;
+//            var1 = random.nextInt(5);
+//            var2 = i % (PERIOD) == (PERIOD / 2) ? 20 : i % (PERIOD) == (PERIOD / 2) + 1 ? -20 : 1;
+//            var3 = random.nextInt(2) == 1 ? -1 : 1;
+//            value = var1 * var2 * var3;
+            value = random.nextInt(20);
             sendBroadcast(new Intent(ACTION_DATA).putExtra(EXTRA_DEVICE_DATA, value));
             try {
-                Thread.sleep(50);
+                Thread.sleep(20);
             } catch (InterruptedException e) {
                 ErrorBroadcastReceiver.sendError(this, ErrorCode.ALERT, e);
             }

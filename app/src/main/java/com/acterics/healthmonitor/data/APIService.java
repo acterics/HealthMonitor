@@ -6,8 +6,7 @@ import com.acterics.healthmonitor.data.models.rest.requests.SignInRequest;
 import com.acterics.healthmonitor.data.models.rest.requests.SignUpRequest;
 import com.acterics.healthmonitor.data.models.rest.responses.AuthResponse;
 import com.acterics.healthmonitor.data.models.rest.responses.BaseResponse;
-
-import java.util.List;
+import com.acterics.healthmonitor.data.models.rest.responses.ComplaintsResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -30,7 +29,7 @@ public interface APIService {
     Call<BaseResponse<AuthResponse>> signUp(@Body SignUpRequest request);
 
     @GET("rest/complaints")
-    Call<BaseResponse<List<Complaint>>> getComplaints(@Header(AUTH_HEADER) String token);
+    Call<BaseResponse<ComplaintsResponse>> getComplaints(@Header(AUTH_HEADER) String token);
 
     @POST("rest/complaints")
     Call<BaseResponse<Complaint>> addComplaint(@Header(AUTH_HEADER) String token, @Body Complaint complaint);

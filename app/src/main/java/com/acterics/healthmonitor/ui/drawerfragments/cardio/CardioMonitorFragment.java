@@ -284,7 +284,7 @@ public class CardioMonitorFragment extends Fragment {
 
 
         private void draw() {
-            SplineInterpolator interpolator = SplineInterpolator.createMonotoneCubicSpline(buffer);
+//            SplineInterpolator interpolator = SplineInterpolator.createMonotoneCubicSpline(buffer);
             buffer.clear();
 
             int start = latestIndex;
@@ -305,9 +305,9 @@ public class CardioMonitorFragment extends Fragment {
                         }
 
                         if (filled) {
-                            data.set(latestIndex, new PointF(latestPosition, interpolator.interpolate(latestPosition)));
+//                            data.set(latestIndex, new PointF(latestPosition, interpolator.interpolate(latestPosition)));
                         } else {
-                            data.add(new PointF(latestPosition, interpolator.interpolate(latestPosition)));
+//                            data.add(new PointF(latestPosition, interpolator.interpolate(latestPosition)));
                         }
 
                         if (rendererRef.get() != null) {

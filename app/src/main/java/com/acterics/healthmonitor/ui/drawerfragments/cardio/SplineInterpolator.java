@@ -1,6 +1,6 @@
 package com.acterics.healthmonitor.ui.drawerfragments.cardio;
 
-import android.graphics.PointF;
+import com.jjoe64.graphview.series.DataPoint;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,11 +8,10 @@ import java.util.List;
 /**
  * Created by oleg on 20.05.17.
  */
-class SplineInterpolator {
-    List<PointF> pointExts;
-    private final float[] mM;
-
-    private SplineInterpolator(List<PointF> pointExts, float[] m) {
+public class SplineInterpolator {
+    List<DataPoint> pointExts;
+    private final double[] mM;
+    private SplineInterpolator(List<DataPoint> pointExts, double[] m) {
         this.pointExts = new ArrayList<>();
         this.pointExts.addAll(pointExts);
         mM = m;
@@ -34,7 +33,7 @@ class SplineInterpolator {
      * @throws IllegalArgumentException
      *             if the X or Y arrays are null, have different lengths or have fewer than 2 values.
      */
-    public static SplineInterpolator createMonotoneCubicSpline(List<PointF> points) {
+    public static SplineInterpolator createMonotoneCubicSpline(List<DataPoint> points) {
         if (points == null || points.size() < 2) {
 //                throw new IllegalArgumentException("There must be at least two control "
 //                        + "points and the arrays must be of equal length.");
@@ -42,17 +41,17 @@ class SplineInterpolator {
         }
 
         final int n = points.size();
-        float[] d = new float[n - 1]; // could optimize this out
-        float[] m = new float[n];
+        double[] d = new double[n - 1]; // could optimize this out
+        double[] m = new double[n];
 
         // Compute slopes of secant lines between successive points.
         for (int i = 0; i < n - 1; i++) {
-            float h = points.get(i + 1).x - points.get(i).x;
+            double h = (points.get(i + 1).getX()) - (points.get(i).getX());
             if (h <= 0f) {
                 throw new IllegalArgumentException("The control points must all "
                         + "have strictly increasing X values.");
             }
-            d[i] = (points.get(i + 1).y - points.get(i).y) / h;
+            d[i] = (points.get(i + 1).getY() - points.get(i).getY()) / h;
         }
 
         // Initialize the tangents as the average of the secants.
@@ -68,11 +67,11 @@ class SplineInterpolator {
                 m[i] = 0f;
                 m[i + 1] = 0f;
             } else {
-                float a = m[i] / d[i];
-                float b = m[i + 1] / d[i];
-                float h = (float) Math.hypot(a, b);
+                double a = m[i] / d[i];
+                double b = m[i + 1] / d[i];
+                double h = (double) Math.hypot(a, b);
                 if (h > 9f) {
-                    float t = 3f / h;
+                    double t = 3f / h;
                     m[i] = t * a * d[i];
                     m[i + 1] = t * b * d[i];
                 }
@@ -88,33 +87,33 @@ class SplineInterpolator {
      *            The X value.
      * @return The interpolated Y = f(X) value.
      */
-    public float interpolate(float x) {
+    public double interpolate(double x) {
         // Handle the boundary cases.
         final int n = pointExts.size();
-        if (Float.isNaN(x)) {
+        if (Double.isNaN(x)) {
             return x;
         }
-        if (x <= pointExts.get(0).x) {
-            return pointExts.get(0).y;
+        if (x <= pointExts.get(0).getX()) {
+            return pointExts.get(0).getY();
         }
-        if (x >= pointExts.get(n - 1).x) {
-            return pointExts.get(n - 1).y;
+        if (x >= pointExts.get(n - 1).getX()) {
+            return pointExts.get(n - 1).getY();
         }
 
         // Find the index 'i' of the last point with smaller X.
         // We know this will be within the spline due to the boundary tests.
         int i = 0;
-        while (x >= pointExts.get(i + 1).x) {
+        while (x >= pointExts.get(i + 1).getX() ) {
             i += 1;
-            if (x == pointExts.get(i).x) {
-                return pointExts.get(i).y;
+            if (x == pointExts.get(i).getX()) {
+                return pointExts.get(i).getY();
             }
         }
 
         // Perform cubic Hermite spline interpolation.
-        float h = pointExts.get(i + 1).x - pointExts.get(i).x;
-        float t = (x - pointExts.get(i).x) / h;
-        return (pointExts.get(i).y * (1 + 2 * t) + h * mM[i] * t) * (1 - t) * (1 - t)
-                + (pointExts.get(i + 1).y * (3 - 2 * t) + h * mM[i + 1] * (t - 1)) * t * t;
+        double h = pointExts.get(i + 1).getX() - pointExts.get(i).getX();
+        double t = (x - pointExts.get(i).getX()) / h;
+        return (pointExts.get(i).getY() * (1 + 2 * t) + h * mM[i] * t) * (1 - t) * (1 - t)
+                + (pointExts.get(i + 1).getY() * (3 - 2 * t) + h * mM[i + 1] * (t - 1)) * t * t;
     }
 }

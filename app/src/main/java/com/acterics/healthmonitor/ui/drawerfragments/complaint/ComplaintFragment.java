@@ -14,10 +14,8 @@ import android.view.ViewGroup;
 import com.acterics.healthmonitor.R;
 import com.acterics.healthmonitor.base.BaseCallback;
 import com.acterics.healthmonitor.data.RestClient;
-import com.acterics.healthmonitor.data.models.Complaint;
+import com.acterics.healthmonitor.data.models.rest.responses.ComplaintsResponse;
 import com.acterics.healthmonitor.utils.PreferenceUtils;
-
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,10 +52,10 @@ public class ComplaintFragment extends Fragment {
 
     private void requestIssues() {
         RestClient.getApiService().getComplaints(PreferenceUtils.getRequestUserToken(getContext()))
-                .enqueue(new BaseCallback<List<Complaint>>(getContext()) {
+                .enqueue(new BaseCallback<ComplaintsResponse>(getContext()) {
                     @Override
-                    public void onSuccess(@NonNull List<Complaint> body) {
-                        complaintListAdapter.setComplaints(body);
+                    public void onSuccess(@NonNull ComplaintsResponse body) {
+                        complaintListAdapter.setComplaints(body.getComplaints());
                     }
                 });
     }

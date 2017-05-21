@@ -6,9 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.acterics.healthmonitor.R;
+import com.acterics.healthmonitor.utils.PreferenceUtils;
+import com.bumptech.glide.Glide;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -17,16 +22,27 @@ import butterknife.ButterKnife;
 
 public class WelcomeFragment extends Fragment {
 
+    @BindView(R.id.tv_title) TextView tvTitle;
+    @BindView(R.id.im_last_user_avatar) ImageView imAvatar;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_welcome_back, container, false);
         ButterKnife.bind(this, view);
 
-        getChildFragmentManager()
+        getFragmentManager()
                 .beginTransaction()
                 .add(R.id.holder_buttons, new AuthButtonsFragment())
                 .commit();
+
+        Glide.with(getContext())
+                .load(PreferenceUtils.getLastUserAvatar(getContext()))
+                .centerCrop()
+                .into(imAvatar);
+        tvTitle.setText(getString(R.string.auth_welcome, PreferenceUtils.getLastUserName(getContext())));
+
+
 
         return view;
     }

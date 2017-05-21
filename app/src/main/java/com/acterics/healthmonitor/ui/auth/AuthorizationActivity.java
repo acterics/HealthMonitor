@@ -14,6 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import com.acterics.healthmonitor.R;
 import com.acterics.healthmonitor.utils.PreferenceUtils;
 
+import timber.log.Timber;
+
 /**
  * Created by oleg on 13.05.17.
  */
@@ -35,11 +37,12 @@ public class AuthorizationActivity extends AppCompatActivity {
 
 
         if (savedInstanceState == null) {
+            Timber.e("onCreate: savedInstanceState = null");
             Fragment fragment;
             if (PreferenceUtils.isLastUserExists(getApplicationContext())) {
                 fragment = new WelcomeFragment();
             } else {
-                fragment = new InitFragment();
+                fragment = new StartFragment();
             }
             getSupportFragmentManager()
                     .beginTransaction()

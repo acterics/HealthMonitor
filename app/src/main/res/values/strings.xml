@@ -23,7 +23,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="exit">Exit</string>
-    <string name="auth_welcome">Welcome\n Back, %s!</string>
+    <string name="auth_welcome">Welcome\nBack, %s!</string>
     <string name="sign_in_or_sign_up">"Sign In / Sign Up"</string>
     <string name="sign_up">Sign Up</string>
     <string name="create_new_account">Create new account</string>
