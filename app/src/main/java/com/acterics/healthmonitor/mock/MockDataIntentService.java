@@ -7,6 +7,7 @@ import com.acterics.healthmonitor.R;
 import com.acterics.healthmonitor.data.models.CardiogramServerModel;
 import com.acterics.healthmonitor.data.models.UserModel;
 import com.acterics.healthmonitor.data.models.rest.requests.CardiogramDataRequest;
+import com.acterics.healthmonitor.data.models.rest.responses.CardiogramDataResponse;
 import com.acterics.healthmonitor.stompclient.StompClient;
 import com.acterics.healthmonitor.stompclient.listener.WebScoketErrorListener;
 import com.acterics.healthmonitor.stompclient.listener.WebSocketCloseListener;
@@ -22,7 +23,9 @@ import java.util.List;
 import timber.log.Timber;
 
 import static com.acterics.healthmonitor.ui.drawerfragments.GeneralFragment.ACTION_DATA;
+import static com.acterics.healthmonitor.ui.drawerfragments.GeneralFragment.ACTION_PULSE;
 import static com.acterics.healthmonitor.ui.drawerfragments.GeneralFragment.EXTRA_DEVICE_DATA;
+import static com.acterics.healthmonitor.ui.drawerfragments.GeneralFragment.EXTRA_PULSE_DATA;
 
 
 /**
@@ -58,10 +61,11 @@ public class MockDataIntentService extends IntentService {
         Timber.e("onHandleIntent: %s", user.getUserId());
         stompClient.connect(stompHeaders -> {
             Timber.e("onHandleIntent: connected");
-            stompClient.subscribe("/queue/cardiogram/" + user.getUserId(), CardiogramDataRequest.class,
+            stompClient.subscribe("/queue/cardiogram/" + user.getUserId(), CardiogramDataResponse.class,
                     (payload, stompHeaders1) -> {
-                        CardiogramDataRequest model = (CardiogramDataRequest) payload;
-                        Timber.d("onHandleIntent: %s", payload);
+                        CardiogramDataResponse model = (CardiogramDataResponse) payload;
+                        Timber.d("onHandleIntent: %d", model.getPulse());
+                        sendBroadcast(new Intent(ACTION_PULSE).putExtra(EXTRA_PULSE_DATA, model.getPulse()));
                         for (CardiogramServerModel serverModel: model.getPoints()) {
                             sendBroadcast(new Intent(ACTION_DATA).putExtra(EXTRA_DEVICE_DATA, serverModel.getValue()));
                         }

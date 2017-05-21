@@ -32,5 +32,7 @@
     <string name="password_confirm">Password Confirm</string>
     <string name="add">Add</string>
     <string name="add_new_complaint">Add new complaint</string>
+    <string name="heart">Heart</string>
+    <string name="bps">bps</string>
 
 </resources>

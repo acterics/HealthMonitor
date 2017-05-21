@@ -11,6 +11,7 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.acterics.healthmonitor.R;
 import com.acterics.healthmonitor.base.BaseFragment;
@@ -35,13 +36,15 @@ import butterknife.ButterKnife;
 public class GeneralFragment extends BaseFragment {
 
     public static final String ACTION_DATA = "com.acterics.healthmonitor.ui.drawerfragments.ACTION_DATA";
+    public static final String ACTION_PULSE = "com.acterics.healthmonitor.ui.drawerfragments.ACTION_PULSE";
     public static final String ACTION_LOST_CONNECTION = "com.acterics.healthmonitor.ui.drawerfragments.ACTION_LOST_CONNECTION";
     public static final String ACTION_ENABLE_BLUETOOTH = "com.acterics.healthmonitor.ui.drawerfragments.ACTION_ENABLE_BLUETOOTH";
     public static final String ACTION_UNAVAILABLE = "com.acterics.healthmonitor.ui.drawerfragments.ACTION_UNAVAILABLE";
     public static final String EXTRA_DEVICE_DATA = "com.acterics.healthmonitor.ui.drawerfragments.EXTRA_DEVICE_DATA";
-
+    public static final String EXTRA_PULSE_DATA = "com.acterics.healthmonitor.ui.drawerfragments.EXTRA_PULSE_DATA";
 
     @BindView(R.id.graph_heart) LineChart graphHeart;
+    @BindView(R.id.tv_pulse) TextView tvPulse;
     private LineData data;
     private ILineDataSet set;
 
@@ -57,6 +60,8 @@ public class GeneralFragment extends BaseFragment {
             String s = intent.getAction();
             if (s.equals(ACTION_DATA)) {
                 buffersQueue.add(intent.getDoubleExtra(EXTRA_DEVICE_DATA, 0));
+            } else if (s.equals(ACTION_PULSE)) {
+                tvPulse.setText(String.valueOf(intent.getIntExtra((EXTRA_PULSE_DATA), 0)));
             }
         }
     };
@@ -137,6 +142,7 @@ public class GeneralFragment extends BaseFragment {
         super.onStart();
         IntentFilter cardioDataIntentFilter = new IntentFilter();
         cardioDataIntentFilter.addAction(ACTION_DATA);
+        cardioDataIntentFilter.addAction(ACTION_PULSE);
         getActivity().registerReceiver(cardioDataReceiver, cardioDataIntentFilter);
 
     }

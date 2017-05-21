@@ -15,14 +15,10 @@ import com.acterics.healthmonitor.base.BaseCallback;
 import com.acterics.healthmonitor.base.BaseFragment;
 import com.acterics.healthmonitor.data.RestClient;
 import com.acterics.healthmonitor.data.models.Complaint;
-import com.acterics.healthmonitor.data.models.Tag;
 import com.acterics.healthmonitor.data.models.rest.responses.ComplaintsResponse;
 import com.acterics.healthmonitor.ui.views.CustomFAB;
 import com.acterics.healthmonitor.utils.PreferenceUtils;
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -87,12 +83,6 @@ public class ComplaintFragment extends BaseFragment {
     private void addComplaint(String content) {
         Complaint complaint = new Complaint();
         complaint.setDescription(content);
-        Tag tag = new Tag();
-        tag.setIcon("non");
-        tag.setTitle("non");
-        List<Tag> tagList = new ArrayList<>();
-        tagList.add(tag);
-        complaint.setTags(tagList);
         loadingDialog.show();
         RestClient.getApiService().addComplaint(PreferenceUtils.getRequestUserToken(getContext()), complaint)
                 .enqueue(new BaseCallback<Complaint>(getContext(),

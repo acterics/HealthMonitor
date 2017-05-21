@@ -3,6 +3,7 @@
     <color name="colorPrimary">#060606</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorPrimaryLight">#161616</color>
+
     <color name="colorPrimaryText">#ffffff</color>
     <color name="colorAccent">#ff2825</color>
     <color name="colorAccentDark">#c30000</color>
@@ -12,6 +13,7 @@
 
     <color name="transparent">#00FFFFFF</color>
     <color name="white">#ffffff</color>
+    <color name="grey">#333333</color>
 
     <color name="blue_facebook">#3b5998</color>
 </resources>
