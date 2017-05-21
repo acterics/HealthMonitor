@@ -11,7 +11,7 @@ public class HRSModel {
     private long time;
 
     @SerializedName("value")
-    private int value;
+    private float value;
 
     public long getTime() {
         return time;
@@ -21,11 +21,11 @@ public class HRSModel {
         this.time = time;
     }
 
-    public int getValue() {
+    public float getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(float value) {
         this.value = value;
     }
 }

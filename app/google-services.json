@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "1005607691359",
+    "firebase_url": "https://healsense-dccef.firebaseio.com",
+    "project_id": "healsense-dccef",
+    "storage_bucket": "healsense-dccef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1005607691359:android:633fca0286e2948b",
+        "android_client_info": {
+          "package_name": "com.acterics.healthmonitor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1005607691359-pu3nifek9kg651eoqn1hndnq6b9mu9l6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTd22-mCH9787K5C1mZ2MED8-6hO4o6Og"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

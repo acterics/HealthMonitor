@@ -34,5 +34,6 @@
     <string name="add_new_complaint">Add new complaint</string>
     <string name="heart">Heart</string>
     <string name="bps">bps</string>
+    <string name="bedtine">Today: %d hour(s)</string>
 
 </resources>
