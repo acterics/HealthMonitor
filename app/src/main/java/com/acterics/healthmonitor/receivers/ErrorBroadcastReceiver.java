@@ -3,7 +3,6 @@ package com.acterics.healthmonitor.receivers;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -11,6 +10,7 @@ import com.acterics.healthmonitor.R;
 import com.acterics.healthmonitor.utils.NavigationUtils;
 import com.acterics.healthmonitor.utils.PreferenceUtils;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import timber.log.Timber;
 
 /**
@@ -22,6 +22,8 @@ import timber.log.Timber;
  */
 
 public class ErrorBroadcastReceiver extends BroadcastReceiver {
+
+    public static final int USER_NOT_FOUND = 104;
 
     public static final String ACTION_ERROR = "com.acterics.healthmonitor.receivers.ACTION_ERROR";
     public static final String EXTRA_ERROR_MESSAGE = "com.acterics.healthmonitor.receivers.EXTRA_ERROR_MESSAGE";
@@ -71,11 +73,10 @@ public class ErrorBroadcastReceiver extends BroadcastReceiver {
     }
 
     private void showAlert(Context context, String message) {
-        AlertDialog alert = new AlertDialog.Builder(context, R.style.DefaultDialog)
-                .setTitle(R.string.error)
-                .setMessage(message)
-                .setPositiveButton(context.getString(R.string.ok), (dialog, which) -> dialog.dismiss())
-                .create();
+        SweetAlertDialog alert = new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+                .setTitleText(context.getString(R.string.error))
+                .setContentText(message);
+
         alert.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         alert.show();
 

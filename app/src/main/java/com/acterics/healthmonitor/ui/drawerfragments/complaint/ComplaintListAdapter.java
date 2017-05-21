@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.acterics.healthmonitor.R;
@@ -21,7 +20,7 @@ import butterknife.ButterKnife;
  * Created by oleg on 13.05.17.
  */
 
-public class ComplaintListAdapter extends RecyclerView.Adapter<ComplaintListAdapter.IssueHolder> {
+public class ComplaintListAdapter extends RecyclerView.Adapter<ComplaintListAdapter.ComplaintHolder> {
 
     private List<Complaint> complaints;
 
@@ -35,24 +34,24 @@ public class ComplaintListAdapter extends RecyclerView.Adapter<ComplaintListAdap
         notifyDataSetChanged();
     }
 
-    public void addIssues(@NonNull List<Complaint> complaints) {
+    public void addComplaints(@NonNull List<Complaint> complaints) {
         this.complaints.addAll(complaints);
         notifyDataSetChanged();
     }
 
-    public void addIssue(@NonNull Complaint complaint) {
+    public void addComplaint(@NonNull Complaint complaint) {
         this.complaints.add(complaint);
         notifyDataSetChanged();
     }
 
     @Override
-    public IssueHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ComplaintHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_complaint, parent, false);
-        return new IssueHolder(view);
+        return new ComplaintHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(IssueHolder holder, int position) {
+    public void onBindViewHolder(ComplaintHolder holder, int position) {
         Complaint complaint = complaints.get(position);
         holder.tvIssueContent.setText(complaint.getDescription());
 //        holder.ivCategory.setImageResource(ComplaintCategory.getDrawable(issue.getCategory()));
@@ -64,12 +63,10 @@ public class ComplaintListAdapter extends RecyclerView.Adapter<ComplaintListAdap
         return complaints.size();
     }
 
-    static class IssueHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tv_complatin_title) TextView tvIssueTitle;
+    static class ComplaintHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_complaint_content) TextView tvIssueContent;
-        @BindView(R.id.iv_category) ImageView ivCategory;
 
-        public IssueHolder(View itemView) {
+        public ComplaintHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

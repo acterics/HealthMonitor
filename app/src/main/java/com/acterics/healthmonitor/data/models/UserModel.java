@@ -8,6 +8,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class UserModel {
 
+    @SerializedName("userId")
+    private String userId;
+
     @SerializedName("firstName")
     private String firstName;
 
@@ -108,5 +111,13 @@ public class UserModel {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

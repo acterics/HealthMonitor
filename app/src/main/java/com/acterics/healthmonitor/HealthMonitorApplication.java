@@ -1,7 +1,10 @@
 package com.acterics.healthmonitor;
 
 import android.app.Application;
+import android.content.Intent;
 
+import com.acterics.healthmonitor.mock.MockDataIntentService;
+import com.acterics.healthmonitor.services.CardioDeviceDataService;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.stetho.Stetho;
 
@@ -17,6 +20,10 @@ public class HealthMonitorApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Intent startCommunicationIntent = new Intent(this, MockDataIntentService.class);
+        startCommunicationIntent.setAction(CardioDeviceDataService.ACTION_START_COMMUNICATE);
+        startService(startCommunicationIntent);
 
         Timber.plant(new Timber.DebugTree());
         if (BuildConfig.DEBUG) {

@@ -65,7 +65,7 @@ public class PreferenceUtils {
     }
 
     public static boolean isLastUserExists(Context context) {
-        return !getLastUserAvatar(context).isEmpty();
+        return !getLastUserName(context).isEmpty();
     }
 
     /**

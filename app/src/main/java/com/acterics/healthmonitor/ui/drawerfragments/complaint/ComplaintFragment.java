@@ -3,8 +3,7 @@ package com.acterics.healthmonitor.ui.drawerfragments.complaint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,71 +12,108 @@ import android.view.ViewGroup;
 
 import com.acterics.healthmonitor.R;
 import com.acterics.healthmonitor.base.BaseCallback;
+import com.acterics.healthmonitor.base.BaseFragment;
 import com.acterics.healthmonitor.data.RestClient;
+import com.acterics.healthmonitor.data.models.Complaint;
+import com.acterics.healthmonitor.data.models.Tag;
 import com.acterics.healthmonitor.data.models.rest.responses.ComplaintsResponse;
+import com.acterics.healthmonitor.ui.views.CustomFAB;
 import com.acterics.healthmonitor.utils.PreferenceUtils;
+import com.gordonwong.materialsheetfab.MaterialSheetFab;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+import dmax.dialog.SpotsDialog;
+import timber.log.Timber;
 
 /**
  * Created by oleg on 13.05.17.
  */
 
-public class ComplaintFragment extends Fragment {
+public class ComplaintFragment extends BaseFragment {
 
-    @BindView(R.id.rv_issues) RecyclerView rvIssues;
-    @BindView(R.id.fab_add_issue) FloatingActionButton fabAddIssue;
+    @BindView(R.id.rv_complaints) RecyclerView rvComplaints;
+    @BindView(R.id.fab_add_issue) CustomFAB fabAddIssue;
+    @BindView(R.id.overlay) View overlay;
+    @BindView(R.id.fab_sheet) View cardView;
+
+
+    private MaterialSheetFab<CustomFAB> fab;
 
     private ComplaintListAdapter complaintListAdapter;
-    private float destiny;
-
+    private SpotsDialog loadingDialog;
+    private ViewHolderAddComplaint addComplaintHolder;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_complaints, container, false);
         ButterKnife.bind(this, view);
 
-        destiny = getResources().getDisplayMetrics().density;
         complaintListAdapter = new ComplaintListAdapter();
+        int sheetColor = ResourcesCompat.getColor(getResources(), R.color.colorPrimaryLight, null);
+        int fabColor = ResourcesCompat.getColor(getResources(), R.color.colorAccent, null);
+        fab = new MaterialSheetFab<>(fabAddIssue, cardView, overlay,
+                sheetColor, fabColor);
 
+        addComplaintHolder = new ViewHolderAddComplaint(cardView, this::addComplaint);
+        rvComplaints.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvComplaints.setAdapter(complaintListAdapter);
+        loadingDialog = new SpotsDialog(getContext(), R.style.loading_dialog);
 
-        rvIssues.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvIssues.setAdapter(complaintListAdapter);
-        requestIssues();
+        requestComplaints();
 
         return view;
     }
 
-    private void requestIssues() {
+
+
+    private void requestComplaints() {
+        loadingDialog.show();
         RestClient.getApiService().getComplaints(PreferenceUtils.getRequestUserToken(getContext()))
-                .enqueue(new BaseCallback<ComplaintsResponse>(getContext()) {
+                .enqueue(new BaseCallback<ComplaintsResponse>(getContext(),
+                        (errorCode, serverError) -> loadingDialog.dismiss(), true) {
                     @Override
                     public void onSuccess(@NonNull ComplaintsResponse body) {
+                        Timber.e("onSuccess: onSuccess");
                         complaintListAdapter.setComplaints(body.getComplaints());
+                        loadingDialog.dismiss();
                     }
                 });
     }
 
-//    boolean toggle = false;
+    private void addComplaint(String content) {
+        Complaint complaint = new Complaint();
+        complaint.setDescription(content);
+        Tag tag = new Tag();
+        tag.setIcon("non");
+        tag.setTitle("non");
+        List<Tag> tagList = new ArrayList<>();
+        tagList.add(tag);
+        complaint.setTags(tagList);
+        loadingDialog.show();
+        RestClient.getApiService().addComplaint(PreferenceUtils.getRequestUserToken(getContext()), complaint)
+                .enqueue(new BaseCallback<Complaint>(getContext(),
+                        (errorCode, serverError) -> loadingDialog.dismiss(), true) {
+                    @Override
+                    public void onSuccess(@NonNull Complaint body) {
+                        onBackPressed();
+                        loadingDialog.dismiss();
+                        complaintListAdapter.addComplaint(body);
+                    }
+                });
+    }
 
 
-    @OnClick(R.id.fab_add_issue) void onFabClick() {
-
-
-//        if (toggle) {
-//            fabAddIssue.animate()
-//                    .scaleX(1)
-//                    .translationX(0)
-//                    .start();
-//        } else {
-//            fabAddIssue.animate()
-////                    .scaleX(4)
-//                    .translationX(-300)
-//                    .start();
-//        }
-//        toggle = !toggle;
-
+    @Override
+    public boolean onBackPressed() {
+        if (fab.isSheetVisible()) {
+            fab.hideSheet();
+            return true;
+        } else {
+            return false;
+        }
     }
 }

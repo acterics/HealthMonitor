@@ -27,7 +27,7 @@ public class BaseAuthCallback extends BaseCallback<AuthResponse> {
     }
 
     public BaseAuthCallback(Context context, OnRequestErrorListener onRequestErrorListener, OnSuccessAuthListener onSuccessAuthListener) {
-        super(context, onRequestErrorListener);
+        super(context, onRequestErrorListener, true);
         this.onSuccessAuthListener = onSuccessAuthListener;
     }
 

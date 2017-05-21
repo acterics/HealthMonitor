@@ -11,7 +11,7 @@ import java.util.List;
 public class CardiogramModel {
 
     @SerializedName("startTime")
-    private Long startTine;
+    private Long startTime;
 
     @SerializedName("heartRate")
     private Integer heartRate;
@@ -23,11 +23,11 @@ public class CardiogramModel {
     private List<Double> values;
 
     public Long getStartTine() {
-        return startTine;
+        return startTime;
     }
 
     public void setStartTine(Long startTine) {
-        this.startTine = startTine;
+        this.startTime = startTine;
     }
 
     public Integer getHeartRate() {

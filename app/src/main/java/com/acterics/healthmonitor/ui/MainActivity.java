@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,11 +19,10 @@ import android.widget.TextView;
 
 import com.acterics.healthmonitor.R;
 import com.acterics.healthmonitor.base.BaseCallback;
+import com.acterics.healthmonitor.base.BaseFragment;
 import com.acterics.healthmonitor.data.RestClient;
 import com.acterics.healthmonitor.data.models.UserModel;
 import com.acterics.healthmonitor.ui.drawerfragments.GeneralFragment;
-import com.acterics.healthmonitor.ui.drawerfragments.SettingsFragment;
-import com.acterics.healthmonitor.ui.drawerfragments.cardio.CardioMonitorFragment;
 import com.acterics.healthmonitor.ui.drawerfragments.complaint.ComplaintFragment;
 import com.acterics.healthmonitor.utils.NavigationUtils;
 import com.acterics.healthmonitor.utils.PreferenceUtils;
@@ -34,6 +34,8 @@ import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    public static final String FRAGMENT_TAG = "com.acterics.healthmonitor.ui.FRAGMENT_TAG";
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     private TextView tvName;
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.holder_content, new GeneralFragment())
+                    .replace(R.id.holder_content, new GeneralFragment(), FRAGMENT_TAG)
                     .commit();
         }
 
@@ -96,7 +98,10 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            BaseFragment baseFragment = (BaseFragment) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+            if (!baseFragment.onBackPressed()) {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -128,21 +133,13 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        Fragment fragment = new Fragment();
         switch (id) {
             case R.id.drawer_general:
-                transaction.replace(R.id.holder_content, new GeneralFragment());
+                fragment = new GeneralFragment();
                 break;
-            case R.id.drawer_cardio_monitor:
-                transaction.replace(R.id.holder_content, new CardioMonitorFragment());
-                break;
-            case R.id.drawer_settings:
-                transaction.replace(R.id.holder_content, new SettingsFragment());
-                break;
-            case R.id.drawer_issues:
-                transaction.replace(R.id.holder_content, new ComplaintFragment());
-                break;
-            case R.id.nav_share:
-            case R.id.nav_send:
+            case R.id.drawer_complaint:
+                fragment = new ComplaintFragment();
                 break;
             case R.id.drawer_exit:
                 PreferenceUtils.clearPreference(getApplicationContext());
@@ -150,8 +147,10 @@ public class MainActivity extends AppCompatActivity
                 finish();
                 break;
         }
+        transaction.replace(R.id.holder_content, fragment, FRAGMENT_TAG);
         transaction.commit();
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

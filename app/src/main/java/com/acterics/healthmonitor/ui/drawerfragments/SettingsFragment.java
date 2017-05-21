@@ -2,12 +2,12 @@ package com.acterics.healthmonitor.ui.drawerfragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.acterics.healthmonitor.R;
+import com.acterics.healthmonitor.base.BaseFragment;
 
 import butterknife.ButterKnife;
 
@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
  * Created by oleg on 12.05.17.
  */
 
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends BaseFragment {
 
     @Nullable
     @Override
@@ -24,5 +24,10 @@ public class SettingsFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         return view;
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return false;
     }
 }

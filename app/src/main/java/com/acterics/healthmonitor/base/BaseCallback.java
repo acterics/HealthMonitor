@@ -10,6 +10,7 @@ import com.acterics.healthmonitor.receivers.ErrorCode;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import timber.log.Timber;
 
 /**
  * Created by oleg on 14.05.17.
@@ -25,20 +26,23 @@ public abstract class BaseCallback<R> implements Callback<BaseResponse<R>> {
 
     protected Context context;
     protected OnRequestErrorListener onRequestErrorListener = null;
+    protected boolean handle = true;
 
 
     public BaseCallback(Context context) {
         this.context = context;
     }
-    public BaseCallback(Context context, OnRequestErrorListener onRequestErrorListener) {
+    public BaseCallback(Context context, OnRequestErrorListener onRequestErrorListener, boolean handle) {
         this(context);
         this.onRequestErrorListener = onRequestErrorListener;
+        this.handle = handle;
     }
 
     @Override
     public void onResponse(Call<BaseResponse<R>> call, Response<BaseResponse<R>> response) {
         ErrorCode errorCode;
         String message;
+        int serverErrorCode = -1;
         if (response.isSuccessful()) {
             if (response.body() != null) {
                 BaseResponse<R> responseBody = response.body();
@@ -46,6 +50,7 @@ public abstract class BaseCallback<R> implements Callback<BaseResponse<R>> {
                     onSuccess(responseBody.getResponse());
                     return;
                 } else {
+                    serverErrorCode = responseBody.getStatus();
                     errorCode = handleStatus(responseBody.getStatus());
                     message = responseBody.getMessage();
                 }
@@ -57,7 +62,8 @@ public abstract class BaseCallback<R> implements Callback<BaseResponse<R>> {
             errorCode = ErrorCode.ALERT;
             message = "Unsuccessful request!";
         }
-        onError(context, message, errorCode);
+        
+        onError(context, message, errorCode, serverErrorCode);
     }
 
     @Override
@@ -67,11 +73,15 @@ public abstract class BaseCallback<R> implements Callback<BaseResponse<R>> {
 
     public abstract void onSuccess(@NonNull R body);
 
-    public void onError(Context context, String message, ErrorCode errorCode) {
+    public void onError(Context context, String message, ErrorCode errorCode, int serverErrorCode) {
+        Timber.e("onError: %s, %s, %d", message, errorCode, serverErrorCode);
         if (onRequestErrorListener != null) {
-            onRequestErrorListener.onRequestError(errorCode);
+            onRequestErrorListener.onRequestError(errorCode, serverErrorCode);
         }
-        ErrorBroadcastReceiver.sendError(context, errorCode, message);
+        if (handle) {
+            Timber.e("onError: send error");
+            ErrorBroadcastReceiver.sendError(context, errorCode, message);
+        }
         //By default not implemented
     }
 
@@ -94,6 +104,6 @@ public abstract class BaseCallback<R> implements Callback<BaseResponse<R>> {
 
     @FunctionalInterface
     public interface OnRequestErrorListener {
-        void onRequestError(ErrorCode errorCode);
+        void onRequestError(ErrorCode errorCode, int serverError);
     }
 }

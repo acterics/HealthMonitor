@@ -20,13 +20,13 @@
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"/>
 
-        <com.jjoe64.graphview.GraphView
+        <com.github.mikephil.charting.charts.LineChart
             android:id="@+id/graph_heart"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/im_heart">
 
-        </com.jjoe64.graphview.GraphView>
+        </com.github.mikephil.charting.charts.LineChart>
 
     </RelativeLayout>
 
