@@ -28,7 +28,6 @@ import java.util.Queue;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 import static com.acterics.healthmonitor.ui.drawerfragments.cardio.CardioMonitorFragment.ACTION_DATA;
 import static com.acterics.healthmonitor.ui.drawerfragments.cardio.CardioMonitorFragment.EXTRA_DEVICE_DATA;
@@ -56,11 +55,10 @@ public class GeneralFragment extends Fragment {
     private BroadcastReceiver cardioDataReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Timber.i("onReceive");
+//            Timber.i("onReceive");
             switch (intent.getAction()) {
                 case ACTION_DATA:
-                    Timber.e("onReceive: %d", intent.getIntExtra(EXTRA_DEVICE_DATA, 0));
-                    buffersQueue.add(new DataPoint(i, intent.getIntExtra(EXTRA_DEVICE_DATA, 0)));
+                    buffersQueue.add(new DataPoint(i, intent.getDoubleExtra(EXTRA_DEVICE_DATA, 0)));
                     i++;
             }
         }
@@ -106,6 +104,7 @@ public class GeneralFragment extends Fragment {
         getActivity().startService(startCommunicationIntent);
 
 
+
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -132,4 +131,6 @@ public class GeneralFragment extends Fragment {
         super.onDetach();
         getActivity().unregisterReceiver(cardioDataReceiver);
     }
+
+
 }

@@ -3,11 +3,14 @@ package com.acterics.healthmonitor.mock;
 import android.app.IntentService;
 import android.content.Intent;
 
-import com.acterics.healthmonitor.receivers.ErrorBroadcastReceiver;
-import com.acterics.healthmonitor.receivers.ErrorCode;
+import com.acterics.healthmonitor.data.models.CardiogramModel;
 import com.acterics.healthmonitor.ui.drawerfragments.cardio.CardioMonitorFragment;
+import com.acterics.healthmonitor.utils.PreferenceUtils;
+import com.google.gson.Gson;
 
-import java.util.Random;
+import com.acterics.healthmonitor.stompclient.StompClient;
+
+import timber.log.Timber;
 
 import static com.acterics.healthmonitor.ui.drawerfragments.cardio.CardioMonitorFragment.ACTION_DATA;
 import static com.acterics.healthmonitor.ui.drawerfragments.cardio.CardioMonitorFragment.EXTRA_DEVICE_DATA;
@@ -32,23 +35,25 @@ public class MockDataIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Random random = new Random(System.currentTimeMillis());
-        int value;
-        int var1;
-        int var2;
-        int var3;
-        for (long i = 0; i < 1000000000; i++) {
-//            var1 = random.nextInt(5);
-//            var2 = i % (PERIOD) == (PERIOD / 2) ? 20 : i % (PERIOD) == (PERIOD / 2) + 1 ? -20 : 1;
-//            var3 = random.nextInt(2) == 1 ? -1 : 1;
-//            value = var1 * var2 * var3;
-            value = random.nextInt(20);
-            sendBroadcast(new Intent(ACTION_DATA).putExtra(EXTRA_DEVICE_DATA, value));
-            try {
-                Thread.sleep(20);
-            } catch (InterruptedException e) {
-                ErrorBroadcastReceiver.sendError(this, ErrorCode.ALERT, e);
-            }
+        Timber.e("onCreateView: start connecting");
+        StompClient stompClient = StompClient.clientOverWebsocket("ws://healsense-main.herokuapp.com/ws-api");
+
+        stompClient.connect(stompHeaders -> {
+            stompClient.subscribe("/queue/cardiogram/admin", CardiogramModel.class,
+                    (payload, stompHeaders1) -> {
+                        CardiogramModel model = (CardiogramModel) payload;
+                        for (double d: model.getValues()) {
+                            sendBroadcast(new Intent(ACTION_DATA).putExtra(EXTRA_DEVICE_DATA, d));
+                        }
+                    });
+            stompClient.send("/app/chat", new Gson().toJson(new Request(PreferenceUtils.getLastUserName(this))));
+        });
+    }
+
+    private static class Request {
+        String name;
+        public Request(String name) {
+            this.name = name;
         }
     }
 
