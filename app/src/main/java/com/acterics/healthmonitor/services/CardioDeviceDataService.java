@@ -82,7 +82,7 @@ public class CardioDeviceDataService extends Service {
 
 
     private void onStartCommunicate() {
-//        startService(new Intent(this, MockDataIntentService.class));
+//        startService(new Intent(this, MockWebsocketDataSerivice.class));
     }
 
     private void onDeviceConnected() {

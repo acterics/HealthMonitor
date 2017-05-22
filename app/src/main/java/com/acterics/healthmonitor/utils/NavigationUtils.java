@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.acterics.healthmonitor.data.models.rest.responses.AuthResponse;
-import com.acterics.healthmonitor.mock.MockDataIntentService;
+import com.acterics.healthmonitor.mock.MockWebsocketDataSerivice;
 import com.acterics.healthmonitor.services.CardioDeviceDataService;
 import com.acterics.healthmonitor.ui.MainActivity;
 import com.acterics.healthmonitor.ui.RoutingActivity;
@@ -56,7 +56,7 @@ public class NavigationUtils {
 
 
     public static void startListenCardion(Context context) {
-        Intent startCommunicationIntent = new Intent(context, MockDataIntentService.class);
+        Intent startCommunicationIntent = new Intent(context, MockWebsocketDataSerivice.class);
         startCommunicationIntent.setAction(CardioDeviceDataService.ACTION_START_COMMUNICATE);
         context.startService(startCommunicationIntent);
     }

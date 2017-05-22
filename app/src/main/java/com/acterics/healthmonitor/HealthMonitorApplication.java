@@ -1,10 +1,7 @@
 package com.acterics.healthmonitor;
 
 import android.app.Application;
-import android.content.Intent;
 
-import com.acterics.healthmonitor.mock.MockDataIntentService;
-import com.acterics.healthmonitor.services.CardioDeviceDataService;
 import com.acterics.healthmonitor.utils.NavigationUtils;
 import com.acterics.healthmonitor.utils.PreferenceUtils;
 import com.crashlytics.android.Crashlytics;

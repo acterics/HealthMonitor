@@ -34,18 +34,18 @@ import static com.acterics.healthmonitor.ui.drawerfragments.GeneralFragment.EXTR
  * Intent service that generate mock cardiogram data and send in {@link Intent}
  * as extra {@link com.acterics.healthmonitor.ui.drawerfragments.GeneralFragment#EXTRA_DEVICE_DATA}
  * with action {@link com.acterics.healthmonitor.ui.drawerfragments.GeneralFragment#ACTION_DATA}.
- * Generate one in {@link MockDataIntentService#PERIOD} time 10x impulse.
+ * Generate one in {@link MockWebsocketDataSerivice#PERIOD} time 10x impulse.
  *
  */
 
-public class MockDataIntentService extends IntentService {
+public class MockWebsocketDataSerivice extends IntentService {
 
     private static final int PERIOD = 100;
     private List<CardiogramServerModel> data;
     private Gson gson;
     private StompClient stompClient;
 
-    public MockDataIntentService() {
+    public MockWebsocketDataSerivice() {
         super("Mock cardio data");
         data = new ArrayList<>(9000);
         gson = new Gson();

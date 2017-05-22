@@ -41,7 +41,7 @@
                 <action android:name="com.acterics.healthmonitor.ACTION_START_COMMUNICATE"/>
             </intent-filter>
         </service>
-        <service android:name=".mock.MockDataIntentService"/>
+        <service android:name=".mock.MockWebsocketDataSerivice"/>
         <service android:name=".services.ClientSocketIntentService"/>
 
         <service
