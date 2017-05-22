@@ -4,6 +4,7 @@ package com.acterics.healthmonitor.data.models.categories.ecg;
  * Created by oleg on 12.05.17.
  */
 
+@Deprecated
 public class CardioPlotModel {
     private int value;
     private long timestamp;
