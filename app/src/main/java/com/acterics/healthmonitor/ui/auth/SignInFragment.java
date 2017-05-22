@@ -79,8 +79,7 @@ public class SignInFragment extends Fragment {
                         @Override
                         public void onSuccess(@NonNull AuthResponse body) {
                             loadingDialog.dismiss();
-                            PreferenceUtils.authorize(context, body);
-                            NavigationUtils.toMain(context);
+                            NavigationUtils.succesAuthorization(context, body);
                             getActivity().finish();
                         }
                     });

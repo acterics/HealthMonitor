@@ -31,16 +31,19 @@ public class WelcomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_welcome_back, container, false);
         ButterKnife.bind(this, view);
 
-        getFragmentManager()
-                .beginTransaction()
-                .add(R.id.holder_buttons, new AuthButtonsFragment())
-                .commit();
 
         Glide.with(getContext())
                 .load(PreferenceUtils.getLastUserAvatar(getContext()))
                 .centerCrop()
                 .into(imAvatar);
         tvTitle.setText(getString(R.string.auth_welcome, PreferenceUtils.getLastUserName(getContext())));
+
+        getFragmentManager()
+                .beginTransaction()
+                .add(R.id.holder_buttons, new AuthButtonsFragment())
+                .commit();
+
+
 
 
 

@@ -17,6 +17,7 @@ import com.acterics.healthmonitor.data.RestClient;
 import com.acterics.healthmonitor.data.models.Complaint;
 import com.acterics.healthmonitor.data.models.rest.responses.ComplaintsResponse;
 import com.acterics.healthmonitor.ui.views.CustomFAB;
+import com.acterics.healthmonitor.utils.KeyboardUtils;
 import com.acterics.healthmonitor.utils.PreferenceUtils;
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 
@@ -89,9 +90,10 @@ public class ComplaintFragment extends BaseFragment {
                         (errorCode, serverError) -> loadingDialog.dismiss(), true) {
                     @Override
                     public void onSuccess(@NonNull Complaint body) {
-                        onBackPressed();
+                        KeyboardUtils.hide(getActivity());
+                        fab.hideSheet();
                         loadingDialog.dismiss();
-                        complaintListAdapter.addComplaint(body);
+                        complaintListAdapter.addComplaint(complaint);
                     }
                 });
     }

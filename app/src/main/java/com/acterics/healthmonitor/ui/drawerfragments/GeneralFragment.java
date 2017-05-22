@@ -107,6 +107,8 @@ public class GeneralFragment extends BaseFragment {
             }
         });
 
+        registerBroadcastReceiver();
+
         return view;
     }
 
@@ -143,9 +145,11 @@ public class GeneralFragment extends BaseFragment {
                 i ++;
                 dx = (int) (model.getTimeTo() - model.getTimeFrom());
             }
+
+            stepData.notifyDataChanged();
+            graphSteps.notifyDataSetChanged();
         }
-        stepData.notifyDataChanged();
-        graphSteps.notifyDataSetChanged();
+
 
 
         LineData temperatureData = new LineData();
@@ -158,9 +162,11 @@ public class GeneralFragment extends BaseFragment {
                 temperatureData.addEntry(new Entry(i, temperatureModel.getValue()), 0);
                 i++;
             }
+            temperatureData.notifyDataChanged();
+            graphTemperature.notifyDataSetChanged();
+
+
         }
-        temperatureData.notifyDataChanged();
-        graphTemperature.notifyDataSetChanged();
 
     }
 
@@ -200,7 +206,6 @@ public class GeneralFragment extends BaseFragment {
         data.addDataSet(set);
 
         data.addEntry(new Entry(0, 0), 0);
-
         graphHeart.setData(data);
     }
 
@@ -209,14 +214,14 @@ public class GeneralFragment extends BaseFragment {
     @Override
     public void onStop() {
         super.onStop();
-        getActivity().unregisterReceiver(cardioDataReceiver);
-        handler.removeCallbacksAndMessages(null);
+
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        registerBroadcastReceiver();
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(cardioDataReceiver);
+        handler.removeCallbacksAndMessages(null);
     }
 
     private void registerBroadcastReceiver() {

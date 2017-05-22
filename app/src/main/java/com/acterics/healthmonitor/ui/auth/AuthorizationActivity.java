@@ -32,10 +32,10 @@ public class AuthorizationActivity extends AppCompatActivity {
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkPermission();
+            if (!checkPermission()) {
+                return;
+            }
         }
-
-
         if (savedInstanceState == null) {
             Timber.e("onCreate: savedInstanceState = null");
             Fragment fragment;
@@ -70,13 +70,15 @@ public class AuthorizationActivity extends AppCompatActivity {
         }
     }
 
-    public void checkPermission() {
+    public boolean checkPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!Settings.canDrawOverlays(this)) {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                         Uri.parse("package:" + getPackageName()));
                 startActivityForResult(intent, PERMISSION_REQUEST_CODE);
+                return false;
             }
         }
+        return true;
     }
 }
