@@ -1,6 +1,6 @@
 package com.acterics.healthmonitor.mock;
 
-import com.acterics.healthmonitor.data.models.IssueModel;
+import com.acterics.healthmonitor.data.models.categories.complaint.IssueModel;
 import com.acterics.healthmonitor.ui.drawerfragments.complaint.ComplaintCategory;
 
 import java.util.ArrayList;

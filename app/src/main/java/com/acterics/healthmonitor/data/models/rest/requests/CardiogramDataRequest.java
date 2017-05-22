@@ -1,6 +1,6 @@
 package com.acterics.healthmonitor.data.models.rest.requests;
 
-import com.acterics.healthmonitor.data.models.CardiogramServerModel;
+import com.acterics.healthmonitor.data.models.categories.ecg.CardiogramServerModel;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

@@ -1,11 +1,11 @@
-package com.acterics.healthmonitor.data.models;
+package com.acterics.healthmonitor.data.models.categories.complaint;
 
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by oleg on 13.05.17.
  */
-
+@Deprecated
 public class IssueModel {
     @SerializedName("category")
     private int category;

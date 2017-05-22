@@ -21,7 +21,7 @@ import com.acterics.healthmonitor.R;
 import com.acterics.healthmonitor.base.BaseCallback;
 import com.acterics.healthmonitor.base.BaseFragment;
 import com.acterics.healthmonitor.data.RestClient;
-import com.acterics.healthmonitor.data.models.UserModel;
+import com.acterics.healthmonitor.data.models.categories.user.UserModel;
 import com.acterics.healthmonitor.ui.drawerfragments.GeneralFragment;
 import com.acterics.healthmonitor.ui.drawerfragments.complaint.ComplaintFragment;
 import com.acterics.healthmonitor.utils.NavigationUtils;

@@ -1,4 +1,4 @@
-package com.acterics.healthmonitor.data.models;
+package com.acterics.healthmonitor.data.models.categories.ecg;
 
 /**
  * Created by oleg on 21.05.17.

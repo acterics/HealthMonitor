@@ -1,5 +1,8 @@
-package com.acterics.healthmonitor.data.models;
+package com.acterics.healthmonitor.data.models.categories.user;
 
+import com.acterics.healthmonitor.data.models.categories.activity.HRSModel;
+import com.acterics.healthmonitor.data.models.categories.activity.StepModel;
+import com.acterics.healthmonitor.data.models.categories.activity.TemperatureModel;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;

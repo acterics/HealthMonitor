@@ -14,7 +14,7 @@ import com.acterics.healthmonitor.R;
 import com.acterics.healthmonitor.base.BaseCallback;
 import com.acterics.healthmonitor.base.BaseFragment;
 import com.acterics.healthmonitor.data.RestClient;
-import com.acterics.healthmonitor.data.models.Complaint;
+import com.acterics.healthmonitor.data.models.categories.complaint.Complaint;
 import com.acterics.healthmonitor.data.models.rest.responses.ComplaintsResponse;
 import com.acterics.healthmonitor.ui.views.CustomFAB;
 import com.acterics.healthmonitor.utils.KeyboardUtils;

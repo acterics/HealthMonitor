@@ -4,8 +4,8 @@ import android.app.IntentService;
 import android.content.Intent;
 
 import com.acterics.healthmonitor.R;
-import com.acterics.healthmonitor.data.models.CardiogramServerModel;
-import com.acterics.healthmonitor.data.models.UserModel;
+import com.acterics.healthmonitor.data.models.categories.ecg.CardiogramServerModel;
+import com.acterics.healthmonitor.data.models.categories.user.UserModel;
 import com.acterics.healthmonitor.data.models.rest.requests.CardiogramDataRequest;
 import com.acterics.healthmonitor.data.models.rest.responses.CardiogramDataResponse;
 import com.acterics.healthmonitor.stompclient.StompClient;

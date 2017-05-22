@@ -1,8 +1,8 @@
 package com.acterics.healthmonitor.data;
 
-import com.acterics.healthmonitor.data.models.Complaint;
-import com.acterics.healthmonitor.data.models.UserActivity;
-import com.acterics.healthmonitor.data.models.UserModel;
+import com.acterics.healthmonitor.data.models.categories.complaint.Complaint;
+import com.acterics.healthmonitor.data.models.categories.user.UserActivity;
+import com.acterics.healthmonitor.data.models.categories.user.UserModel;
 import com.acterics.healthmonitor.data.models.rest.requests.SignInRequest;
 import com.acterics.healthmonitor.data.models.rest.requests.SignUpRequest;
 import com.acterics.healthmonitor.data.models.rest.responses.AuthResponse;

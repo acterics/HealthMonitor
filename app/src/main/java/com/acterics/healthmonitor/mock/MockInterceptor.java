@@ -1,7 +1,7 @@
 package com.acterics.healthmonitor.mock;
 
-import com.acterics.healthmonitor.data.models.IssueModel;
-import com.acterics.healthmonitor.data.models.UserModel;
+import com.acterics.healthmonitor.data.models.categories.complaint.IssueModel;
+import com.acterics.healthmonitor.data.models.categories.user.UserModel;
 import com.acterics.healthmonitor.data.models.rest.requests.SignInRequest;
 import com.acterics.healthmonitor.data.models.rest.responses.AuthResponse;
 import com.acterics.healthmonitor.data.models.rest.responses.BaseResponse;

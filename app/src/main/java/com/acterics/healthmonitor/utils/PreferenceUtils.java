@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.acterics.healthmonitor.data.models.UserModel;
+import com.acterics.healthmonitor.data.models.categories.user.UserModel;
 import com.acterics.healthmonitor.data.models.rest.requests.BaseUserInfoRequest;
 import com.acterics.healthmonitor.data.models.rest.responses.AuthResponse;
 import com.google.gson.Gson;

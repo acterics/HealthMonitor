@@ -1,4 +1,4 @@
-package com.acterics.healthmonitor.data.models;
+package com.acterics.healthmonitor.data.models.categories.user;
 
 import com.google.gson.annotations.SerializedName;
 

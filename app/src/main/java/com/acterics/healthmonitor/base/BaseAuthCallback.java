@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.acterics.healthmonitor.data.RestClient;
-import com.acterics.healthmonitor.data.models.UserModel;
+import com.acterics.healthmonitor.data.models.categories.user.UserModel;
 import com.acterics.healthmonitor.data.models.rest.responses.AuthResponse;
 import com.acterics.healthmonitor.utils.PreferenceUtils;
 

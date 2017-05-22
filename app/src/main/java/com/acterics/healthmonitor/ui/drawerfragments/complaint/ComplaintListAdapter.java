@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.acterics.healthmonitor.R;
-import com.acterics.healthmonitor.data.models.Complaint;
+import com.acterics.healthmonitor.data.models.categories.complaint.Complaint;
 
 import java.util.ArrayList;
 import java.util.List;

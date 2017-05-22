@@ -1,6 +1,6 @@
 package com.acterics.healthmonitor.data.models.rest.responses;
 
-import com.acterics.healthmonitor.data.models.Complaint;
+import com.acterics.healthmonitor.data.models.categories.complaint.Complaint;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
