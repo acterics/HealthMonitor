@@ -24,6 +24,7 @@ import com.acterics.healthmonitor.data.RestClient;
 import com.acterics.healthmonitor.data.models.categories.user.UserModel;
 import com.acterics.healthmonitor.ui.drawerfragments.GeneralFragment;
 import com.acterics.healthmonitor.ui.drawerfragments.complaint.ComplaintFragment;
+import com.acterics.healthmonitor.ui.drawerfragments.settings.SettingsFragment;
 import com.acterics.healthmonitor.utils.NavigationUtils;
 import com.acterics.healthmonitor.utils.PreferenceUtils;
 import com.bumptech.glide.Glide;

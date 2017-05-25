@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.v7.widget.RecyclerView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rv_settings"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_marginStart="@dimen/side_margin"
+    android:layout_marginEnd="@dimen/side_margin"
+    android:layout_marginBottom="@dimen/content_bottom_margin">
 
-</LinearLayout>
+</android.support.v7.widget.RecyclerView>

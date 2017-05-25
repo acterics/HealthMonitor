@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="settings_titles">
+        <item>Personal info</item>
+        <item>Devices</item>
+        <item>Help</item>
+    </array>
+
+    <integer-array name="settings_icons">
+    </integer-array>
+</resources>
