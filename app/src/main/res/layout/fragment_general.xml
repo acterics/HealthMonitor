@@ -1,72 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp">
 
-    <RelativeLayout
+    <android.support.v7.widget.CardView
         android:id="@+id/holder_cardio_info"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_alignParentTop="true"
         android:layout_marginTop="10dp"
-        android:background="@drawable/background_cart">
-        <ImageView
-            android:id="@+id/im_heart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_favorite_white_36dp"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"/>
+        app:cardBackgroundColor="@color/colorPrimaryLight"
+        app:cardCornerRadius="3dp">
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/graph_heart"
+        <RelativeLayout
+           android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_toEndOf="@id/im_heart">
+            >
+            <ImageView
+                android:transitionName="icon"
+                android:id="@+id/im_heart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_favorite_white_36dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"/>
 
-        </com.github.mikephil.charting.charts.LineChart>
+            <com.github.mikephil.charting.charts.LineChart
+                android:transitionName="chart"
+                android:id="@+id/chart_heart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@id/im_heart">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:textAllCaps="true"
-            android:text="@string/heart"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="10dp"
-            android:textColor="@color/grey"/>
+            </com.github.mikephil.charting.charts.LineChart>
 
-        <TextView
-            android:id="@+id/tv_bps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:text="@string/bps"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:textColor="@color/grey"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textAllCaps="true"
+                android:text="@string/heart"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="10dp"
+                android:textColor="@color/grey"/>
 
-        <TextView
-            android:id="@+id/tv_pulse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_bps"
-            android:textSize="14sp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="15dp"
-            android:textColor="@color/colorAccent"/>
+            <TextView
+                android:id="@+id/tv_bps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="@string/bps"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/grey"/>
 
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_pulse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_bps"
+                android:textSize="14sp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="15dp"
+                android:textColor="@color/colorAccent"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
 
     <RelativeLayout
         android:id="@+id/holder_bedtime_info"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_below="@id/holder_cardio_info"
         android:layout_marginTop="10dp"
         android:background="@drawable/background_cart">
         <ImageView
@@ -106,6 +119,7 @@
         android:id="@+id/holder_steps"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_below="@id/holder_bedtime_info"
         android:layout_marginTop="10dp"
         android:background="@drawable/background_cart">
 
@@ -119,7 +133,7 @@
             android:layout_marginEnd="15dp"/>
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/graph_steps"
+            android:id="@+id/chart_steps"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/im_steps">
@@ -147,6 +161,7 @@
         android:id="@+id/holder_temperature"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_below="@id/holder_steps"
         android:layout_marginTop="10dp"
         android:background="@drawable/background_cart">
 
@@ -160,7 +175,7 @@
             android:layout_marginEnd="15dp"/>
 
         <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/graph_temperature"
+            android:id="@+id/chart_temperature"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_toEndOf="@id/im_temperature">
@@ -181,4 +196,4 @@
 
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

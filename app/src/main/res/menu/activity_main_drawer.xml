@@ -13,6 +13,11 @@
             android:title="@string/complaints"/>
 
         <item
+            android:id="@+id/drawer_settings"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/settings"/>
+
+        <item
             android:id="@+id/drawer_exit"
             android:icon="@drawable/ic_exit_to_app_black_36dp"
             android:title="@string/exit" />

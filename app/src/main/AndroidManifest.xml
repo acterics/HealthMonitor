@@ -19,9 +19,11 @@
         android:name=".HealthMonitorApplication"
         tools:replace="android:icon">
 
-            <activity android:name=".ui.MainActivity"
-                android:label="@string/app_name">
-            </activity>
+        <activity android:name=".ui.MainActivity"
+            android:label="@string/app_name">
+        </activity>
+        <activity android:name=".ui.DetailActivity"/>
+        
         <activity android:name=".ui.auth.AuthorizationActivity"
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ui.RoutingActivity">

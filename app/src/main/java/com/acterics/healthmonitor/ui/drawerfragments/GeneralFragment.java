@@ -54,9 +54,9 @@ public class GeneralFragment extends BaseFragment {
     public static final String EXTRA_DEVICE_DATA = "com.acterics.healthmonitor.ui.drawerfragments.EXTRA_DEVICE_DATA";
     public static final String EXTRA_PULSE_DATA = "com.acterics.healthmonitor.ui.drawerfragments.EXTRA_PULSE_DATA";
 
-    @BindView(R.id.graph_heart) LineChart graphHeart;
-    @BindView(R.id.graph_steps) LineChart graphSteps;
-    @BindView(R.id.graph_temperature) LineChart graphTemperature;
+    @BindView(R.id.chart_heart) LineChart graphHeart;
+    @BindView(R.id.chart_steps) LineChart graphSteps;
+    @BindView(R.id.chart_temperature) LineChart graphTemperature;
     @BindView(R.id.tv_pulse) TextView tvPulse;
     @BindView(R.id.tv_bedtime) TextView tvBedtime;
     private LineData data;

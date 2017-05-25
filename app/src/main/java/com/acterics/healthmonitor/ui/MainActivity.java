@@ -141,6 +141,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.drawer_complaint:
                 fragment = new ComplaintFragment();
                 break;
+            case R.id.drawer_settings:
+                fragment = new SettingsFragment();
+                break;
             case R.id.drawer_exit:
                 PreferenceUtils.clearPreference(getApplicationContext());
                 NavigationUtils.toAuthorization(this);
