@@ -35,5 +35,6 @@
     <string name="heart">Heart</string>
     <string name="bps">bps</string>
     <string name="bedtine">Today: %d hour(s)</string>
+    <string name="dump_text">Dump text</string>
 
 </resources>

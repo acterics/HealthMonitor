@@ -99,10 +99,14 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            BaseFragment baseFragment = (BaseFragment) getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
-            if (!baseFragment.onBackPressed()) {
-                super.onBackPressed();
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG);
+            if (fragment instanceof BaseFragment) {
+                BaseFragment baseFragment = (BaseFragment) fragment;
+                if (!baseFragment.onBackPressed()) {
+                    super.onBackPressed();
+                }
             }
+            super.onBackPressed();
         }
     }
 
@@ -128,7 +132,6 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
@@ -151,8 +154,10 @@ public class MainActivity extends AppCompatActivity
                 finish();
                 break;
         }
-        transaction.replace(R.id.holder_content, fragment, FRAGMENT_TAG);
-        transaction.commit();
+        transaction
+                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.holder_content, fragment, FRAGMENT_TAG)
+                .commit();
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
