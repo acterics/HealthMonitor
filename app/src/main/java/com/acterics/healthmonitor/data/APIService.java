@@ -14,6 +14,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -41,6 +42,9 @@ public interface APIService {
 
     @GET("rest/users/current")
     Call<BaseResponse<UserModel>> getUser(@Header(AUTH_HEADER) String token);
+
+    @PUT("rest/users")
+    Call<BaseResponse<UserModel>> changeUser(@Header(AUTH_HEADER) String token, @Body UserModel userModel);
 
     @GET("rest/activity")
     Call<BaseResponse<UserActivity>> getUserActivity(@Header(AUTH_HEADER) String token, @Query("date") String date);
